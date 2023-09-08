@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diacritic/diacritic.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -215,6 +216,7 @@ class _PublicationsScreenState extends State<PublicationsScreen> {
                       child: FloatingActionButton(
                         onPressed: () {
                           // İlan Ver butonuna tıklandığında yapılacak işlemler
+                          ilanver();
                         },
                         child: Icon(Icons.add),
                         backgroundColor: Colors.blue,
@@ -231,5 +233,18 @@ class _PublicationsScreenState extends State<PublicationsScreen> {
         ],
       ),
     );
+  }
+
+  void ilanver() {
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+    CollectionReference doctorsRef = FirebaseFirestore.instance.collection('doctors');
+
+    doctorsRef.add({
+      'department': "Deli Doktoru", // John Doe
+      'name': "Mahmut", // Stokes and Sons
+      'no': "10" // 42
+    }).then((value) => print("User Added")).catchError((error) => print("Failed to add user: $error"));
+
   }
 }

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "950565130203",
+    "firebase_url": "https://hztproject-1e273-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "hztproject-1e273",
+    "storage_bucket": "hztproject-1e273.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:950565130203:android:4e2ab24fc6e7c0948d21fe",
+        "android_client_info": {
+          "package_name": "com.example.healtzone_v0"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "950565130203-3s7abka1a5d1ptrled4q7dpgvrbg45ta.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCdT23yU4jKyUolrw7bG2j_siQ0GCmueRs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "950565130203-3s7abka1a5d1ptrled4q7dpgvrbg45ta.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
