@@ -9,4 +9,12 @@ class Authentication{
     return userCredentials.user;
   }
 
+  Future<void> signOut() async {
+    await firebaseAuthen.signOut();
+  }
+
+  Stream<User?> authenStatus(){
+    return firebaseAuthen.authStateChanges();
+  }
+
 }

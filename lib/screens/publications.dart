@@ -5,7 +5,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:healtzone_v0/screens/doctor.dart';
 import 'package:healtzone_v0/screens/offers.dart';
+import 'package:healtzone_v0/services/authentication.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 import 'models/homePageCategoriesModel.dart';
 
@@ -43,7 +45,6 @@ class _PublicationsScreenState extends State<PublicationsScreen> {
 
   List<CategoryModel> filteredCategories = [];
 
-
   @override
   void dispose() {
     searchController.dispose();
@@ -59,10 +60,15 @@ class _PublicationsScreenState extends State<PublicationsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("İlanlarım")),
+      appBar: AppBar(title: Text("İlanlarım"), actions: [
+        IconButton(onPressed: () async {
+          await Provider.of<Authentication>(context,listen: false).signOut();
+        }, icon: Icon(Icons.exit_to_app))
+      ]),
       body: Column(
         children: <Widget>[
-          Padding(//üstteki üç tuş
+          Padding(
+              //üstteki üç tuş
               padding: const EdgeInsets.all(8.0),
               child: Row(
                 children: <Widget>[
@@ -141,7 +147,8 @@ class _PublicationsScreenState extends State<PublicationsScreen> {
               child: TextField(
                 keyboardType: TextInputType.text,
                 inputFormatters: [
-                  FilteringTextInputFormatter.allow(RegExp(r'[a-zA-ZğüışöçİĞÜŞÖÇ]')),
+                  FilteringTextInputFormatter.allow(
+                      RegExp(r'[a-zA-ZğüışöçİĞÜŞÖÇ]')),
                 ],
                 controller: searchController,
                 decoration: InputDecoration(
@@ -152,8 +159,9 @@ class _PublicationsScreenState extends State<PublicationsScreen> {
                 onChanged: (value) {
                   setState(() {
                     filteredCategories = categories
-                        .where((category) =>
-                        category.name.toLowerCase().contains(value.toLowerCase()))
+                        .where((category) => category.name
+                            .toLowerCase()
+                            .contains(value.toLowerCase()))
                         .toList();
                   });
                 },
@@ -161,9 +169,9 @@ class _PublicationsScreenState extends State<PublicationsScreen> {
             ),
           ),
 
-
-                // aşağısı kategorileri oluşturan kısım
-          Expanded(flex: 5,
+          // aşağısı kategorileri oluşturan kısım
+          Expanded(
+            flex: 5,
             child: ListView.builder(
               itemCount: filteredCategories.length,
               itemBuilder: (context, index) {
@@ -185,17 +193,18 @@ class _PublicationsScreenState extends State<PublicationsScreen> {
                           width: 55,
                           height: 55,
                         ),
-                        Text(filteredCategories[index].name,style: TextStyle(fontSize: 22)),
+                        Text(filteredCategories[index].name,
+                            style: TextStyle(fontSize: 22)),
                       ],
                     ),
                   ),
                 );
               },
             ),
-
           ),
           // sağ alt köşedeki tuş
-          Expanded(flex: 1,
+          Expanded(
+            flex: 1,
             child: Align(
               alignment: Alignment.bottomRight,
               child: Container(
@@ -228,7 +237,7 @@ class _PublicationsScreenState extends State<PublicationsScreen> {
               ),
             ),
           ),
-  
+
           // Diğer widget'lar buraya eklenebilir
         ],
       ),
@@ -238,13 +247,16 @@ class _PublicationsScreenState extends State<PublicationsScreen> {
   void ilanver() {
     FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-    CollectionReference doctorsRef = FirebaseFirestore.instance.collection('doctors');
+    CollectionReference doctorsRef =
+        FirebaseFirestore.instance.collection('doctors');
 
-    doctorsRef.add({
-      'department': "Deli Doktoru", // John Doe
-      'name': "Mahmut", // Stokes and Sons
-      'no': "10" // 42
-    }).then((value) => print("User Added")).catchError((error) => print("Failed to add user: $error"));
-
+    doctorsRef
+        .add({
+          'department': "Deli Doktoru", // John Doe
+          'name': "Mahmut", // Stokes and Sons
+          'no': "10" // 42
+        })
+        .then((value) => print("User Added"))
+        .catchError((error) => print("Failed to add user: $error"));
   }
 }

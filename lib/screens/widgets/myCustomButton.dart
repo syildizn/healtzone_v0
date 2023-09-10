@@ -4,7 +4,7 @@ import 'package:flutter_svg/svg.dart';
 class MyCustomButton extends StatelessWidget {
   final String text;
   final Color backgroundColor;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
   final String svgPath;
   final Color textColor;
 
@@ -25,6 +25,7 @@ class MyCustomButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
+          disabledBackgroundColor: backgroundColor.withOpacity(0.8),
           primary: backgroundColor,
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(25))),
@@ -36,7 +37,7 @@ class MyCustomButton extends StatelessWidget {
               width: 40,
               height: 40,
             ),
-            SizedBox(width: 15),
+            SizedBox(width: 20),
             Text(
               text,
               style: TextStyle(

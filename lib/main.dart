@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:healtzone_v0/routes.dart';
 import 'package:healtzone_v0/screens/loginPage.dart';
 import 'package:healtzone_v0/screens/publications.dart';
+import 'package:healtzone_v0/screens/widgets/onBoard.dart';
+import 'package:healtzone_v0/services/authentication.dart';
+import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
@@ -20,11 +23,14 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'HealthZone',
-      debugShowCheckedModeBanner: false,
-      routes: routes,
-      initialRoute: LoginPage.routeName,
+    return Provider<Authentication>(
+      create: (context) => Authentication(),
+      child: MaterialApp(
+        title: 'HealthZone',
+        debugShowCheckedModeBanner: false,
+        routes: routes,
+        initialRoute: OnBoard.routeName,
+      ),
     );
   }
 }
