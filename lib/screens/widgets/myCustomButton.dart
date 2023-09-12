@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -7,6 +9,7 @@ class MyCustomButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final String svgPath;
   final Color textColor;
+  final double SizedBoxRange;
 
   const MyCustomButton({
     Key? key,
@@ -15,6 +18,8 @@ class MyCustomButton extends StatelessWidget {
     required this.onPressed,
     required this.svgPath,
     required this.textColor,
+    required this.SizedBoxRange,
+
   }) : super(key: key);
 
   @override
@@ -37,7 +42,7 @@ class MyCustomButton extends StatelessWidget {
               width: 40,
               height: 40,
             ),
-            SizedBox(width: 20),
+            SizedBox(width: SizedBoxRange),
             Text(
               text,
               style: TextStyle(

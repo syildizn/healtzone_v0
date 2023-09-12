@@ -77,7 +77,7 @@ class _LoginPageState extends State<LoginPage> {
               //   print(user?.uid);
               // },
               svgPath: 'assets/icons/anonymous.svg',
-              textColor: Colors.black,
+              textColor: Colors.black, SizedBoxRange: 20.0,
             ),
             SizedBox(height: 20.0),
             MyCustomButton(
@@ -85,12 +85,15 @@ class _LoginPageState extends State<LoginPage> {
               backgroundColor: Colors.blue,
               onPressed: () {
                 // Giriş yap butonuna tıklandığında yapılacak işlemler buraya yazılır.
-                Navigator.pushNamed(
-                    context, EmailLoginPage.routeName);
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => EmailLoginPage(formValid: FormValid.login),
+                  ),
+                );
                 print("Email giriş sayfasına yönlendirildi");
               },
               svgPath: 'assets/icons/email.svg',
-              textColor: Colors.white,
+              textColor: Colors.white, SizedBoxRange: 20.0,
             ),
             SizedBox(height: 20.0),
             MyCustomButton(
@@ -100,7 +103,7 @@ class _LoginPageState extends State<LoginPage> {
                 // Kayıt ol butonuna tıklandığında yapılacak işlemler buraya yazılır.
               },
               svgPath: 'assets/icons/google.svg',
-              textColor: Colors.black,
+              textColor: Colors.black, SizedBoxRange: 20.0,
             ),
             SizedBox(height: 20.0),
             InkWell(
