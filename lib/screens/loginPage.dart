@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:healtzone_v0/screens/emailLoginPage.dart';
 import 'package:healtzone_v0/screens/publications.dart';
 import 'package:healtzone_v0/screens/widgets/myCustomButton.dart';
 import 'package:healtzone_v0/services/authentication.dart';
@@ -84,6 +85,9 @@ class _LoginPageState extends State<LoginPage> {
               backgroundColor: Colors.blue,
               onPressed: () {
                 // Giriş yap butonuna tıklandığında yapılacak işlemler buraya yazılır.
+                Navigator.pushNamed(
+                    context, EmailLoginPage.routeName);
+                print("Email giriş sayfasına yönlendirildi");
               },
               svgPath: 'assets/icons/email.svg',
               textColor: Colors.white,
@@ -102,7 +106,12 @@ class _LoginPageState extends State<LoginPage> {
             InkWell(
               onTap: () {
                 // "Üyeliğiniz yok mu? Kayıt olmak için lütfen tıklayın..." metni tıklandığında yapılacak işlemler buraya yazılır.
-                Navigator.pushNamed(context, PublicationsScreen.routeName);
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => EmailLoginPage(formValid: FormValid.signup),
+                  ),
+                );
+
               },
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
