@@ -1,3 +1,4 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:healtzone_v0/screens/widgets/myCustomButton.dart';
 
@@ -20,19 +21,12 @@ class _EmailLoginPageState extends State<EmailLoginPage> {
 
   FormValid? formValid = FormValid.login;
 
-  void _togglePasswordVisibility() {
-    setState(() {
-      _isObscure = !_isObscure;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return widget.formValid == FormValid.login ? buildLogin() : buildSignup();
   }
 
   Widget buildLogin() {
-
     final loginFormKey = GlobalKey<FormState>();
 
     return Scaffold(
@@ -58,49 +52,66 @@ class _EmailLoginPageState extends State<EmailLoginPage> {
                     ),
                   ),
                   validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Lütfen e-posta adresinizi girin';
+                    if (!EmailValidator.validate(value!)) {
+                      return 'Lütfen geçerli bir e-posta adresi girin';
                     }
                     return null;
                   },
                 ),
                 SizedBox(height: 16.0),
-                TextFormField(
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Lütfen e-posta adresinizi girin';
-                    }
-                    return null;
-                  },
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.lock),
-                    prefixIconColor: Colors.amber,
-                    labelText: "Şifre",
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20)),
-                    suffixIcon: GestureDetector(
-                      onTap: _togglePasswordVisibility,
-                      child: Icon(
-                        _isObscure ? Icons.visibility : Icons.visibility_off,
+                StatefulBuilder(
+                  builder: (BuildContext context, StateSetter setState) {
+                    return TextFormField(
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Lütfen şifrenizi girin';
+                        }
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.lock),
+                        prefixIconColor: Colors.amber,
+                        labelText: "Şifre",
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20)),
+                        suffixIcon: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _isObscure = !_isObscure;
+                            });
+                          },
+                          child: Icon(
+                            _isObscure
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                  obscureText: _isObscure,
+                      obscureText: _isObscure,
+                    );
+                  },
                 ),
                 SizedBox(height: 24.0),
-                MyCustomButton(SizedBoxRange: 38.0,
+                MyCustomButton(
+                  SizedBoxRange: 38.0,
                   text: 'Giriş Yap',
                   backgroundColor: Colors.amberAccent,
                   onPressed: () {
                     // E-posta ve şifre doğrulamasını yapma işlemi burada gerçekleşir.
                     // Eğer doğrulama başarılı ise ilgili işlemler yapılır, aksi halde hata gösterilir.
-                    setState(() {
-                      if (loginFormKey.currentState!.validate()) {
-                        // Doğrulama başarılı ise ilgili işlemler yapılır.
-                      }
-                    });
 
-
+                    // if (loginFormKey.currentState!.validate()) {
+                    //   // Doğrulama başarılı ise ilgili işlemler yapılır.
+                    // }
+                    if (loginFormKey.currentState!.validate()) {
+                      // If the form is valid, display a snackbar. In the real world,
+                      // you'd often call a server or save the information in a database.
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                            content: Text('Giriş Yapılıyor'),
+                            backgroundColor: Colors.amber),
+                      );
+                    }
                   },
                   svgPath: 'assets/icons/login.svg',
                   textColor: Colors.black,
@@ -131,23 +142,27 @@ class _EmailLoginPageState extends State<EmailLoginPage> {
   }
 
   Widget buildSignup() {
-
     final signupFormKey = GlobalKey<FormState>();
+
+    TextEditingController emailSignUpControler = TextEditingController();
+    TextEditingController passwordSignUpControler = TextEditingController();
+    TextEditingController passwordConfirmSignUpControler = TextEditingController();
+
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Lütfen Giriş Yapınız"),
+        title: Text("Kayıt Sayfası"),
       ),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(26.0),
           child: Form(
             key: signupFormKey,
-            child: Column( 
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-
                 TextFormField(
+                  controller: emailSignUpControler,
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
                     prefixIcon: Icon(Icons.email_sharp),
@@ -158,59 +173,79 @@ class _EmailLoginPageState extends State<EmailLoginPage> {
                     ),
                   ),
                   validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Lütfen e-posta adresinizi girin';
+                    if (!EmailValidator.validate(value!)) {
+                      return 'Lütfen geçerli bir e-posta adresi giriniz';
                     }
                     return null;
                   },
                 ),
-
-
                 SizedBox(height: 16.0),
-                TextFormField(
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Lütfen e-posta adresinizi girin';
-                    }
-                    return null;
-                  },
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.lock),
-                    prefixIconColor: Colors.amber,
-                    labelText: "Şifre",
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20)),
-                    suffixIcon: GestureDetector(
-                      onTap: _togglePasswordVisibility,
-                      child: Icon(
-                        _isObscure ? Icons.visibility : Icons.visibility_off,
+                StatefulBuilder(
+                  builder: (BuildContext context, StateSetter setState) {
+                    return TextFormField(
+                      controller: passwordSignUpControler,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Lütfen şifrenizi girin';
+                        }
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.lock),
+                        prefixIconColor: Colors.amber,
+                        labelText: "Şifre",
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20)),
+                        suffixIcon: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _isObscure = !_isObscure;
+                            });
+                          },
+                          child: Icon(
+                            _isObscure
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                  obscureText: _isObscure,
+                      obscureText: _isObscure,
+                    );
+                  },
                 ),
                 SizedBox(height: 16.0),
-                TextFormField(
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Lütfen e-posta adresinizi girin';
-                    }
-                    return null;
-                  },
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.lock),
-                    prefixIconColor: Colors.amber,
-                    labelText: "Şifre",
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20)),
-                    suffixIcon: GestureDetector(
-                      onTap: _togglePasswordVisibility,
-                      child: Icon(
-                        _isObscure ? Icons.visibility : Icons.visibility_off,
+                StatefulBuilder(
+                  builder: (BuildContext context, StateSetter setState) {
+                    return TextFormField(
+                      controller: passwordConfirmSignUpControler,
+                      validator: (value) {
+                        if (value != passwordSignUpControler.text) {
+                          return 'Şifreler uyuşmuyor';
+                        }
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.lock),
+                        prefixIconColor: Colors.amber,
+                        labelText: "Şifre",
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20)),
+                        suffixIcon: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _isObscure = !_isObscure;
+                            });
+                          },
+                          child: Icon(
+                            _isObscure
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                  obscureText: _isObscure,
+                      obscureText: _isObscure,
+                    );
+                  },
                 ),
                 SizedBox(height: 24.0),
                 MyCustomButton(
@@ -220,13 +255,13 @@ class _EmailLoginPageState extends State<EmailLoginPage> {
                     // E-posta ve şifre doğrulamasını yapma işlemi burada gerçekleşir.
                     // Eğer doğrulama başarılı ise ilgili işlemler yapılır, aksi halde hata gösterilir.
 
-                    setState(() {
+
                       signupFormKey.currentState?.validate();
-                    });
 
                   },
                   svgPath: 'assets/icons/login.svg',
-                  textColor: Colors.black, SizedBoxRange: 40.0,
+                  textColor: Colors.black,
+                  SizedBoxRange: 40.0,
                 ),
                 SizedBox(height: 26.0),
                 InkWell(
