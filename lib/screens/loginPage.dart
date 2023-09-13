@@ -99,8 +99,10 @@ class _LoginPageState extends State<LoginPage> {
             MyCustomButton(
               text: 'Google İle Giriş',
               backgroundColor: Colors.white,
-              onPressed: () {
+              onPressed: () async {
                 // Kayıt ol butonuna tıklandığında yapılacak işlemler buraya yazılır.
+                final user = await Provider.of<Authentication>(context,listen: false).signInWithGoogle();
+                print(user?.uid);
               },
               svgPath: 'assets/icons/google.svg',
               textColor: Colors.black, SizedBoxRange: 20.0,
