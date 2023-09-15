@@ -28,7 +28,22 @@ class _LoginPageState extends State<LoginPage> {
       isLoading = false;
     });
 
-    print(user?.uid);
+
+  }
+
+
+  Future<void> _signInWithGoogle() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    final user =
+    await Provider.of<Authentication>(context, listen: false).signInWithGoogle();
+    setState(() {
+      isLoading = false;
+    });
+
+
   }
 
   @override
@@ -83,7 +98,7 @@ class _LoginPageState extends State<LoginPage> {
             MyCustomButton(
               text: 'Email İle Giriş',
               backgroundColor: Colors.blue,
-              onPressed: () {
+              onPressed: isLoading ? null : () {
                 // Giriş yap butonuna tıklandığında yapılacak işlemler buraya yazılır.
                 Navigator.of(context).push(
                   MaterialPageRoute(
@@ -99,11 +114,7 @@ class _LoginPageState extends State<LoginPage> {
             MyCustomButton(
               text: 'Google İle Giriş',
               backgroundColor: Colors.white,
-              onPressed: () async {
-                // Kayıt ol butonuna tıklandığında yapılacak işlemler buraya yazılır.
-                final user = await Provider.of<Authentication>(context,listen: false).signInWithGoogle();
-                print(user?.uid);
-              },
+              onPressed:  isLoading ? null : _signInWithGoogle,
               svgPath: 'assets/icons/google.svg',
               textColor: Colors.black, SizedBoxRange: 20.0,
             ),
