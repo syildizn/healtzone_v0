@@ -294,7 +294,8 @@ class _EmailLoginPageState extends State<EmailLoginPage> {
                   onPressed: () async {
                     // E-posta ve şifre doğrulamasını yapma işlemi burada gerçekleşir.
                     // Eğer doğrulama başarılı ise ilgili işlemler yapılır, aksi halde hata gösterilir.
-                    try{         if (signupFormKey.currentState!.validate()) {
+                    try{
+                      if (signupFormKey.currentState!.validate()) {
                       final user = await Provider.of<Authentication>(context,
                           listen: false)
                           .createUserWithEmailAndPassword(
@@ -314,7 +315,7 @@ class _EmailLoginPageState extends State<EmailLoginPage> {
                       });
                     }}on FirebaseAuthException catch(e){
                       print(e.message);
-
+                      _showMyErrorDialog(e.message);
                     }
 
                   },
@@ -470,26 +471,22 @@ class _EmailLoginPageState extends State<EmailLoginPage> {
       },
     );
   }
-  Future<void> _showMyErrorDialog(String? error) async {
+  Future<void> _showMyErrorDialog(String? errore) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
+
         return AlertDialog(
           title:  Text('Hata !'),
-          content: const SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Text("$error"),
-                Text('Onay linkine tıkladıktan sonra kaydınız tamamlanacaktır.'),
-              ],
-            ),
+          content: SingleChildScrollView(
+            child: Text(errore!),
           ),
           actions: <Widget>[
             TextButton(
               child: const Text('Anladım'),
               onPressed: () {
-                Navigator.of(context).pop();
+                Navigator.of(context).pop(false);
               },
             ),
           ],
