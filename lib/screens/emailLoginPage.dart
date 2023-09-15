@@ -482,6 +482,20 @@ class _EmailLoginPageState extends State<EmailLoginPage> {
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
 
+
+        // String getTurkishErrorMessage(String errorCode) {
+        //   switch (errorCode) {
+        //     case 'wrong-password':
+        //       return 'Hatalı şifre girişi. Lütfen şifrenizi kontrol edin.';
+        //     case 'user-not-found':
+        //       return 'Kullanıcı bulunamadı. Lütfen kayıtlı olduğunuzdan emin olun.';
+        //   // Diğer hata kodları için gerekli çevirileri ekleyin.
+        //     default:
+        //       return 'Bir hata oluştu. Lütfen tekrar deneyin.';
+        //   }
+        // }
+
+
         return AlertDialog(
           title:  Text('Hata !'),
           content: SingleChildScrollView(
