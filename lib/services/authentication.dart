@@ -24,9 +24,17 @@ class Authentication{
   }
 
   Future<User?> signInWithEmailAndPassword(String email,String password) async {
-    final userCredentials = await firebaseAuthen.signInWithEmailAndPassword(email: email, password: password);
+
+    try{
+      final userCredentials = await firebaseAuthen.signInWithEmailAndPassword(email: email, password: password);
 
     return userCredentials.user;
+    }on FirebaseAuthException catch(e){
+      print(e.message);
+      rethrow;
+    }
+
+
   }
 
   Future<void> sendPasswordResetEmail(email)async {

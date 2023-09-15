@@ -112,29 +112,34 @@ class _EmailLoginPageState extends State<EmailLoginPage> {
                     // E-posta ve şifre doğrulamasını yapma işlemi burada gerçekleşir.
                     // Eğer doğrulama başarılı ise ilgili işlemler yapılır, aksi halde hata gösterilir.
 
-                    if (loginFormKey.currentState!.validate()) {
-                      // If the form is valid, display a snackbar. In the real world,
-                      // you'd often call a server or save the information in a database.
+                    try{
+                      if (loginFormKey.currentState!.validate()) {
+                        // If the form is valid, display a snackbar. In the real world,
+                        // you'd often call a server or save the information in a database.
 
-                      final user = await Provider.of<Authentication>(context,
+                        final user = await Provider.of<Authentication>(context,
+                            listen: false)
+                            .signInWithEmailAndPassword(emailLoginControler.text,
+                            passwordLoginControler.text);
+
+                        if (!user!.emailVerified) {
+                          await _showMyDialog();
+                          await Provider.of<Authentication>(context,
                               listen: false)
-                          .signInWithEmailAndPassword(emailLoginControler.text,
-                              passwordLoginControler.text);
+                              .signOut();
+                        }
 
-                      if (!user!.emailVerified) {
-                        await _showMyDialog();
-                        await Provider.of<Authentication>(context,
-                                listen: false)
-                            .signOut();
-                      }
-
-                      Navigator.pop(context);
-                      // ScaffoldMessenger.of(context).showSnackBar(
-                      //   const SnackBar(
-                      //       content: Text('Giriş Yapılıyor'),
-                      //       backgroundColor: Colors.amber),
-                      // );
+                        Navigator.pop(context);
+                        // ScaffoldMessenger.of(context).showSnackBar(
+                        //   const SnackBar(
+                        //       content: Text('Giriş Yapılıyor'),
+                        //       backgroundColor: Colors.amber),
+                        // );
+                      }}on FirebaseAuthException catch(e){
+                      print(e.message);
+                      _showMyErrorDialog(e.message);
                     }
+
                   },
                   svgPath: 'assets/icons/login.svg',
                   textColor: Colors.black,
