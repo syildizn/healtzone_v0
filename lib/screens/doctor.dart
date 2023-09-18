@@ -14,6 +14,11 @@ class Doctor extends StatefulWidget {
 
 class _DoctorState extends State<Doctor> {
   final FirebaseFirestore database = FirebaseFirestore.instance;
+  Map<String, dynamic> doctortoAdd = {
+    "department": "çıkrıkçı",
+    "name": "trabzonlu deli hüseyin",
+    "no": "46"
+  };
 
   int currentPage = 2; //  1: İlanlarım, 2: Doktor Bul, 3: Teklifler
   @override
@@ -96,8 +101,10 @@ class _DoctorState extends State<Doctor> {
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> asyncSnapshot) {
                 if (asyncSnapshot.hasError) {
+                  print("Hata: ${asyncSnapshot.error.toString()}");
                   return Center(
-                    child: ErrorWidget(Error()),
+                    child: Text("Hata: ${asyncSnapshot.error.toString()}",
+                        style: TextStyle(fontSize: 20)), // Hata mesajını yazdır
                   );
                 } else {
                   if (!asyncSnapshot.hasData) {
@@ -107,18 +114,34 @@ class _DoctorState extends State<Doctor> {
                     //     List<Map<String, dynamic>>.from(asyncSnapshot.data?.docs
                     //         as List<Map<String, dynamic>>);
                     List<DocumentSnapshot> documentList =
-                    asyncSnapshot.data?.docs as List<DocumentSnapshot>;
+                        asyncSnapshot.data?.docs as List<DocumentSnapshot>;
                     return Flexible(
                         child: ListView.builder(
                             itemCount: documentList.length,
                             itemBuilder: (context, index) {
-                              Map<String, dynamic> data =
-                              documentList[index].data() as Map<String, dynamic>;
-                              return Card(
-                                child: ListTile(
-                                  title: Text(data["department"]),
-                                  subtitle:Text("Adı: ${data["name"]} No: ${data["no"]}") ,
+                              Map<String, dynamic> data = documentList[index]
+                                  .data() as Map<String, dynamic>;
+                              return Dismissible(
+                                key: UniqueKey(),
+                                direction: DismissDirection.endToStart,
+                                onDismissed: (_) {
+                                  // documentList[index].reference.delete();
+                                  // documentList[index].reference.update({"name":FieldValue.delete()});
 
+                                  print(documentList[index].id);
+                                },
+                                background: Container(
+                                  alignment: Alignment.centerRight,
+                                  color: Colors.red,
+                                  child:
+                                      Icon(Icons.delete, color: Colors.white),
+                                ),
+                                child: Card(
+                                  child: ListTile(
+                                    title: Text(data["department"]),
+                                    subtitle: Text(
+                                        "Adı: ${data["name"]} No: ${data["no"]}"),
+                                  ),
                                 ),
                               );
                             }));
@@ -130,12 +153,25 @@ class _DoctorState extends State<Doctor> {
                   // print("streamden veri geldi ve Builder fonksiyonu çalıştırıldı");
                   // return Text("StreamBuilder");
                 }
-              })
+              }),
           //ElevatedButton(onPressed: () async {await firestoreGet(firstDoctorRef, doctorRef);}, child: Text("Veri Çek"))
 
           // Diğer widget'lar buraya eklenebilir
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+          onPressed: () async {
+            // DocumentReference addedDoctor = await doctorRef.add(doctortoAdd);
+            // print(addedDoctor.id);
+            //await doctorRef.doc("doktorCivanım").set(doctorAdd);
+            //await doctorRef.doc("doktorCivanım").update({"no": "46"});
+            await database.collection("favCaracters").doc("Harry Potter").set({
+              "department": "gryffindor",
+              "name": "Hayri Çömlekçi",
+              "Asa ağacı": "çobanpüskülü ağacı"
+            });
+          },
+          child: Icon(Icons.add)),
     );
   }
 
