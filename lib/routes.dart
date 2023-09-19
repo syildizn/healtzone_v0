@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:healtzone_v0/screens/doctor.dart';
+import 'package:healtzone_v0/screens/doctorPage/doctor.dart';
 import 'package:healtzone_v0/screens/emailLoginPage.dart';
 import 'package:healtzone_v0/screens/loginPage.dart';
 import 'package:healtzone_v0/screens/offers.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:healtzone_v0/screens/publications.dart';
 
-import 'doctor.dart';
+import 'doctorPage/doctor.dart';
 
 class OffersPage extends StatefulWidget {
   static String routeName = "OffersPage";

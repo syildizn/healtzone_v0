@@ -2,11 +2,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class Authentication{
+   UserCredential? userLogin;
   final firebaseAuthen = FirebaseAuth.instance;
 
   Future<User?> signInAnonymously() async {
     final userCredentials = await firebaseAuthen.signInAnonymously();
-
+    userLogin = userCredentials.user as UserCredential?;
     return userCredentials.user;
   }
 
@@ -27,7 +28,7 @@ class Authentication{
 
     try{
       final userCredentials = await firebaseAuthen.signInWithEmailAndPassword(email: email, password: password);
-
+    userLogin = userCredentials.user as UserCredential?;
     return userCredentials.user;
     }on FirebaseAuthException catch(e){
       print(e.message);
@@ -59,6 +60,7 @@ class Authentication{
 
       // Once signed in, return the UserCredential
       UserCredential userCredential = await firebaseAuthen.signInWithCredential(credential);
+      userLogin = userCredential.user as UserCredential?;
       return userCredential.user;
     }else{return null;}
 

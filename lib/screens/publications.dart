@@ -3,7 +3,7 @@ import 'package:diacritic/diacritic.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:healtzone_v0/screens/doctor.dart';
+import 'package:healtzone_v0/screens/doctorPage/doctor.dart';
 import 'package:healtzone_v0/screens/offers.dart';
 import 'package:healtzone_v0/services/authentication.dart';
 import 'package:intl/intl.dart';
