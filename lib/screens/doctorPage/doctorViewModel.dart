@@ -15,12 +15,12 @@ class DoctorViewModel extends ChangeNotifier {
     //stream<QuerySnapshot> --> Stream<List<DocumentSnapshot>>
     Stream<List<DocumentSnapshot>> streamListDocument = database
         .getDoctorListFromApi(doctorRef)
-        .map((QuerySnapshot) => QuerySnapshot.docs);
-
+        .map((QuerySnapshot) => QuerySnapshot.docs );
 
     //stream<List<DocumentSnapshot>> --> Stream<List<DoctorModel>>
-    Stream<List<DoctorModel>> streamListDoctor = streamListDocument.map((listOfDocSnap) => listOfDocSnap.map((docSnap) => DoctorModel.fromJson(docSnap.data())));
+    Stream<List<DoctorModel>> streamListDoctor = streamListDocument.map(
+        (listOfDocSnap) => listOfDocSnap
+            .map((docSnap) => DoctorModel.fromJson(docSnap.data()  as Map<String, dynamic>)).toList() );
     return streamListDoctor;
   }
-
 }

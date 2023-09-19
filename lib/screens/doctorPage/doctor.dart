@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:healtzone_v0/screens/publications.dart';
 import 'package:provider/provider.dart';
 
+import '../models/doctorModel.dart';
 import 'doctorViewModel.dart';
 import '../offers.dart';
 
@@ -97,10 +98,10 @@ class _DoctorState extends State<Doctor> {
                 )),
 
             Divider(),
-            StreamBuilder(
-                stream: doctorRef.snapshots(),
+            StreamBuilder<List<DoctorModel>>(
+                stream: Provider.of<DoctorViewModel>(context,listen: false).getDoctorList(),
                 builder: (BuildContext context,
-                    AsyncSnapshot<QuerySnapshot> asyncSnapshot) {
+                    AsyncSnapshot<List<DoctorModel>> asyncSnapshot) {
                   if (asyncSnapshot.hasError) {
                     print("Hata: ${asyncSnapshot.error.toString()}");
                     return Center(
@@ -114,14 +115,16 @@ class _DoctorState extends State<Doctor> {
                       // List<Map<String, dynamic>> mapDoctorList =
                       //     List<Map<String, dynamic>>.from(asyncSnapshot.data?.docs
                       //         as List<Map<String, dynamic>>);
-                      List<DocumentSnapshot> documentList =
-                          asyncSnapshot.data?.docs as List<DocumentSnapshot>;
+                      List<DoctorModel>? documentList =
+                          asyncSnapshot.data ;
                       return Flexible(
                           child: ListView.builder(
-                              itemCount: documentList.length,
+                              itemCount: documentList?.length,
                               itemBuilder: (context, index) {
-                                Map<String, dynamic> data = documentList[index]
-                                    .data() as Map<String, dynamic>;
+                                // Map<String, dynamic> data = documentList?[index]
+                                //      as Map<String, dynamic>;
+                                DoctorModel? currentDoctor = documentList?[index];
+                                if (currentDoctor == null) return Container();
                                 return Dismissible(
                                   key: UniqueKey(),
                                   direction: DismissDirection.endToStart,
@@ -129,19 +132,19 @@ class _DoctorState extends State<Doctor> {
                                     // documentList[index].reference.delete();
                                     // documentList[index].reference.update({"name":FieldValue.delete()});
 
-                                    print(documentList[index].id);
+                                    print(documentList?[index].name);
+                                    print(currentDoctor.name);
                                   },
                                   background: Container(
                                     alignment: Alignment.centerRight,
                                     color: Colors.red,
-                                    child:
-                                        Icon(Icons.delete, color: Colors.white),
+                                    child:Icon(Icons.delete, color: Colors.white),
                                   ),
                                   child: Card(
                                     child: ListTile(
-                                      title: Text(data["department"]),
+                                      title: Text("${currentDoctor.department}"),//Text(data["department"]),
                                       subtitle: Text(
-                                          "Adı: ${data["name"]} No: ${data["no"]}"),
+                                          "Adı: ${currentDoctor.name} No: ${currentDoctor.no}"),//Text("Adı: ${data["name"]} No: ${data["no"]}"),
                                     ),
                                   ),
                                 );
