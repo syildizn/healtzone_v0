@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:healtzone_v0/screens/doctorLoginAndSignupPage/doctorLoginAndSignup.dart';
 import 'package:healtzone_v0/screens/doctorPage/doctor.dart';
 import 'package:healtzone_v0/screens/emailLoginPage.dart';
 import 'package:healtzone_v0/screens/loginPage.dart';
@@ -16,4 +17,5 @@ Map<String,WidgetBuilder> routes = {
  OnBoardSetState.routeName:(context) => OnBoardSetState(),
  EmailLoginPage.routeName:(context) => EmailLoginPage(formValid:FormValid.login ),
  EmailLoginPage.routeName:(context) => EmailLoginPage(formValid:FormValid.signup ),
+ DoctorLoginAndSignup.routeName:(context) => DoctorLoginAndSignup(formValid: FormValidi.login)
 };

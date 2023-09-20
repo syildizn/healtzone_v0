@@ -6,12 +6,12 @@ import 'package:healtzone_v0/services/authentication.dart';
 import 'package:provider/provider.dart';
 
 //enum operatörü bir nevi if gibi, kontrol yapıp giriş sayfası ya da kayıt ol sayfası gösteriyor.
-enum FormValid { login, signup, reset }
+enum FormValidi { login, signup, reset }
 
 class DoctorLoginAndSignup extends StatefulWidget {
   static String routeName = "DoctorLoginAndSignup";
 
-  FormValid formValid;
+  FormValidi formValid;
 
   DoctorLoginAndSignup({required this.formValid});
 
@@ -22,13 +22,13 @@ class DoctorLoginAndSignup extends StatefulWidget {
 class _DoctorLoginAndSignupState extends State<DoctorLoginAndSignup> {
   bool _isObscure = true;
 
-  FormValid? formValid = FormValid.login;
+  FormValidi? formValid = FormValidi.login;
 
   @override
   Widget build(BuildContext context) {
-    return widget.formValid == FormValid.login
+    return widget.formValid == FormValidi.login
         ? buildLogin()
-        : widget.formValid == FormValid.signup
+        : widget.formValid == FormValidi.signup
         ? buildSignup()
         : buildResetPassword();
   }
@@ -149,7 +149,7 @@ class _DoctorLoginAndSignupState extends State<DoctorLoginAndSignup> {
                   onTap: () {
                     // "Üyeliğiniz yok mu? Kayıt olmak için tıklayın..." metni tıklandığında yapılacak işlemler buraya yazılır.
                     setState(() {
-                      widget.formValid = FormValid.signup;
+                      widget.formValid = FormValidi.signup;
                     });
                   },
                   child: Text(
@@ -166,7 +166,7 @@ class _DoctorLoginAndSignupState extends State<DoctorLoginAndSignup> {
                   onTap: () {
                     // "Üyeliğiniz yok mu? Kayıt olmak için tıklayın..." metni tıklandığında yapılacak işlemler buraya yazılır.
                     setState(() {
-                      widget.formValid = FormValid.reset;
+                      widget.formValid = FormValidi.reset;
                     });
                   },
                   child: Text(
@@ -316,7 +316,7 @@ class _DoctorLoginAndSignupState extends State<DoctorLoginAndSignup> {
                             .signOut();
 
                         setState(() {
-                          widget.formValid = FormValid.login;
+                          widget.formValid = FormValidi.login;
                         });
                       }}on FirebaseAuthException catch(e){
                       print(e.message);
@@ -333,7 +333,7 @@ class _DoctorLoginAndSignupState extends State<DoctorLoginAndSignup> {
                   onTap: () {
                     // "Üyeliğiniz yok mu? Kayıt olmak için tıklayın..." metni tıklandığında yapılacak işlemler buraya yazılır.
                     setState(() {
-                      widget.formValid = FormValid.login;
+                      widget.formValid = FormValidi.login;
                     });
                   },
                   child: Text(
