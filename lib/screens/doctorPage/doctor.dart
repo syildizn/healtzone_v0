@@ -131,7 +131,7 @@ class _DoctorState extends State<Doctor> {
                                   onDismissed: (_) {
                                     // documentList[index].reference.delete();
                                     // documentList[index].reference.update({"name":FieldValue.delete()});
-
+                                    //Provider.of<DoctorViewModel>(context,listen: false).deleteDoctor(documentList?[index]);
                                     print(documentList?[index].name);
                                     print(currentDoctor.name);
                                   },

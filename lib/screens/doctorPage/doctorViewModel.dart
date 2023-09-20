@@ -10,11 +10,13 @@ class DoctorViewModel extends ChangeNotifier {
 
   Database database = Database();
 
+   String collectionPath = "doctors";
+
   Stream<List<DoctorModel>> getDoctorList() {
-    const String doctorRef = "doctors";
+
     //stream<QuerySnapshot> --> Stream<List<DocumentSnapshot>>
     Stream<List<DocumentSnapshot>> streamListDocument = database
-        .getDoctorListFromApi(doctorRef)
+        .getDoctorListFromApi(collectionPath)
         .map((QuerySnapshot) => QuerySnapshot.docs );
 
     //stream<List<DocumentSnapshot>> --> Stream<List<DoctorModel>>
@@ -22,5 +24,9 @@ class DoctorViewModel extends ChangeNotifier {
         (listOfDocSnap) => listOfDocSnap
             .map((docSnap) => DoctorModel.fromJson(docSnap.data()  as Map<String, dynamic>)).toList() );
     return streamListDoctor;
+  }
+
+  Future<void> deleteDoctor(DoctorModel? doctorModel) async {
+   await database.deleteDocument(referencePath: collectionPath, id: doctorModel?.id);
   }
 }

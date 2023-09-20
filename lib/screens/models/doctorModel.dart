@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 class DoctorModel extends Equatable {
+  final String? id;
   final String? address;
   final String? companyName;
   final bool? completedProfile;
@@ -11,7 +12,9 @@ class DoctorModel extends Equatable {
   final String? phone;
   final bool? verified;
 
+
   DoctorModel({
+    this.id,
     this.address,
     this.companyName,
     this.completedProfile,
@@ -21,10 +24,12 @@ class DoctorModel extends Equatable {
     this.no,
     this.phone,
     this.verified,
+
   });
 
   @override
   List<Object?> get props => [
+    id,
     address,
     companyName,
     completedProfile,
@@ -37,6 +42,7 @@ class DoctorModel extends Equatable {
   ];
 
   DoctorModel copyWith({
+    String? id,
     String? address,
     String? companyName,
     bool? completedProfile,
@@ -48,6 +54,7 @@ class DoctorModel extends Equatable {
     bool? verified,
   }) {
     return DoctorModel(
+      id: id ?? this.id,
       address: address ?? this.address,
       companyName: companyName ?? this.companyName,
       completedProfile: completedProfile ?? this.completedProfile,
@@ -62,6 +69,7 @@ class DoctorModel extends Equatable {
 
   Map<String, dynamic> toJson() {
     return {
+      'id':id,
       'address': address,
       'companyName': companyName,
       'completedProfile': completedProfile,
@@ -76,6 +84,7 @@ class DoctorModel extends Equatable {
 
   factory DoctorModel.fromJson(Map<String, dynamic> json) {
     return DoctorModel(
+      id: json['id'] as String?,
       address: json['address'] as String?,
       companyName: json['companyName'] as String?,
       completedProfile: json['completedProfile'] as bool?,

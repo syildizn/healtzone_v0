@@ -10,7 +10,9 @@ class Database{
 
 //firestore üzerindeki bir veriyi silme
 
-
+Future<void> deleteDocument({required String referencePath, required String? id})async {
+  firestore.collection(referencePath).doc(id).delete();
+}
 
 
 //firestore'a yeni veri ekleme ve güncelleme
