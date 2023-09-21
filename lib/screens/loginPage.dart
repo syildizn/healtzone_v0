@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:healtzone_v0/screens/doctorLoginAndSignupPage/doctorLoginAndSignup.dart';
 import 'package:healtzone_v0/screens/emailLoginPage.dart';
 import 'package:healtzone_v0/screens/publications.dart';
 import 'package:healtzone_v0/screens/widgets/myCustomButton.dart';
@@ -50,18 +52,28 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Text(
-            "Giriş Sayfası",
-            style: TextStyle(fontSize: 22),
-          ),
+
           actions: [
-            IconButton(
-                onPressed: () async {
-                  await Provider.of<Authentication>(context, listen: false)
-                      .signOut();
-                  print("Çıkış Yapıldı");
-                },
-                icon: Icon(Icons.exit_to_app))
+            Padding(
+              padding: const EdgeInsets.fromLTRB(18, 16, 24, 8),
+              child: Text("Doktor musunuz ?",style: TextStyle(fontSize: 20)),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(2.0),
+              child: Icon(Icons.arrow_forward),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(2.0),
+              child: IconButton(
+                  onPressed: isLoading ? null : () async {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => DoctorLoginAndSignup(formValidi: FormValidi.login)),
+                      );
+
+                  },
+                  icon: SvgPicture.asset('assets/icons/doctorx.svg',width: 35,height: 35,)),
+            )
           ]),
       body: Center(
         child: Column(

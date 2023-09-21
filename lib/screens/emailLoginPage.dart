@@ -37,6 +37,13 @@ class _EmailLoginPageState extends State<EmailLoginPage> {
     TextEditingController emailLoginControler = TextEditingController();
     TextEditingController passwordLoginControler = TextEditingController();
 
+    @override
+    void dispose(){
+      emailLoginControler.dispose();
+      passwordLoginControler.dispose();
+      super.dispose();
+    };
+
     final loginFormKey = GlobalKey<FormState>();
 
     return Scaffold(
@@ -191,8 +198,15 @@ class _EmailLoginPageState extends State<EmailLoginPage> {
 
     TextEditingController emailSignUpControler = TextEditingController();
     TextEditingController passwordSignUpControler = TextEditingController();
-    TextEditingController passwordConfirmSignUpControler =
-        TextEditingController();
+    TextEditingController passwordConfirmSignUpControler = TextEditingController();
+
+    @override
+    void dispose(){
+      emailSignUpControler.dispose();
+      passwordSignUpControler.dispose();
+      passwordConfirmSignUpControler.dispose();
+      super.dispose();
+    };
 
     return Scaffold(
       appBar: AppBar(

@@ -8,10 +8,11 @@ class DoctorModel extends Equatable {
   final String? department;
   final String? email;
   final String? name;
-  final String? no;
+  final String? graduationYear;
   final String? phone;
   final bool? verified;
-
+  final String? title;
+  final String? university;
 
   DoctorModel({
     this.id,
@@ -21,10 +22,11 @@ class DoctorModel extends Equatable {
     this.department,
     this.email,
     this.name,
-    this.no,
+    this.graduationYear,
     this.phone,
     this.verified,
-
+    this.title,
+    this.university,
   });
 
   @override
@@ -36,9 +38,11 @@ class DoctorModel extends Equatable {
     department,
     email,
     name,
-    no,
+    graduationYear,
     phone,
-    verified
+    verified,
+    title,
+    university
   ];
 
   DoctorModel copyWith({
@@ -49,9 +53,11 @@ class DoctorModel extends Equatable {
     String? department,
     String? email,
     String? name,
-    String? no,
+    String? graduationYear,
     String? phone,
     bool? verified,
+    String? title,
+    String? university,
   }) {
     return DoctorModel(
       id: id ?? this.id,
@@ -61,24 +67,28 @@ class DoctorModel extends Equatable {
       department: department ?? this.department,
       email: email ?? this.email,
       name: name ?? this.name,
-      no: no ?? this.no,
+      graduationYear: graduationYear ?? this.graduationYear,
       phone: phone ?? this.phone,
       verified: verified ?? this.verified,
+      title: title ?? this.title,
+      university: university ?? this.university,
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'id':id,
+      'id': id,
       'address': address,
       'companyName': companyName,
       'completedProfile': completedProfile,
       'department': department,
       'email': email,
       'name': name,
-      'no': no,
+      'graduationYear': graduationYear,
       'phone': phone,
       'verified': verified,
+      'title': title,
+      'university': university,
     };
   }
 
@@ -91,9 +101,11 @@ class DoctorModel extends Equatable {
       department: json['department'] as String?,
       email: json['email'] as String?,
       name: json['name'] as String?,
-      no: json['no'] as String?,
+      graduationYear: json['graduationYear'] as String?,
       phone: json['phone'] as String?,
       verified: json['verified'] as bool?,
+      title: json['title'] as String?,
+      university: json['university'] as String?,
     );
   }
 }

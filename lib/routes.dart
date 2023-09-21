@@ -17,5 +17,8 @@ Map<String,WidgetBuilder> routes = {
  OnBoardSetState.routeName:(context) => OnBoardSetState(),
  EmailLoginPage.routeName:(context) => EmailLoginPage(formValid:FormValid.login ),
  EmailLoginPage.routeName:(context) => EmailLoginPage(formValid:FormValid.signup ),
- DoctorLoginAndSignup.routeName:(context) => DoctorLoginAndSignup(formValid: FormValidi.login)
+ EmailLoginPage.routeName:(context) => EmailLoginPage(formValid:FormValid.reset ),
+ DoctorLoginAndSignup.routeName:(context) => DoctorLoginAndSignup(formValidi: FormValidi.login),
+ DoctorLoginAndSignup.routeName:(context) => DoctorLoginAndSignup(formValidi: FormValidi.signup),
+ DoctorLoginAndSignup.routeName:(context) => DoctorLoginAndSignup(formValidi: FormValidi.reset),
 };

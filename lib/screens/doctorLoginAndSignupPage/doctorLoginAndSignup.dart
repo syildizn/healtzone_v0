@@ -11,9 +11,9 @@ enum FormValidi { login, signup, reset }
 class DoctorLoginAndSignup extends StatefulWidget {
   static String routeName = "DoctorLoginAndSignup";
 
-  FormValidi formValid;
+  FormValidi formValidi;
 
-  DoctorLoginAndSignup({required this.formValid});
+  DoctorLoginAndSignup({required this.formValidi});
 
   @override
   State<DoctorLoginAndSignup> createState() => _DoctorLoginAndSignupState();
@@ -26,9 +26,9 @@ class _DoctorLoginAndSignupState extends State<DoctorLoginAndSignup> {
 
   @override
   Widget build(BuildContext context) {
-    return widget.formValid == FormValidi.login
+    return widget.formValidi == FormValidi.login
         ? buildLogin()
-        : widget.formValid == FormValidi.signup
+        : widget.formValidi == FormValidi.signup
         ? buildSignup()
         : buildResetPassword();
   }
@@ -37,11 +37,20 @@ class _DoctorLoginAndSignupState extends State<DoctorLoginAndSignup> {
     TextEditingController emailLoginControler = TextEditingController();
     TextEditingController passwordLoginControler = TextEditingController();
 
+    @override
+    void dispose(){
+      emailLoginControler.dispose();
+      passwordLoginControler.dispose();
+      super.dispose();
+    };
+
+
+
     final loginFormKey = GlobalKey<FormState>();
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Lütfen Giriş Yapınız"),
+        title: Text("Doktor Girişi"),
       ),
       body: Center(
         child: Padding(
@@ -70,7 +79,7 @@ class _DoctorLoginAndSignupState extends State<DoctorLoginAndSignup> {
                   },
                 ),
                 SizedBox(height: 16.0),
-                StatefulBuilder(
+                StatefulBuilder(//burada statefulBuilder kullanıldı çünkü şifreyi gizleyip açarken tüm ekranın state'i değil de sadece şifre ksımının state bilgisi yeniden boyansın diye
                   builder: (BuildContext context, StateSetter setState) {
                     return TextFormField(
                       controller: passwordLoginControler,
@@ -149,7 +158,7 @@ class _DoctorLoginAndSignupState extends State<DoctorLoginAndSignup> {
                   onTap: () {
                     // "Üyeliğiniz yok mu? Kayıt olmak için tıklayın..." metni tıklandığında yapılacak işlemler buraya yazılır.
                     setState(() {
-                      widget.formValid = FormValidi.signup;
+                      widget.formValidi = FormValidi.signup;
                     });
                   },
                   child: Text(
@@ -164,9 +173,9 @@ class _DoctorLoginAndSignupState extends State<DoctorLoginAndSignup> {
                 SizedBox(height: 26.0),
                 InkWell(
                   onTap: () {
-                    // "Üyeliğiniz yok mu? Kayıt olmak için tıklayın..." metni tıklandığında yapılacak işlemler buraya yazılır.
+                    //
                     setState(() {
-                      widget.formValid = FormValidi.reset;
+                      widget.formValidi = FormValidi.reset;
                     });
                   },
                   child: Text(
@@ -191,161 +200,341 @@ class _DoctorLoginAndSignupState extends State<DoctorLoginAndSignup> {
 
     TextEditingController emailSignUpControler = TextEditingController();
     TextEditingController passwordSignUpControler = TextEditingController();
-    TextEditingController passwordConfirmSignUpControler =
-    TextEditingController();
+    TextEditingController passwordConfirmSignUpControler = TextEditingController();
+    TextEditingController addressSignUpControler = TextEditingController();
+    TextEditingController companyNameSignUpControler = TextEditingController();
+    TextEditingController departmentSignUpControler = TextEditingController();
+    TextEditingController nameSignUpControler = TextEditingController();
+    TextEditingController graduationYearSignUpControler = TextEditingController();
+    TextEditingController phoneSignUpControler = TextEditingController();
+    TextEditingController titleSignUpControler = TextEditingController();
+    TextEditingController universitySignUpControler = TextEditingController();
+
+   @override
+   void dispose(){
+     emailSignUpControler.dispose();
+     passwordSignUpControler.dispose();
+     passwordConfirmSignUpControler.dispose();
+     addressSignUpControler.dispose();
+     companyNameSignUpControler.dispose();
+     departmentSignUpControler.dispose();
+     nameSignUpControler.dispose();
+     graduationYearSignUpControler.dispose();
+     phoneSignUpControler.dispose();
+     titleSignUpControler.dispose();
+     universitySignUpControler.dispose();
+
+     super.dispose();
+   };
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Kayıt Sayfası"),
+        title: Text("Doktor Kayıt Sayfası"),
       ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(26.0),
-          child: Form(
-            key: signupFormKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                TextFormField(
-                  controller: emailSignUpControler,
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.email_sharp),
-                    prefixIconColor: Colors.amber,
-                    labelText: "E-posta",
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
+      body: SingleChildScrollView(
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(26.0),
+            child: Form(
+              key: signupFormKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  TextFormField(
+                    controller: emailSignUpControler,
+                    keyboardType: TextInputType.emailAddress,
+                    decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.email_sharp),
+                      prefixIconColor: Colors.amber,
+                      labelText: "E-posta",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
                     ),
+                    validator: (value) {
+                      if (!EmailValidator.validate(value!)) {
+                        return 'Lütfen geçerli bir e-posta adresi giriniz';
+                      }
+                      return null;
+                    },
                   ),
-                  validator: (value) {
-                    if (!EmailValidator.validate(value!)) {
-                      return 'Lütfen geçerli bir e-posta adresi giriniz';
-                    }
-                    return null;
-                  },
-                ),
-                SizedBox(height: 16.0),
-                StatefulBuilder(
-                  builder: (BuildContext context, StateSetter setState) {
-                    return TextFormField(
-                      controller: passwordSignUpControler,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Lütfen şifrenizi girin';
-                        }
-                        return null;
-                      },
-                      decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.lock),
-                        prefixIconColor: Colors.amber,
-                        labelText: "Şifre",
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20)),
-                        suffixIcon: GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              _isObscure = !_isObscure;
-                            });
-                          },
-                          child: Icon(
-                            _isObscure
-                                ? Icons.visibility
-                                : Icons.visibility_off,
+                  SizedBox(height: 16.0),
+                  StatefulBuilder(
+                    builder: (BuildContext context, StateSetter setState) {
+                      return TextFormField(
+                        controller: passwordSignUpControler,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Lütfen şifrenizi girin';
+                          }
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                          prefixIcon: Icon(Icons.lock),
+                          prefixIconColor: Colors.amber,
+                          labelText: "Şifre",
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20)),
+                          suffixIcon: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                _isObscure = !_isObscure;
+                              });
+                            },
+                            child: Icon(
+                              _isObscure
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                            ),
                           ),
                         ),
-                      ),
-                      obscureText: _isObscure,
-                    );
-                  },
-                ),
-                SizedBox(height: 16.0),
-                StatefulBuilder(
-                  builder: (BuildContext context, StateSetter setState) {
-                    return TextFormField(
-                      controller: passwordConfirmSignUpControler,
-                      validator: (value) {
-                        if (value != passwordSignUpControler.text) {
-                          return 'Şifreler uyuşmuyor';
-                        }
-                        return null;
-                      },
-                      decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.lock),
-                        prefixIconColor: Colors.amber,
-                        labelText: "Şifre",
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20)),
-                        suffixIcon: GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              _isObscure = !_isObscure;
-                            });
-                          },
-                          child: Icon(
-                            _isObscure
-                                ? Icons.visibility
-                                : Icons.visibility_off,
+                        obscureText: _isObscure,
+                      );
+                    },
+                  ),
+                  SizedBox(height: 16.0),
+                  StatefulBuilder(
+                    builder: (BuildContext context, StateSetter setState) {
+                      return TextFormField(
+                        controller: passwordConfirmSignUpControler,
+                        validator: (value) {
+                          if (value != passwordSignUpControler.text) {
+                            return 'Şifreler uyuşmuyor';
+                          }
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                          prefixIcon: Icon(Icons.lock),
+                          prefixIconColor: Colors.amber,
+                          labelText: "Şifreyi Tekrar Girin",
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20)),
+                          suffixIcon: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                _isObscure = !_isObscure;
+                              });
+                            },
+                            child: Icon(
+                              _isObscure
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                            ),
                           ),
                         ),
+                        obscureText: _isObscure,
+                      );
+                    },
+                  ),
+                  SizedBox(height: 16.0),
+                  TextFormField(
+                    controller: nameSignUpControler,
+                    keyboardType: TextInputType.name,
+                    decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.person),
+                      prefixIconColor: Colors.amber,
+                      labelText: "İsim-Soyisim",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
                       ),
-                      obscureText: _isObscure,
-                    );
-                  },
-                ),
-                SizedBox(height: 24.0),
-                MyCustomButton(
-                  text: 'Kayıt Ol',
-                  backgroundColor: Colors.amberAccent,
-                  onPressed: () async {
-                    // E-posta ve şifre doğrulamasını yapma işlemi burada gerçekleşir.
-                    // Eğer doğrulama başarılı ise ilgili işlemler yapılır, aksi halde hata gösterilir.
-                    try{
-                      if (signupFormKey.currentState!.validate()) {
-                        final user = await Provider.of<Authentication>(context,
-                            listen: false)
-                            .createUserWithEmailAndPassword(
-                            emailSignUpControler.text,
-                            passwordSignUpControler.text);
+                    ),
+                    validator: (value) {
+                      if (value!.isEmpty || value == null) {
+                        return 'Lütfen isminizi ve soyisminizi giriniz';
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(height: 16.0),
+                  TextFormField(
+                    controller: departmentSignUpControler,
+                    keyboardType: TextInputType.text,
+                    decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.difference_sharp),
+                      prefixIconColor: Colors.amber,
+                      labelText: "Uzmanlık Branşı",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                    ),
+                    validator: (value) {
+                      if (value!.isEmpty || value == null) {
+                        return 'Lütfen bir uzmanlık branşı giriniz';
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(height: 16.0),
+                  TextFormField(
+                    controller: companyNameSignUpControler,
+                    keyboardType: TextInputType.text,
+                    decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.home_work),
+                      prefixIconColor: Colors.amber,
+                      labelText: "Sağlık Kurumu Adı",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                    ),
+                    validator: (value) {
+                      if (value!.isEmpty || value == null) {
+                        return 'Lütfen bir sağlık kurumu adı giriniz';
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(height: 16.0),
+                  TextFormField(
+                    controller: addressSignUpControler,
+                    keyboardType: TextInputType.text,
+                    decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.abc),
+                      prefixIconColor: Colors.amber,
+                      labelText: "Sağlık Kurumunuzun Adresi",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                    ),
+                    validator: (value) {
+                      if (value!.isEmpty || value == null) {
+                        return 'Lütfen geçerli bir e-posta adresi giriniz';
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(height: 16.0),
+                  TextFormField(
+                    controller: titleSignUpControler,
+                    keyboardType: TextInputType.text,
+                    decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.leaderboard_outlined),
+                      prefixIconColor: Colors.amber,
+                      labelText: "Ünvan",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                    ),
+                    validator: (value) {
+                      if (value!.isEmpty || value == null) {
+                        return 'Lütfen ünvanınızı giriniz';
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(height: 16.0),
+                  TextFormField(
+                    controller: phoneSignUpControler,
+                    keyboardType: TextInputType.phone,
+                    decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.phone_android),
+                      prefixIconColor: Colors.amber,
+                      labelText: "Telefon Numarası",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                    ),
+                    validator: (value) {
+                      if (value!.isEmpty || value == null) {
+                        return 'Lütfen bir telefon numarası giriniz';
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(height: 16.0),
+                  TextFormField(
+                    controller: universitySignUpControler,
+                    keyboardType: TextInputType.text,
+                    decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.school),
+                      prefixIconColor: Colors.amber,
+                      labelText: "Mezun Olduğunuz Üniversiteyi Giriniz",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                    ),
+                    validator: (value) {
+                      if (value!.isEmpty || value == null) {
+                        return 'Lütfen bir üniversite giriniz';
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(height: 16.0),
+                  TextFormField(
+                    controller: graduationYearSignUpControler,
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.date_range_outlined),
+                      prefixIconColor: Colors.amber,
+                      labelText: "Mezun Olduğunuz Yıl",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                    ),
+                    validator: (value) {
+                      if (value!.isEmpty || value == null) {
+                        return 'Lütfen bir yıl giriniz';
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(height: 16.0),
 
-                        if (!user!.emailVerified) {
-                          await user?.sendEmailVerification();
-                        }
+                  SizedBox(height: 24.0),
+                  MyCustomButton(
+                    text: 'Kayıt Ol',
+                    backgroundColor: Colors.amberAccent,
+                    onPressed: () async {
+                      // E-posta ve şifre doğrulamasını yapma işlemi burada gerçekleşir.
+                      // // Eğer doğrulama başarılı ise ilgili işlemler yapılır, aksi halde hata gösterilir.
+                      // try{
+                      //   if (signupFormKey.currentState!.validate()) {
+                      //     final user = await Provider.of<Authentication>(context,
+                      //         listen: false)
+                      //         .createUserWithEmailAndPassword(
+                      //         emailSignUpControler.text,
+                      //         passwordSignUpControler.text);
+                      //
+                      //     if (!user!.emailVerified) {
+                      //       await user?.sendEmailVerification();
+                      //     }
+                      //
+                      //     await _showMyDialog();
+                      //     await Provider.of<Authentication>(context, listen: false)
+                      //         .signOut();
+                      //
+                      //     setState(() {
+                      //       widget.formValidi = FormValidi.login;
+                      //     });
+                      //   }}on FirebaseAuthException catch(e){
+                      //   print(e.message);
+                      //   _showMyErrorDialog(e.message);
+                      // }
 
-                        await _showMyDialog();
-                        await Provider.of<Authentication>(context, listen: false)
-                            .signOut();
-
-                        setState(() {
-                          widget.formValid = FormValidi.login;
-                        });
-                      }}on FirebaseAuthException catch(e){
-                      print(e.message);
-                      _showMyErrorDialog(e.message);
-                    }
-
-                  },
-                  svgPath: 'assets/icons/login.svg',
-                  textColor: Colors.black,
-                  SizedBoxRange: 40.0,
-                ),
-                SizedBox(height: 26.0),
-                InkWell(
-                  onTap: () {
-                    // "Üyeliğiniz yok mu? Kayıt olmak için tıklayın..." metni tıklandığında yapılacak işlemler buraya yazılır.
-                    setState(() {
-                      widget.formValid = FormValidi.login;
-                    });
-                  },
-                  child: Text(
-                    "Üye misiniz? Giriş yapmak için tıklayın...",
-                    style: TextStyle(
-                      color: Colors.black,
-                      decoration: TextDecoration.underline,
-                      fontSize: 14,
+                    },
+                    svgPath: 'assets/icons/login.svg',
+                    textColor: Colors.black,
+                    SizedBoxRange: 40.0,
+                  ),
+                  SizedBox(height: 26.0),
+                  InkWell(
+                    onTap: () {
+                      // "Üyeliğiniz yok mu? Kayıt olmak için tıklayın..." metni tıklandığında yapılacak işlemler buraya yazılır.
+                      setState(() {
+                        widget.formValidi = FormValidi.login;
+                      });
+                    },
+                    child: Text(
+                      "Üye misiniz? Giriş yapmak için tıklayın...",
+                      style: TextStyle(
+                        color: Colors.black,
+                        decoration: TextDecoration.underline,
+                        fontSize: 14,
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
