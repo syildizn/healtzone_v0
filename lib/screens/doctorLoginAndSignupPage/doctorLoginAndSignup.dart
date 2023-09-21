@@ -201,28 +201,13 @@ class _DoctorLoginAndSignupState extends State<DoctorLoginAndSignup> {
     TextEditingController emailSignUpControler = TextEditingController();
     TextEditingController passwordSignUpControler = TextEditingController();
     TextEditingController passwordConfirmSignUpControler = TextEditingController();
-    TextEditingController addressSignUpControler = TextEditingController();
-    TextEditingController companyNameSignUpControler = TextEditingController();
-    TextEditingController departmentSignUpControler = TextEditingController();
-    TextEditingController nameSignUpControler = TextEditingController();
-    TextEditingController graduationYearSignUpControler = TextEditingController();
-    TextEditingController phoneSignUpControler = TextEditingController();
-    TextEditingController titleSignUpControler = TextEditingController();
-    TextEditingController universitySignUpControler = TextEditingController();
+
 
    @override
    void dispose(){
      emailSignUpControler.dispose();
      passwordSignUpControler.dispose();
      passwordConfirmSignUpControler.dispose();
-     addressSignUpControler.dispose();
-     companyNameSignUpControler.dispose();
-     departmentSignUpControler.dispose();
-     nameSignUpControler.dispose();
-     graduationYearSignUpControler.dispose();
-     phoneSignUpControler.dispose();
-     titleSignUpControler.dispose();
-     universitySignUpControler.dispose();
 
      super.dispose();
    };
@@ -326,160 +311,6 @@ class _DoctorLoginAndSignupState extends State<DoctorLoginAndSignup> {
                       );
                     },
                   ),
-                  SizedBox(height: 16.0),
-                  TextFormField(
-                    controller: nameSignUpControler,
-                    keyboardType: TextInputType.name,
-                    decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.person),
-                      prefixIconColor: Colors.amber,
-                      labelText: "İsim-Soyisim",
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                    ),
-                    validator: (value) {
-                      if (value!.isEmpty || value == null) {
-                        return 'Lütfen isminizi ve soyisminizi giriniz';
-                      }
-                      return null;
-                    },
-                  ),
-                  SizedBox(height: 16.0),
-                  TextFormField(
-                    controller: departmentSignUpControler,
-                    keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.difference_sharp),
-                      prefixIconColor: Colors.amber,
-                      labelText: "Uzmanlık Branşı",
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                    ),
-                    validator: (value) {
-                      if (value!.isEmpty || value == null) {
-                        return 'Lütfen bir uzmanlık branşı giriniz';
-                      }
-                      return null;
-                    },
-                  ),
-                  SizedBox(height: 16.0),
-                  TextFormField(
-                    controller: companyNameSignUpControler,
-                    keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.home_work),
-                      prefixIconColor: Colors.amber,
-                      labelText: "Sağlık Kurumu Adı",
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                    ),
-                    validator: (value) {
-                      if (value!.isEmpty || value == null) {
-                        return 'Lütfen bir sağlık kurumu adı giriniz';
-                      }
-                      return null;
-                    },
-                  ),
-                  SizedBox(height: 16.0),
-                  TextFormField(
-                    controller: addressSignUpControler,
-                    keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.abc),
-                      prefixIconColor: Colors.amber,
-                      labelText: "Sağlık Kurumunuzun Adresi",
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                    ),
-                    validator: (value) {
-                      if (value!.isEmpty || value == null) {
-                        return 'Lütfen geçerli bir e-posta adresi giriniz';
-                      }
-                      return null;
-                    },
-                  ),
-                  SizedBox(height: 16.0),
-                  TextFormField(
-                    controller: titleSignUpControler,
-                    keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.leaderboard_outlined),
-                      prefixIconColor: Colors.amber,
-                      labelText: "Ünvan",
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                    ),
-                    validator: (value) {
-                      if (value!.isEmpty || value == null) {
-                        return 'Lütfen ünvanınızı giriniz';
-                      }
-                      return null;
-                    },
-                  ),
-                  SizedBox(height: 16.0),
-                  TextFormField(
-                    controller: phoneSignUpControler,
-                    keyboardType: TextInputType.phone,
-                    decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.phone_android),
-                      prefixIconColor: Colors.amber,
-                      labelText: "Telefon Numarası",
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                    ),
-                    validator: (value) {
-                      if (value!.isEmpty || value == null) {
-                        return 'Lütfen bir telefon numarası giriniz';
-                      }
-                      return null;
-                    },
-                  ),
-                  SizedBox(height: 16.0),
-                  TextFormField(
-                    controller: universitySignUpControler,
-                    keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.school),
-                      prefixIconColor: Colors.amber,
-                      labelText: "Mezun Olduğunuz Üniversiteyi Giriniz",
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                    ),
-                    validator: (value) {
-                      if (value!.isEmpty || value == null) {
-                        return 'Lütfen bir üniversite giriniz';
-                      }
-                      return null;
-                    },
-                  ),
-                  SizedBox(height: 16.0),
-                  TextFormField(
-                    controller: graduationYearSignUpControler,
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.date_range_outlined),
-                      prefixIconColor: Colors.amber,
-                      labelText: "Mezun Olduğunuz Yıl",
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                    ),
-                    validator: (value) {
-                      if (value!.isEmpty || value == null) {
-                        return 'Lütfen bir yıl giriniz';
-                      }
-                      return null;
-                    },
-                  ),
-                  SizedBox(height: 16.0),
-
                   SizedBox(height: 24.0),
                   MyCustomButton(
                     text: 'Kayıt Ol',
@@ -487,29 +318,29 @@ class _DoctorLoginAndSignupState extends State<DoctorLoginAndSignup> {
                     onPressed: () async {
                       // E-posta ve şifre doğrulamasını yapma işlemi burada gerçekleşir.
                       // // Eğer doğrulama başarılı ise ilgili işlemler yapılır, aksi halde hata gösterilir.
-                      // try{
-                      //   if (signupFormKey.currentState!.validate()) {
-                      //     final user = await Provider.of<Authentication>(context,
-                      //         listen: false)
-                      //         .createUserWithEmailAndPassword(
-                      //         emailSignUpControler.text,
-                      //         passwordSignUpControler.text);
-                      //
-                      //     if (!user!.emailVerified) {
-                      //       await user?.sendEmailVerification();
-                      //     }
-                      //
-                      //     await _showMyDialog();
-                      //     await Provider.of<Authentication>(context, listen: false)
-                      //         .signOut();
-                      //
-                      //     setState(() {
-                      //       widget.formValidi = FormValidi.login;
-                      //     });
-                      //   }}on FirebaseAuthException catch(e){
-                      //   print(e.message);
-                      //   _showMyErrorDialog(e.message);
-                      // }
+                      try{
+                        if (signupFormKey.currentState!.validate()) {
+                          final user = await Provider.of<Authentication>(context,
+                              listen: false)
+                              .createUserWithEmailAndPassword(
+                              emailSignUpControler.text,
+                              passwordSignUpControler.text);
+
+                          if (!user!.emailVerified) {
+                            await user?.sendEmailVerification();
+                          }
+
+                          await _showMyDialog();
+                          await Provider.of<Authentication>(context, listen: false)
+                              .signOut();
+
+                          setState(() {
+                            widget.formValidi = FormValidi.login;
+                          });
+                        }}on FirebaseAuthException catch(e){
+                        print(e.message);
+                        _showMyErrorDialog(e.message);
+                      }
 
                     },
                     svgPath: 'assets/icons/login.svg',

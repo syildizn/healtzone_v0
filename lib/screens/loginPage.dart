@@ -115,6 +115,7 @@ class _LoginPageState extends State<LoginPage> {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => EmailLoginPage(formValid: FormValid.login),
+
                   ),
                 );
                 print("Email giriş sayfasına yönlendirildi");

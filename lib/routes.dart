@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:healtzone_v0/screens/doctorLoginAndSignupPage/doctorLoginAndSignup.dart';
 import 'package:healtzone_v0/screens/doctorPage/doctor.dart';
 import 'package:healtzone_v0/screens/emailLoginPage.dart';
+import 'package:healtzone_v0/screens/informationRecordPage/informationRecord.dart';
 import 'package:healtzone_v0/screens/loginPage.dart';
 import 'package:healtzone_v0/screens/offers.dart';
 import 'package:healtzone_v0/screens/publications.dart';
@@ -21,4 +22,6 @@ Map<String,WidgetBuilder> routes = {
  DoctorLoginAndSignup.routeName:(context) => DoctorLoginAndSignup(formValidi: FormValidi.login),
  DoctorLoginAndSignup.routeName:(context) => DoctorLoginAndSignup(formValidi: FormValidi.signup),
  DoctorLoginAndSignup.routeName:(context) => DoctorLoginAndSignup(formValidi: FormValidi.reset),
+ InformationRecord.routeName:(context) => InformationRecord(formValidInfo: FormValidInfo.doctorInfo),
+ InformationRecord.routeName:(context) => InformationRecord(formValidInfo: FormValidInfo.patientInfo),
 };
