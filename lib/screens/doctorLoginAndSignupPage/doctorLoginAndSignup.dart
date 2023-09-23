@@ -1,9 +1,12 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:healtzone_v0/screens/doctorLoginAndSignupPage/doctorLogAndSgViewModel.dart';
 import 'package:healtzone_v0/screens/widgets/myCustomButton.dart';
 import 'package:healtzone_v0/services/authentication.dart';
 import 'package:provider/provider.dart';
+
+import '../widgets/onBoard.dart';
 
 //enum operatörü bir nevi if gibi, kontrol yapıp giriş sayfası ya da kayıt ol sayfası gösteriyor.
 enum FormValidi { login, signup, reset }
@@ -27,24 +30,24 @@ class _DoctorLoginAndSignupState extends State<DoctorLoginAndSignup> {
   @override
   Widget build(BuildContext context) {
     return widget.formValidi == FormValidi.login
-        ? buildLogin()
+        ? buildLogin(context)
         : widget.formValidi == FormValidi.signup
-        ? buildSignup()
-        : buildResetPassword();
+            ? buildSignup()
+            : buildResetPassword();
   }
 
-  Widget buildLogin() {
+  Widget buildLogin(BuildContext context) {
     TextEditingController emailLoginControler = TextEditingController();
     TextEditingController passwordLoginControler = TextEditingController();
 
     @override
-    void dispose(){
+    void dispose() {
       emailLoginControler.dispose();
       passwordLoginControler.dispose();
       super.dispose();
-    };
+    }
 
-
+    ;
 
     final loginFormKey = GlobalKey<FormState>();
 
@@ -79,7 +82,8 @@ class _DoctorLoginAndSignupState extends State<DoctorLoginAndSignup> {
                   },
                 ),
                 SizedBox(height: 16.0),
-                StatefulBuilder(//burada statefulBuilder kullanıldı çünkü şifreyi gizleyip açarken tüm ekranın state'i değil de sadece şifre ksımının state bilgisi yeniden boyansın diye
+                StatefulBuilder(
+                  //burada statefulBuilder kullanıldı çünkü şifreyi gizleyip açarken tüm ekranın state'i değil de sadece şifre ksımının state bilgisi yeniden boyansın diye
                   builder: (BuildContext context, StateSetter setState) {
                     return TextFormField(
                       controller: passwordLoginControler,
@@ -121,34 +125,38 @@ class _DoctorLoginAndSignupState extends State<DoctorLoginAndSignup> {
                     // E-posta ve şifre doğrulamasını yapma işlemi burada gerçekleşir.
                     // Eğer doğrulama başarılı ise ilgili işlemler yapılır, aksi halde hata gösterilir.
 
-                    try{
+                    try {
                       if (loginFormKey.currentState!.validate()) {
                         // If the form is valid, display a snackbar. In the real world,
                         // you'd often call a server or save the information in a database.
 
                         final user = await Provider.of<Authentication>(context,
-                            listen: false)
-                            .signInWithEmailAndPassword(emailLoginControler.text,
-                            passwordLoginControler.text);
+                                listen: false)
+                            .signInWithEmailAndPassword(
+                                emailLoginControler.text,
+                                passwordLoginControler.text);
 
                         if (!user!.emailVerified) {
                           await _showMyDialog();
                           await Provider.of<Authentication>(context,
-                              listen: false)
+                                  listen: false)
                               .signOut();
                         }
 
-                        Navigator.pop(context);
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Navigator çalışıyor!')));
+
+                        //Navigator.pop(context);
+                        Navigator.pushReplacementNamed(context, OnBoard.routeName);
                         // ScaffoldMessenger.of(context).showSnackBar(
                         //   const SnackBar(
                         //       content: Text('Giriş Yapılıyor'),
                         //       backgroundColor: Colors.amber),
                         // );
-                      }}on FirebaseAuthException catch(e){
+                      }
+                    } on FirebaseAuthException catch (e) {
                       print(e.message);
                       _showMyErrorDialog(e.message);
                     }
-
                   },
                   svgPath: 'assets/icons/login.svg',
                   textColor: Colors.black,
@@ -200,171 +208,193 @@ class _DoctorLoginAndSignupState extends State<DoctorLoginAndSignup> {
 
     TextEditingController emailSignUpControler = TextEditingController();
     TextEditingController passwordSignUpControler = TextEditingController();
-    TextEditingController passwordConfirmSignUpControler = TextEditingController();
+    TextEditingController passwordConfirmSignUpControler =
+        TextEditingController();
 
+    @override
+    void dispose() {
+      emailSignUpControler.dispose();
+      passwordSignUpControler.dispose();
+      passwordConfirmSignUpControler.dispose();
 
-   @override
-   void dispose(){
-     emailSignUpControler.dispose();
-     passwordSignUpControler.dispose();
-     passwordConfirmSignUpControler.dispose();
+      super.dispose();
+    }
 
-     super.dispose();
-   };
+    ;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Doktor Kayıt Sayfası"),
-      ),
-      body: SingleChildScrollView(
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(26.0),
-            child: Form(
-              key: signupFormKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  TextFormField(
-                    controller: emailSignUpControler,
-                    keyboardType: TextInputType.emailAddress,
-                    decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.email_sharp),
-                      prefixIconColor: Colors.amber,
-                      labelText: "E-posta",
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
+    return ChangeNotifierProvider<DocLgAndSgVievModel>(
+      create: (_) => DocLgAndSgVievModel(),
+      builder: (context, _) => Scaffold(
+        appBar: AppBar(
+          title: Text("Doktor Kayıt Sayfası"),
+        ),
+        body: SingleChildScrollView(
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.all(26.0),
+              child: Form(
+                key: signupFormKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    TextFormField(
+                      controller: emailSignUpControler,
+                      keyboardType: TextInputType.emailAddress,
+                      decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.email_sharp),
+                        prefixIconColor: Colors.amber,
+                        labelText: "E-posta",
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
                       ),
+                      validator: (value) {
+                        if (!EmailValidator.validate(value!)) {
+                          return 'Lütfen geçerli bir e-posta adresi giriniz';
+                        }
+                        return null;
+                      },
                     ),
-                    validator: (value) {
-                      if (!EmailValidator.validate(value!)) {
-                        return 'Lütfen geçerli bir e-posta adresi giriniz';
-                      }
-                      return null;
-                    },
-                  ),
-                  SizedBox(height: 16.0),
-                  StatefulBuilder(
-                    builder: (BuildContext context, StateSetter setState) {
-                      return TextFormField(
-                        controller: passwordSignUpControler,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Lütfen şifrenizi girin';
-                          }
-                          return null;
-                        },
-                        decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.lock),
-                          prefixIconColor: Colors.amber,
-                          labelText: "Şifre",
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20)),
-                          suffixIcon: GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                _isObscure = !_isObscure;
-                              });
-                            },
-                            child: Icon(
-                              _isObscure
-                                  ? Icons.visibility
-                                  : Icons.visibility_off,
+                    SizedBox(height: 16.0),
+                    StatefulBuilder(
+                      builder: (BuildContext context, StateSetter setState) {
+                        return TextFormField(
+                          controller: passwordSignUpControler,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Lütfen şifrenizi girin';
+                            }
+                            return null;
+                          },
+                          decoration: InputDecoration(
+                            prefixIcon: Icon(Icons.lock),
+                            prefixIconColor: Colors.amber,
+                            labelText: "Şifre",
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20)),
+                            suffixIcon: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  _isObscure = !_isObscure;
+                                });
+                              },
+                              child: Icon(
+                                _isObscure
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                              ),
                             ),
                           ),
-                        ),
-                        obscureText: _isObscure,
-                      );
-                    },
-                  ),
-                  SizedBox(height: 16.0),
-                  StatefulBuilder(
-                    builder: (BuildContext context, StateSetter setState) {
-                      return TextFormField(
-                        controller: passwordConfirmSignUpControler,
-                        validator: (value) {
-                          if (value != passwordSignUpControler.text) {
-                            return 'Şifreler uyuşmuyor';
-                          }
-                          return null;
-                        },
-                        decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.lock),
-                          prefixIconColor: Colors.amber,
-                          labelText: "Şifreyi Tekrar Girin",
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20)),
-                          suffixIcon: GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                _isObscure = !_isObscure;
-                              });
-                            },
-                            child: Icon(
-                              _isObscure
-                                  ? Icons.visibility
-                                  : Icons.visibility_off,
+                          obscureText: _isObscure,
+                        );
+                      },
+                    ),
+                    SizedBox(height: 16.0),
+                    StatefulBuilder(
+                      builder: (BuildContext context, StateSetter setState) {
+                        return TextFormField(
+                          controller: passwordConfirmSignUpControler,
+                          validator: (value) {
+                            if (value != passwordSignUpControler.text) {
+                              return 'Şifreler uyuşmuyor';
+                            }
+                            return null;
+                          },
+                          decoration: InputDecoration(
+                            prefixIcon: Icon(Icons.lock),
+                            prefixIconColor: Colors.amber,
+                            labelText: "Şifreyi Tekrar Girin",
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20)),
+                            suffixIcon: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  _isObscure = !_isObscure;
+                                });
+                              },
+                              child: Icon(
+                                _isObscure
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                              ),
                             ),
                           ),
-                        ),
-                        obscureText: _isObscure,
-                      );
-                    },
-                  ),
-                  SizedBox(height: 24.0),
-                  MyCustomButton(
-                    text: 'Kayıt Ol',
-                    backgroundColor: Colors.amberAccent,
-                    onPressed: () async {
-                      // E-posta ve şifre doğrulamasını yapma işlemi burada gerçekleşir.
-                      // // Eğer doğrulama başarılı ise ilgili işlemler yapılır, aksi halde hata gösterilir.
-                      try{
-                        if (signupFormKey.currentState!.validate()) {
-                          final user = await Provider.of<Authentication>(context,
-                              listen: false)
-                              .createUserWithEmailAndPassword(
-                              emailSignUpControler.text,
-                              passwordSignUpControler.text);
+                          obscureText: _isObscure,
+                        );
+                      },
+                    ),
+                    SizedBox(height: 24.0),
+                    MyCustomButton(
+                      text: 'Kayıt Ol',
+                      backgroundColor: Colors.amberAccent,
+                      onPressed: () async {
+                        // E-posta ve şifre doğrulamasını yapma işlemi burada gerçekleşir.
+                        // // Eğer doğrulama başarılı ise ilgili işlemler yapılır, aksi halde hata gösterilir.
+                        try {
+                          if (signupFormKey.currentState!.validate()) {
+                            final user = await Provider.of<Authentication>(
+                                    context,
+                                    listen: false)
+                                .createUserWithEmailAndPassword(
+                                    emailSignUpControler.text,
+                                    passwordSignUpControler.text);
 
-                          if (!user!.emailVerified) {
-                            await user?.sendEmailVerification();
+                           // kullanıcı bilgileri ile addNewDoctor metodu çağırılacak
+                         await Provider.of<DocLgAndSgVievModel>(context,
+                                    listen: false)
+                                .addNewDoctor(
+                              id: user?.uid,
+                              email: emailSignUpControler.text,
+                              role: "doctor"
+                            );
+                         await context.read<DocLgAndSgVievModel>().addNewDoctor(
+                              id: user?.uid,
+                              email: emailSignUpControler.text,
+                              role: "doctor"
+                          );
+
+                            if (!user!.emailVerified) {
+                              await user?.sendEmailVerification();
+                            }
+
+                            await _showMyDialog();
+                            await Provider.of<Authentication>(context,
+                                    listen: false)
+                                .signOut();
+
+                            setState(() {
+                              print("çalıştı numerator");
+                              widget.formValidi = FormValidi.login;
+                            });
                           }
-
-                          await _showMyDialog();
-                          await Provider.of<Authentication>(context, listen: false)
-                              .signOut();
-
-                          setState(() {
-                            widget.formValidi = FormValidi.login;
-                          });
-                        }}on FirebaseAuthException catch(e){
-                        print(e.message);
-                        _showMyErrorDialog(e.message);
-                      }
-
-                    },
-                    svgPath: 'assets/icons/login.svg',
-                    textColor: Colors.black,
-                    SizedBoxRange: 40.0,
-                  ),
-                  SizedBox(height: 26.0),
-                  InkWell(
-                    onTap: () {
-                      // "Üyeliğiniz yok mu? Kayıt olmak için tıklayın..." metni tıklandığında yapılacak işlemler buraya yazılır.
-                      setState(() {
-                        widget.formValidi = FormValidi.login;
-                      });
-                    },
-                    child: Text(
-                      "Üye misiniz? Giriş yapmak için tıklayın...",
-                      style: TextStyle(
-                        color: Colors.black,
-                        decoration: TextDecoration.underline,
-                        fontSize: 14,
+                        } on FirebaseAuthException catch (e) {
+                          print(e.message);
+                          _showMyErrorDialog(e.message);
+                        }
+                      },
+                      svgPath: 'assets/icons/login.svg',
+                      textColor: Colors.black,
+                      SizedBoxRange: 40.0,
+                    ),
+                    SizedBox(height: 26.0),
+                    InkWell(
+                      onTap: () {
+                        // "Üyeliğiniz yok mu? Kayıt olmak için tıklayın..." metni tıklandığında yapılacak işlemler buraya yazılır.
+                        setState(() {
+                          widget.formValidi = FormValidi.login;
+                        });
+                      },
+                      child: Text(
+                        "Üye misiniz? Giriş yapmak için tıklayın...",
+                        style: TextStyle(
+                          color: Colors.black,
+                          decoration: TextDecoration.underline,
+                          fontSize: 14,
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
@@ -421,8 +451,7 @@ class _DoctorLoginAndSignupState extends State<DoctorLoginAndSignup> {
                       // If the form is valid, display a snackbar. In the real world,
                       // you'd often call a server or save the information in a database.
 
-                      await Provider.of<Authentication>(context,
-                          listen: false)
+                      await Provider.of<Authentication>(context, listen: false)
                           .sendPasswordResetEmail(emailResetControler.text);
                       await _showMyResetDialog();
 
@@ -468,6 +497,7 @@ class _DoctorLoginAndSignupState extends State<DoctorLoginAndSignup> {
       },
     );
   }
+
   Future<void> _showMyResetDialog() async {
     return showDialog<void>(
       context: context,
@@ -478,7 +508,8 @@ class _DoctorLoginAndSignupState extends State<DoctorLoginAndSignup> {
           content: const SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
-                Text('Merhaba, e-postanıza bir şifre yenileme linki gönderildi.'),
+                Text(
+                    'Merhaba, e-postanıza bir şifre yenileme linki gönderildi.'),
                 Text(
                     'Şifre yenileme linkine tıklayarak şifrenizi yenileyebilirsiniz.'),
               ],
@@ -496,13 +527,12 @@ class _DoctorLoginAndSignupState extends State<DoctorLoginAndSignup> {
       },
     );
   }
+
   Future<void> _showMyErrorDialog(String? errore) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
-
-
         // String getTurkishErrorMessage(String errorCode) {
         //   switch (errorCode) {
         //     case 'wrong-password':
@@ -515,9 +545,8 @@ class _DoctorLoginAndSignupState extends State<DoctorLoginAndSignup> {
         //   }
         // }
 
-
         return AlertDialog(
-          title:  Text('Hata !'),
+          title: Text('Hata !'),
           content: SingleChildScrollView(
             child: Text(errore!),
           ),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../../services/authentication.dart';
 import '../widgets/myCustomButton.dart';
 
 enum FormValidInfo {doctorInfo,patientInfo}
@@ -61,7 +63,12 @@ class _InformationRecordState extends State<InformationRecord> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Doktor Profili Oluşturma Sayfası"),
-      ),
+          actions: [
+            IconButton(onPressed: () async {
+              await Provider.of<Authentication>(context,listen: false).signOut();
+            }, icon: Icon(Icons.exit_to_app))
+          ]),
+
       body: SingleChildScrollView(
         child: Center(
           child: Padding(
