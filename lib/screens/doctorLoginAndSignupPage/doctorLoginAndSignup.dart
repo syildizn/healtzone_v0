@@ -347,11 +347,11 @@ class _DoctorLoginAndSignupState extends State<DoctorLoginAndSignup> {
                               email: emailSignUpControler.text,
                               role: "doctor"
                             );
-                         await context.read<DocLgAndSgVievModel>().addNewDoctor(
-                              id: user?.uid,
-                              email: emailSignUpControler.text,
-                              role: "doctor"
-                          );
+                         // await context.read<DocLgAndSgVievModel>().addNewDoctor(
+                         //      id: user?.uid,
+                         //      email: emailSignUpControler.text,
+                         //      role: "doctor"
+                         //  );
 
                             if (!user!.emailVerified) {
                               await user?.sendEmailVerification();

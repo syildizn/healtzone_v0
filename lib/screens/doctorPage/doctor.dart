@@ -142,9 +142,9 @@ class _DoctorState extends State<Doctor> {
                                   ),
                                   child: Card(
                                     child: ListTile(
-                                      title: Text(" department"),//Text(data["department"]),
+                                      title: Text(" department: ${currentDoctor?.department}"),//Text(data["department"]),
                                       subtitle: Text(
-                                          "Adı: ${currentDoctor.name} No: }"),//Text("Adı: ${data["name"]} No: ${data["no"]}"),
+                                          "Adı: ${currentDoctor.name} No:${currentDoctor.graduationYear }"),//Text("Adı: ${data["name"]} No: ${data["no"]}"),
                                     ),//${currentDoctor.graduationYear ${currentDoctor?.department}
                                   ),
                                 );
