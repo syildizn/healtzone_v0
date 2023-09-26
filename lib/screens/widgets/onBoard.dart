@@ -96,7 +96,7 @@ class _OnBoardState extends State<OnBoard> {
                                   ]),
                                   body: Center(
                                       child: CircularProgressIndicator()));
-                              ; // Bu bir örnek. Böyle bir ekranınızın olup olmadığını kontrol edin.
+                               // Bu bir örnek. Böyle bir ekranınızın olup olmadığını kontrol edin.
                             }
                           }
                           return Scaffold(

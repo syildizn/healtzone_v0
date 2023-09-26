@@ -5,8 +5,8 @@ import 'package:provider/provider.dart';
 
 class DocLgAndSgVievModel extends ChangeNotifier{
  Database database = Database();
- String collectionPath = 'doctors';
-
+ String collectionPathDoctor = 'doctors';
+ String collectionPathPatient = 'patients';
  Future<void> addNewDoctor({String? id, String? role, String? email}) async {
    // kayıt kısmından aldığı id ve role ile bir doctor objesi oluşturacak
 
@@ -29,7 +29,7 @@ class DocLgAndSgVievModel extends ChangeNotifier{
 
 
    // bu doctor bilgisini database servisi üzerinden Firestore'a yazacak
-   await database.setDoctorData(collectionPath, newDoctor.toJson());
+   await database.setDoctorData(collectionPathDoctor, newDoctor.toJson());
  }
 
 }
