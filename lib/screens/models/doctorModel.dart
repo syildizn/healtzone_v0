@@ -15,38 +15,37 @@ class DoctorModel extends Equatable {
   final String? university;
   final String? role;
 
-  DoctorModel({
-    this.id,
-    this.address,
-    this.companyName,
-    this.completedProfile,
-    this.department,
-    this.email,
-    this.name,
-    this.graduationYear,
-    this.phone,
-    this.verified,
-    this.title,
-    this.university,
-    this.role
-  });
+  DoctorModel(
+      {this.id,
+      this.address,
+      this.companyName,
+      this.completedProfile,
+      this.department,
+      this.email,
+      this.name,
+      this.graduationYear,
+      this.phone,
+      this.verified,
+      this.title,
+      this.university,
+      this.role});
 
   @override
   List<Object?> get props => [
-    id,
-    address,
-    companyName,
-    completedProfile,
-    department,
-    email,
-    name,
-    graduationYear,
-    phone,
-    verified,
-    title,
-    university,
-    role
-  ];
+        id,
+        address,
+        companyName,
+        completedProfile,
+        department,
+        email,
+        name,
+        graduationYear,
+        phone,
+        verified,
+        title,
+        university,
+        role
+      ];
 
   DoctorModel copyWith({
     String? id,
