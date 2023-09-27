@@ -13,7 +13,7 @@ class DocLgAndSgVievModel extends ChangeNotifier{
 
    DoctorModel newDoctor = DoctorModel(
      id: id,
-     role: role,
+
      university: null,
      title: null,
      address: null,
@@ -30,6 +30,7 @@ class DocLgAndSgVievModel extends ChangeNotifier{
 
    // bu doctor bilgisini database servisi üzerinden Firestore'a yazacak
    await database.setDoctorData(collectionPathDoctor, newDoctor.toJson());
+
  }
 
 }

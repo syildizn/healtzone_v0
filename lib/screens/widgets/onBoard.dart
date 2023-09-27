@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:healtzone_v0/screens/loginPage.dart';
+import 'package:healtzone_v0/screens/loginPage/loginPage.dart';
 import 'package:healtzone_v0/screens/models/doctorModel.dart';
 import 'package:healtzone_v0/screens/publications.dart';
 import 'package:healtzone_v0/services/authentication.dart';
@@ -18,28 +18,6 @@ class OnBoard extends StatefulWidget {
   @override
   State<OnBoard> createState() => _OnBoardState();
 }
-
-// class _OnBoardState extends State<OnBoard> {
-//   //final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     final authen = Provider.of<Authentication>(context, listen: false);
-//
-//     return StreamBuilder<User?>(
-//         stream: authen.authenStatus(),
-//         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-//
-//           if(snapshot.connectionState == ConnectionState.active){
-//             return snapshot.data != null?PublicationsScreen():LoginPage();
-//           }else{
-//             return SizedBox(height: 300,width: 300,child: CircularProgressIndicator(),);
-//           }
-//
-//
-//         });
-//   }
-// }
 
 class _OnBoardState extends State<OnBoard> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -66,45 +44,53 @@ class _OnBoardState extends State<OnBoard> {
                     // Kullanıcı bir doktor.
                     return profileCheck(doctorSnapshot,
                         FormValidInfo.doctorInfo, PublicationsScreen());
-                  } else {
+                  } else if (!doctorSnapshot.data!.exists){
                     // Kullanıcı bir hasta olabilir. Hasta koleksiyonundan kontrol edelim.
-                    return StreamBuilder<DocumentSnapshot>(
-                        stream: _firestore
-                            .collection('patients')
-                            .doc(user.uid)
-                            .snapshots(),
-                        builder: (context, patientSnapshot) {
-                          if (patientSnapshot.hasData) {
-                            if (patientSnapshot.data!.exists) {
-                              // Kullanıcı bir hasta.
-                              return profileCheck(
-                                  patientSnapshot,
-                                  FormValidInfo.patientInfo,
-                                  PublicationsScreen());
-                            } else {
-                              // Kullanıcı ne doktor ne de hasta koleksiyonlarında. Bir hata döndürebilirsiniz.
-                              return Scaffold(
-                                  appBar: AppBar(actions: [
-                                    IconButton(
-                                        onPressed: () async {
-                                          await Provider.of<Authentication>(
-                                                  context,
-                                                  listen: false)
-                                              .signOut();
-                                        },
-                                        icon: Icon(Icons.exit_to_app))
-                                  ]),
-                                  body: Center(
-                                      child: CircularProgressIndicator()));
-                               // Bu bir örnek. Böyle bir ekranınızın olup olmadığını kontrol edin.
-                            }
-                          }
-                          return Scaffold(
-                              body: Center(child: CircularProgressIndicator()));
-                        });
+                      return PublicationsScreen();
+
+
+                    // return StreamBuilder<DocumentSnapshot>(
+                    //     stream: _firestore
+                    //         .collection('patients')
+                    //         .doc(user.uid)
+                    //         .snapshots(),
+                    //     builder: (context, patientSnapshot) {
+                    //       if (patientSnapshot.hasData) {
+                    //         if (patientSnapshot.data!.exists) {
+                    //           // Kullanıcı bir hasta.
+                    //           return profileCheck(
+                    //               patientSnapshot,
+                    //               FormValidInfo.patientInfo,
+                    //               PublicationsScreen());
+                    //         } else {
+                    //           // Kullanıcı ne doktor ne de hasta koleksiyonlarında. Bir hata döndürebilirsiniz.
+                    //           return Scaffold(
+                    //               appBar: AppBar(actions: [
+                    //                 IconButton(
+                    //                     onPressed: () async {
+                    //                       await Provider.of<Authentication>(
+                    //                               context,
+                    //                               listen: false)
+                    //                           .signOut();
+                    //                     },
+                    //                     icon: Icon(Icons.exit_to_app))
+                    //               ]),
+                    //               body: Center(
+                    //                   child: CircularProgressIndicator()));
+                    //            // Bu bir örnek. Böyle bir ekranınızın olup olmadığını kontrol edin.
+                    //         }
+                    //       }
+                    //       return Scaffold(
+                    //           body: Center(child: CircularProgressIndicator()));
+                    //     });
                   }
                 }
                 return Scaffold(
+                  appBar: AppBar(actions: [
+                    IconButton(onPressed: () async {
+                      await Provider.of<Authentication>(context,listen: false).signOut();
+                    }, icon: Icon(Icons.exit_to_app))
+                  ]),
                     body: Center(child: CircularProgressIndicator()));
               },
             );

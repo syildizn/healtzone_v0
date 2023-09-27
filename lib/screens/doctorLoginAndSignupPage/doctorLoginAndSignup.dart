@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +26,7 @@ class DoctorLoginAndSignup extends StatefulWidget {
 class _DoctorLoginAndSignupState extends State<DoctorLoginAndSignup> {
   bool _isObscure = true;
 
+
   FormValidi? formValid = FormValidi.login;
 
   @override
@@ -51,151 +53,167 @@ class _DoctorLoginAndSignupState extends State<DoctorLoginAndSignup> {
 
     final loginFormKey = GlobalKey<FormState>();
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Doktor Girişi"),
-      ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(26.0),
-          child: Form(
-            key: loginFormKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                TextFormField(
-                  controller: emailLoginControler,
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.email_sharp),
-                    prefixIconColor: Colors.amber,
-                    labelText: "E-posta",
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
+    return ChangeNotifierProvider<DocLgAndSgVievModel>(
+      create: (_) => DocLgAndSgVievModel(),
+        builder: (context, _) => Scaffold(
+        appBar: AppBar(
+          title: Text("Doktor Girişi"),
+        ),
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(26.0),
+            child: Form(
+              key: loginFormKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  TextFormField(
+                    controller: emailLoginControler,
+                    keyboardType: TextInputType.emailAddress,
+                    decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.email_sharp),
+                      prefixIconColor: Colors.amber,
+                      labelText: "E-posta",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
                     ),
+                    validator: (value) {
+                      if (!EmailValidator.validate(value!)) {
+                        return 'Lütfen geçerli bir e-posta adresi girin';
+                      }
+                      return null;
+                    },
                   ),
-                  validator: (value) {
-                    if (!EmailValidator.validate(value!)) {
-                      return 'Lütfen geçerli bir e-posta adresi girin';
-                    }
-                    return null;
-                  },
-                ),
-                SizedBox(height: 16.0),
-                StatefulBuilder(
-                  //burada statefulBuilder kullanıldı çünkü şifreyi gizleyip açarken tüm ekranın state'i değil de sadece şifre ksımının state bilgisi yeniden boyansın diye
-                  builder: (BuildContext context, StateSetter setState) {
-                    return TextFormField(
-                      controller: passwordLoginControler,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Lütfen şifrenizi girin';
-                        }
-                        return null;
-                      },
-                      decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.lock),
-                        prefixIconColor: Colors.amber,
-                        labelText: "Şifre",
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20)),
-                        suffixIcon: GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              _isObscure = !_isObscure;
-                            });
-                          },
-                          child: Icon(
-                            _isObscure
-                                ? Icons.visibility
-                                : Icons.visibility_off,
+                  SizedBox(height: 16.0),
+                  StatefulBuilder(
+                    //burada statefulBuilder kullanıldı çünkü şifreyi gizleyip açarken tüm ekranın state'i değil de sadece şifre ksımının state bilgisi yeniden boyansın diye
+                    builder: (BuildContext context, StateSetter setState) {
+                      return TextFormField(
+                        controller: passwordLoginControler,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Lütfen şifrenizi girin';
+                          }
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                          prefixIcon: Icon(Icons.lock),
+                          prefixIconColor: Colors.amber,
+                          labelText: "Şifre",
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20)),
+                          suffixIcon: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                _isObscure = !_isObscure;
+                              });
+                            },
+                            child: Icon(
+                              _isObscure
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                            ),
                           ),
                         ),
-                      ),
-                      obscureText: _isObscure,
-                    );
-                  },
-                ),
-                SizedBox(height: 24.0),
-                MyCustomButton(
-                  SizedBoxRange: 38.0,
-                  text: 'Giriş Yap',
-                  backgroundColor: Colors.amberAccent,
-                  onPressed: () async {
-                    // E-posta ve şifre doğrulamasını yapma işlemi burada gerçekleşir.
-                    // Eğer doğrulama başarılı ise ilgili işlemler yapılır, aksi halde hata gösterilir.
+                        obscureText: _isObscure,
+                      );
+                    },
+                  ),
+                  SizedBox(height: 24.0),
+                  MyCustomButton(
+                    SizedBoxRange: 38.0,
+                    text: 'Giriş Yap',
+                    backgroundColor: Colors.amberAccent,
+                    onPressed: () async {
+                      // E-posta ve şifre doğrulamasını yapma işlemi burada gerçekleşir.
+                      // Eğer doğrulama başarılı ise ilgili işlemler yapılır, aksi halde hata gösterilir.
 
-                    try {
-                      if (loginFormKey.currentState!.validate()) {
-                        // If the form is valid, display a snackbar. In the real world,
-                        // you'd often call a server or save the information in a database.
+                      try {
+                        if (loginFormKey.currentState!.validate()) {
+                          // If the form is valid, display a snackbar. In the real world,
+                          // you'd often call a server or save the information in a database.
 
-                        final user = await Provider.of<Authentication>(context,
-                                listen: false)
-                            .signInWithEmailAndPassword(
-                                emailLoginControler.text,
-                                passwordLoginControler.text);
-
-                        if (!user!.emailVerified) {
-                          await _showMyDialog();
-                          await Provider.of<Authentication>(context,
+                          final user = await Provider.of<Authentication>(context,
                                   listen: false)
-                              .signOut();
+                              .signInWithEmailAndPassword(
+                                  emailLoginControler.text,
+                                  passwordLoginControler.text);
+
+                          final viewModel =  Provider.of<DocLgAndSgVievModel>(context, listen: false);
+
+                          if (!user!.emailVerified) {
+                            await _showMyDialog();
+                            await Provider.of<Authentication>(context,
+                                    listen: false)
+                                .signOut();
+                          }
+
+                          final bool? doctorCheck = await checkDoctor(user,viewModel);
+
+                          if(doctorCheck == false){
+                            await _showMyDoctorDialog();
+                            await Provider.of<Authentication>(context,
+                                listen: false)
+                                .signOut();
+                          }
+
+
+
+                          //ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Navigator çalışıyor!')));
+
+                          Navigator.pop(context);
+                          //Navigator.pushReplacementNamed(context, OnBoard.routeName);
+                          // ScaffoldMessenger.of(context).showSnackBar(
+                          //   const SnackBar(
+                          //       content: Text('Giriş Yapılıyor'),
+                          //       backgroundColor: Colors.amber),
+                          // );
                         }
-
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Navigator çalışıyor!')));
-
-                        //Navigator.pop(context);
-                        Navigator.pushReplacementNamed(context, OnBoard.routeName);
-                        // ScaffoldMessenger.of(context).showSnackBar(
-                        //   const SnackBar(
-                        //       content: Text('Giriş Yapılıyor'),
-                        //       backgroundColor: Colors.amber),
-                        // );
+                      } on FirebaseAuthException catch (e) {
+                        print(e.message);
+                        _showMyErrorDialog(e.message);
                       }
-                    } on FirebaseAuthException catch (e) {
-                      print(e.message);
-                      _showMyErrorDialog(e.message);
-                    }
-                  },
-                  svgPath: 'assets/icons/login.svg',
-                  textColor: Colors.black,
-                ),
-                SizedBox(height: 26.0),
-                InkWell(
-                  onTap: () {
-                    // "Üyeliğiniz yok mu? Kayıt olmak için tıklayın..." metni tıklandığında yapılacak işlemler buraya yazılır.
-                    setState(() {
-                      widget.formValidi = FormValidi.signup;
-                    });
-                  },
-                  child: Text(
-                    "Üyeliğiniz yok mu? Kayıt olmak için tıklayın...",
-                    style: TextStyle(
-                      color: Colors.black,
-                      decoration: TextDecoration.underline,
-                      fontSize: 14,
+                    },
+                    svgPath: 'assets/icons/login.svg',
+                    textColor: Colors.black,
+                  ),
+                  SizedBox(height: 26.0),
+                  InkWell(
+                    onTap: () {
+                      // "Üyeliğiniz yok mu? Kayıt olmak için tıklayın..." metni tıklandığında yapılacak işlemler buraya yazılır.
+                      setState(() {
+                        widget.formValidi = FormValidi.signup;
+                      });
+                    },
+                    child: Text(
+                      "Üyeliğiniz yok mu? Kayıt olmak için tıklayın...",
+                      style: TextStyle(
+                        color: Colors.black,
+                        decoration: TextDecoration.underline,
+                        fontSize: 14,
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(height: 26.0),
-                InkWell(
-                  onTap: () {
-                    //
-                    setState(() {
-                      widget.formValidi = FormValidi.reset;
-                    });
-                  },
-                  child: Text(
-                    "Şifrenizi unuttunuz mu? Yenilemek için tıklayın...",
-                    style: TextStyle(
-                      color: Colors.black,
-                      decoration: TextDecoration.underline,
-                      fontSize: 14,
+                  SizedBox(height: 26.0),
+                  InkWell(
+                    onTap: () {
+                      //
+                      setState(() {
+                        widget.formValidi = FormValidi.reset;
+                      });
+                    },
+                    child: Text(
+                      "Şifrenizi unuttunuz mu? Yenilemek için tıklayın...",
+                      style: TextStyle(
+                        color: Colors.black,
+                        decoration: TextDecoration.underline,
+                        fontSize: 14,
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -345,7 +363,7 @@ class _DoctorLoginAndSignupState extends State<DoctorLoginAndSignup> {
                                 .addNewDoctor(
                               id: user?.uid,
                               email: emailSignUpControler.text,
-                              role: "doctor"
+
                             );
                          // await context.read<DocLgAndSgVievModel>().addNewDoctor(
                          //      id: user?.uid,
@@ -562,4 +580,67 @@ class _DoctorLoginAndSignupState extends State<DoctorLoginAndSignup> {
       },
     );
   }
+
+  Future<bool?> checkDoctor(User user, DocLgAndSgVievModel viewModel) async {
+    if (user != null) {
+      final doctorRef = viewModel.database?.firestore?.collection('doctors').doc(user.uid);
+      final snapshot = await doctorRef?.get();
+
+      if (snapshot != null && snapshot.exists) {
+        // Kullanıcı bir doktor.
+        print("User is a doctor");
+        return true;
+      } else {
+        // Kullanıcı bir doktor değil. Hata mesajı göster ve signOut yap.
+        // TODO: Sign out user and show error message.
+        print("User is not a doctor");
+        return false;
+      }
+    }
+  }
+
+  Future<void> _showMyDoctorDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Hatalı Giriş.'),
+          content: const SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('Merhaba, siz bir doktor değilsiniz.'),
+                Text(
+                    'Lütfen normal kullanıcı giriş kısmını kullanın.'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Anladım'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+// void checkDoctor(User user) async {
+  //   if (user != null) {
+  //     // Kullanıcı giriş yapmış. Hangi role sahip olduğunu kontrol edelim.
+  //     return StreamBuilder<DocumentSnapshot>(
+  //         stream:await Provider.of<DocLgAndSgVievModel>(context,
+  //         listen: false).database?.firestore?.collection('doctors').doc(user.uid).snapshots(),
+  //   builder: (context, doctorSnapshot) {
+  //   if (doctorSnapshot.hasData) {
+  //   if (doctorSnapshot.data!.exists) {
+  //   // Kullanıcı bir doktor.
+  //   return Text("a");
+  //   }}});}else{
+  //
+  //   }
+  // }
 }

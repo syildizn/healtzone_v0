@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:healtzone_v0/routes.dart';
-import 'package:healtzone_v0/screens/loginPage.dart';
+import 'package:healtzone_v0/screens/loginPage/loginPage.dart';
 import 'package:healtzone_v0/screens/publications.dart';
 import 'package:healtzone_v0/screens/widgets/onBoard.dart';
 import 'package:healtzone_v0/services/authentication.dart';

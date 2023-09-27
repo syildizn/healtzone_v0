@@ -344,7 +344,6 @@ class _InformationRecordState extends State<InformationRecord> {
                                     listen: false)
                                 .doctorUpdate(
                                     id: widget.snapshot?.data?["id"],
-                                    role: widget.snapshot?.data?["role"],
                                     email: widget.snapshot?.data?["email"],
                                     university: universitySignUpControler.text,
                                     title: titleSignUpControler.text,

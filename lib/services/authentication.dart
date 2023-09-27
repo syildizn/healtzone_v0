@@ -61,7 +61,7 @@ class Authentication{
 
       // Once signed in, return the UserCredential
       UserCredential userCredential = await firebaseAuthen.signInWithCredential(credential);
-      userLogin = userCredential.user as UserCredential?;
+      //userLogin = userCredential.user as UserCredential?;
       return userCredential.user;
     }else{return null;}
 

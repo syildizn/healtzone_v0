@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:healtzone_v0/screens/doctorLoginAndSignupPage/doctorLoginAndSignup.dart';
 import 'package:healtzone_v0/screens/doctorPage/doctor.dart';
-import 'package:healtzone_v0/screens/emailLoginPage.dart';
+import 'package:healtzone_v0/screens/patientEmailLoginSignupPage/emailLoginPage.dart';
 import 'package:healtzone_v0/screens/informationRecordPage/informationRecord.dart';
-import 'package:healtzone_v0/screens/loginPage.dart';
+import 'package:healtzone_v0/screens/loginPage/loginPage.dart';
 import 'package:healtzone_v0/screens/offers.dart';
 import 'package:healtzone_v0/screens/publications.dart';
 import 'package:healtzone_v0/screens/waitingPage.dart';

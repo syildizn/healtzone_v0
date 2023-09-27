@@ -16,11 +16,11 @@ class InfRecVievModel extends ChangeNotifier {
       String? university,
       String? graduationYear,
       String? id,
-      String? role,
+
       String? email}) async {
 
     DoctorModel updateDoctor = DoctorModel(
-      role: role,
+
       id: id,
       email: email,
       phone: phone,

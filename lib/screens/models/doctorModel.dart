@@ -13,7 +13,7 @@ class DoctorModel extends Equatable {
   final bool? verified;
   final String? title;
   final String? university;
-  final String? role;
+
 
   DoctorModel(
       {this.id,
@@ -27,8 +27,8 @@ class DoctorModel extends Equatable {
       this.phone,
       this.verified,
       this.title,
-      this.university,
-      this.role});
+      this.university
+      });
 
   @override
   List<Object?> get props => [
@@ -43,8 +43,8 @@ class DoctorModel extends Equatable {
         phone,
         verified,
         title,
-        university,
-        role
+        university
+
       ];
 
   DoctorModel copyWith({
@@ -60,7 +60,7 @@ class DoctorModel extends Equatable {
     bool? verified,
     String? title,
     String? university,
-    String? role,
+
   }) {
     return DoctorModel(
       id: id ?? this.id,
@@ -75,7 +75,7 @@ class DoctorModel extends Equatable {
       verified: verified ?? this.verified,
       title: title ?? this.title,
       university: university ?? this.university,
-      role: role ?? this.role,
+
     );
   }
 
@@ -93,7 +93,7 @@ class DoctorModel extends Equatable {
       'verified': verified,
       'title': title,
       'university': university,
-      'role': role,
+
     };
   }
 
@@ -111,7 +111,7 @@ class DoctorModel extends Equatable {
       verified: json['verified'] as bool?,
       title: json['title'] as String?,
       university: json['university'] as String?,
-      role: json['role'] as String?,
+
     );
   }
 }

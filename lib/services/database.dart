@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:healtzone_v0/screens/models/doctorModel.dart';
+import 'package:healtzone_v0/screens/models/patientProfile.dart';
 
 class Database {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -33,5 +34,21 @@ class Database {
         .collection(collectionPath)
         .doc(DoctorModel.fromJson(doctorUpAsMap).id)
         .update(doctorUpAsMap);
+  }
+
+  Future<void> setPatientData(//firestore'a ilk kayıt sırasında doctor koleksiyonunda kullanıcı oluşturma
+      String collectionPath, Map<String, dynamic> patientAsMap) async {
+    await firestore
+        .collection(collectionPath)
+        .doc(PatientModel.fromJson(patientAsMap).id)
+        .set(patientAsMap);
+  }
+
+  Future<void> updatePatientData(//firestore'a ilk kayıt sırasında doctor koleksiyonunda kullanıcı oluşturma
+      String collectionPath, Map<String, dynamic> patientUpAsMap) async {
+    await firestore
+        .collection(collectionPath)
+        .doc(PatientModel.fromJson(patientUpAsMap).id)
+        .update(patientUpAsMap);
   }
 }
