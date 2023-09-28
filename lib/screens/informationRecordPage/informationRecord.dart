@@ -333,7 +333,7 @@ class _InformationRecordState extends State<InformationRecord> {
 
                     SizedBox(height: 24.0),
                     MyCustomButton(
-                      text: 'Kayıt Ol',
+                      text: 'Gönder',
                       backgroundColor: Colors.amberAccent,
                       onPressed: () async {
                         print("tuşa ilk defa basıldı try'ın dışında");
@@ -365,7 +365,7 @@ class _InformationRecordState extends State<InformationRecord> {
 
                         // Navigator.pushNamed(context, PublicationsScreen.routeName);
                       },
-                      svgPath: 'assets/icons/login.svg',
+                      svgPath: 'assets/icons/save.svg',
                       textColor: Colors.black,
                       SizedBoxRange: 40.0,
                     ),

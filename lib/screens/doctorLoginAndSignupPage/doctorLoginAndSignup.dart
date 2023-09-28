@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:healtzone_v0/screens/doctorLoginAndSignupPage/doctorLogAndSgViewModel.dart';
 import 'package:healtzone_v0/screens/widgets/myCustomButton.dart';
 import 'package:healtzone_v0/services/authentication.dart';
@@ -26,8 +27,38 @@ class DoctorLoginAndSignup extends StatefulWidget {
 class _DoctorLoginAndSignupState extends State<DoctorLoginAndSignup> {
   bool _isObscure = true;
 
+  bool isLoading = false;
 
   FormValidi? formValid = FormValidi.login;
+
+  Future<void> _signInWithGoogle(DocLgAndSgVievModel viewModel) async {
+
+    try{
+      setState(() {
+      isLoading = true;
+    });
+
+    final User? user =
+    await Provider.of<Authentication>(context, listen: false).signInWithGoogle();
+
+    print("----------------------------------------------beklenen user: ${user?.uid}");
+
+
+    await viewModel.addNewDoctor(id: user?.uid,email: user?.email);
+
+    setState(() {
+      isLoading = false;
+    });
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => OnBoard()),
+      );
+
+    }catch(e){print("hata: $e");}
+
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +86,7 @@ class _DoctorLoginAndSignupState extends State<DoctorLoginAndSignup> {
 
     return ChangeNotifierProvider<DocLgAndSgVievModel>(
       create: (_) => DocLgAndSgVievModel(),
-        builder: (context, _) => Scaffold(
+      builder: (context, _) => Scaffold(
         appBar: AppBar(
           title: Text("Doktor Girişi"),
         ),
@@ -67,6 +98,16 @@ class _DoctorLoginAndSignupState extends State<DoctorLoginAndSignup> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
+                  IconButton(
+                      onPressed: isLoading ? null : (){
+                        final viewModel =  Provider.of<DocLgAndSgVievModel>(context, listen: false);
+                        _signInWithGoogle(viewModel);},
+                      icon: SvgPicture.asset(
+                        "assets/icons/google.svg",
+                        height: 32,
+                        width: 32,
+                      )),
+                  SizedBox(height: 16.0),
                   TextFormField(
                     controller: emailLoginControler,
                     keyboardType: TextInputType.emailAddress,
@@ -134,13 +175,16 @@ class _DoctorLoginAndSignupState extends State<DoctorLoginAndSignup> {
                           // If the form is valid, display a snackbar. In the real world,
                           // you'd often call a server or save the information in a database.
 
-                          final user = await Provider.of<Authentication>(context,
+                          final user = await Provider.of<Authentication>(
+                                  context,
                                   listen: false)
                               .signInWithEmailAndPassword(
                                   emailLoginControler.text,
                                   passwordLoginControler.text);
 
-                          final viewModel =  Provider.of<DocLgAndSgVievModel>(context, listen: false);
+                          final viewModel = Provider.of<DocLgAndSgVievModel>(
+                              context,
+                              listen: false);
 
                           if (!user!.emailVerified) {
                             await _showMyDialog();
@@ -149,16 +193,15 @@ class _DoctorLoginAndSignupState extends State<DoctorLoginAndSignup> {
                                 .signOut();
                           }
 
-                          final bool? doctorCheck = await checkDoctor(user,viewModel);
+                          final bool? doctorCheck =
+                              await checkDoctor(user, viewModel);
 
-                          if(doctorCheck == false){
+                          if (doctorCheck == false) {
                             await _showMyDoctorDialog();
                             await Provider.of<Authentication>(context,
-                                listen: false)
+                                    listen: false)
                                 .signOut();
                           }
-
-
 
                           //ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Navigator çalışıyor!')));
 
@@ -357,19 +400,18 @@ class _DoctorLoginAndSignupState extends State<DoctorLoginAndSignup> {
                                     emailSignUpControler.text,
                                     passwordSignUpControler.text);
 
-                           // kullanıcı bilgileri ile addNewDoctor metodu çağırılacak
-                         await Provider.of<DocLgAndSgVievModel>(context,
+                            // kullanıcı bilgileri ile addNewDoctor metodu çağırılacak
+                            await Provider.of<DocLgAndSgVievModel>(context,
                                     listen: false)
                                 .addNewDoctor(
                               id: user?.uid,
                               email: emailSignUpControler.text,
-
                             );
-                         // await context.read<DocLgAndSgVievModel>().addNewDoctor(
-                         //      id: user?.uid,
-                         //      email: emailSignUpControler.text,
-                         //      role: "doctor"
-                         //  );
+                            // await context.read<DocLgAndSgVievModel>().addNewDoctor(
+                            //      id: user?.uid,
+                            //      email: emailSignUpControler.text,
+                            //      role: "doctor"
+                            //  );
 
                             if (!user!.emailVerified) {
                               await user?.sendEmailVerification();
@@ -583,7 +625,8 @@ class _DoctorLoginAndSignupState extends State<DoctorLoginAndSignup> {
 
   Future<bool?> checkDoctor(User user, DocLgAndSgVievModel viewModel) async {
     if (user != null) {
-      final doctorRef = viewModel.database?.firestore?.collection('doctors').doc(user.uid);
+      final doctorRef =
+          viewModel.database?.firestore?.collection('doctors').doc(user.uid);
       final snapshot = await doctorRef?.get();
 
       if (snapshot != null && snapshot.exists) {
@@ -610,8 +653,7 @@ class _DoctorLoginAndSignupState extends State<DoctorLoginAndSignup> {
             child: ListBody(
               children: <Widget>[
                 Text('Merhaba, siz bir doktor değilsiniz.'),
-                Text(
-                    'Lütfen normal kullanıcı giriş kısmını kullanın.'),
+                Text('Lütfen normal kullanıcı giriş kısmını kullanın.'),
               ],
             ),
           ),

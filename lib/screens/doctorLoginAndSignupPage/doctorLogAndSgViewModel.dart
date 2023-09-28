@@ -10,26 +10,25 @@ class DocLgAndSgVievModel extends ChangeNotifier{
  Future<void> addNewDoctor({String? id, String? role, String? email}) async {
    // kayıt kısmından aldığı id ve role ile bir doctor objesi oluşturacak
 
+   try{DoctorModel newDoctor = DoctorModel(
+       id: id,
 
-   DoctorModel newDoctor = DoctorModel(
-     id: id,
-
-     university: null,
-     title: null,
-     address: null,
-     companyName: null,
-     completedProfile: false,
-     department: null,
-     email: email,
-     graduationYear: null,
-     name: null,
-     phone: null,
-     verified: false
+       university: null,
+       title: null,
+       address: null,
+       companyName: null,
+       completedProfile: false,
+       department: null,
+       email: email,
+       graduationYear: null,
+       name: null,
+       phone: null,
+       verified: false
    );
 
 
    // bu doctor bilgisini database servisi üzerinden Firestore'a yazacak
-   await database.setDoctorData(collectionPathDoctor, newDoctor.toJson());
+   await database.setDoctorData(collectionPathDoctor, newDoctor.toJson());}catch(e){print("hataModel: $e");}
 
  }
 
