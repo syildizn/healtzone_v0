@@ -225,7 +225,7 @@ class _PublicationsScreenState extends State<PublicationsScreen> {
                       child: FloatingActionButton(
                         onPressed: () {
                           // İlan Ver butonuna tıklandığında yapılacak işlemler
-                          ilanver();
+                          //ilanver();
                         },
                         child: Icon(Icons.add),
                         backgroundColor: Colors.blue,
@@ -241,6 +241,49 @@ class _PublicationsScreenState extends State<PublicationsScreen> {
           // Diğer widget'lar buraya eklenebilir
         ],
       ),
+      bottomNavigationBar: BottomAppBar(
+        shape: CircularNotchedRectangle(),
+        notchMargin: 4.0,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            IconButton(
+              icon: Icon(Icons.list),
+              onPressed: () {
+                // TODO: İlanlarım ikonuna tıklandığında yapılacak işlemler
+              },
+            ),
+            IconButton(
+              icon: Icon(Icons.search),
+              onPressed: () {
+                // TODO: Doktor Bul ikonuna tıklandığında yapılacak işlemler
+              },
+            ),
+            SizedBox(),  // Orta boşluk
+            IconButton(
+              icon: Icon(Icons.notifications),
+              onPressed: () {
+                // TODO: Bildirimler ikonuna tıklandığında yapılacak işlemler
+              },
+            ),
+            IconButton(
+              icon: Icon(Icons.person),
+              onPressed: () {
+                // TODO: Profilim ikonuna tıklandığında yapılacak işlemler
+              },
+            ),
+          ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () {
+          // TODO: İlan Ver butonuna tıklandığında yapılacak işlemler
+          //ilanver();
+        },
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+
     );
   }
 
