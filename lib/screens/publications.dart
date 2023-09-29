@@ -203,40 +203,40 @@ class _PublicationsScreenState extends State<PublicationsScreen> {
             ),
           ),
           // sağ alt köşedeki tuş
-          Expanded(
-            flex: 1,
-            child: Align(
-              alignment: Alignment.bottomRight,
-              child: Container(
-                width: 400,
-                height: 300,
-                child: Stack(
-                  children: <Widget>[
-                    Positioned(
-                      bottom: 50,
-                      right: 90,
-                      child: Text('İlan Ver',
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold)),
-                    ),
-                    Positioned(
-                      bottom: 30,
-                      right: 25,
-                      child: FloatingActionButton(
-                        onPressed: () {
-                          // İlan Ver butonuna tıklandığında yapılacak işlemler
-                          //ilanver();
-                        },
-                        child: Icon(Icons.add),
-                        backgroundColor: Colors.blue,
-                        foregroundColor: Colors.white,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
+          // Expanded(
+          //   flex: 1,
+          //   child: Align(
+          //     alignment: Alignment.bottomRight,
+          //     child: Container(
+          //       width: 400,
+          //       height: 300,
+          //       child: Stack(
+          //         children: <Widget>[
+          //           Positioned(
+          //             bottom: 50,
+          //             right: 90,
+          //             child: Text('İlan Ver',
+          //                 style: TextStyle(
+          //                     fontSize: 16, fontWeight: FontWeight.bold)),
+          //           ),
+          //           Positioned(
+          //             bottom: 30,
+          //             right: 25,
+          //             child: FloatingActionButton(
+          //               onPressed: () {
+          //                 // İlan Ver butonuna tıklandığında yapılacak işlemler
+          //                 //ilanver();
+          //               },
+          //               child: Icon(Icons.add),
+          //               backgroundColor: Colors.blue,
+          //               foregroundColor: Colors.white,
+          //             ),
+          //           ),
+          //         ],
+          //       ),
+          //     ),
+          //   ),
+          // ),
 
           // Diğer widget'lar buraya eklenebilir
         ],
@@ -247,30 +247,42 @@ class _PublicationsScreenState extends State<PublicationsScreen> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            IconButton(
-              icon: Icon(Icons.list),
-              onPressed: () {
-                // TODO: İlanlarım ikonuna tıklandığında yapılacak işlemler
-              },
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: IconButton(
+                icon: Icon(Icons.list),
+                onPressed: () {
+                  // TODO: İlanlarım ikonuna tıklandığında yapılacak işlemler
+                },
+              ),
             ),
-            IconButton(
-              icon: Icon(Icons.search),
-              onPressed: () {
-                // TODO: Doktor Bul ikonuna tıklandığında yapılacak işlemler
-              },
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: IconButton(
+                icon: Icon(Icons.search),
+                onPressed: () {
+                  // TODO: Doktor Bul ikonuna tıklandığında yapılacak işlemler
+                },
+              ),
             ),
             SizedBox(),  // Orta boşluk
-            IconButton(
-              icon: Icon(Icons.notifications),
-              onPressed: () {
-                // TODO: Bildirimler ikonuna tıklandığında yapılacak işlemler
-              },
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: IconButton(
+                icon: Icon(Icons.notifications),
+                onPressed: () {
+                  // TODO: Bildirimler ikonuna tıklandığında yapılacak işlemler
+                },
+              ),
             ),
-            IconButton(
-              icon: Icon(Icons.person),
-              onPressed: () {
-                // TODO: Profilim ikonuna tıklandığında yapılacak işlemler
-              },
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: IconButton(
+                icon: Icon(Icons.person),
+                onPressed: () {
+                  // TODO: Profilim ikonuna tıklandığında yapılacak işlemler
+                },
+              ),
             ),
           ],
         ),
