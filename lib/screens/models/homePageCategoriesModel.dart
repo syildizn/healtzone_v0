@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 class CategoryModel {
   final String name;
   final String svgPath; // SVG dosyasının yolu
-  final void Function() onTap;
+  final void Function(BuildContext context) onTap;
 
   CategoryModel({
     required this.name,

@@ -1,4 +1,10 @@
 import 'package:flutter/cupertino.dart';
+import 'package:healtzone_v0/screens/diseases/obstetrics/detailedUltrasoundPage.dart';
+import 'package:healtzone_v0/screens/diseases/obstetrics/genitalAestheticsPage.dart';
+import 'package:healtzone_v0/screens/diseases/obstetrics/inVitroFertilizationPage.dart';
+import 'package:healtzone_v0/screens/diseases/obstetrics/obstetricsPage.dart';
+import 'package:healtzone_v0/screens/diseases/obstetrics/pregnancyAndBirthPage.dart';
+import 'package:healtzone_v0/screens/diseases/obstetrics/surgeriesPage.dart';
 import 'package:healtzone_v0/screens/doctorLoginAndSignupPage/doctorLoginAndSignup.dart';
 import 'package:healtzone_v0/screens/doctorPage/doctor.dart';
 import 'package:healtzone_v0/screens/patientEmailLoginSignupPage/emailLoginPage.dart';
@@ -26,6 +32,14 @@ Map<String,WidgetBuilder> routes = {
  InformationRecord.routeName + "_doctor": (context) => InformationRecord(formValidInfo: FormValidInfo.doctorInfo),
  InformationRecord.routeName + "_patient": (context) => InformationRecord(formValidInfo: FormValidInfo.patientInfo),
  WaitingPage.routeName:(context) => WaitingPage(),
+ //------------
+ DetailedUltrasound.routeName:(context) => DetailedUltrasound(),
+ GenitalAesthetics.routeName:(context) => GenitalAesthetics(),
+ InVitroFertilization.routeName:(context) => InVitroFertilization(),
+ Obstetrics.routeName:(context) => Obstetrics(),
+ PregnancyAndBirth.routeName:(context) => PregnancyAndBirth(),
+ Surgeries.routeName:(context) => Surgeries(),
+
  // EmailLoginPage.routeName:(context) => EmailLoginPage(formValid:FormValid.login ),
  // EmailLoginPage.routeName:(context) => EmailLoginPage(formValid:FormValid.signup ),
  // EmailLoginPage.routeName:(context) => EmailLoginPage(formValid:FormValid.reset ),

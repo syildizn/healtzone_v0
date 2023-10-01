@@ -3,6 +3,7 @@ import 'package:diacritic/diacritic.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:healtzone_v0/screens/diseases/obstetrics/obstetricsPage.dart';
 import 'package:healtzone_v0/screens/doctorPage/doctor.dart';
 import 'package:healtzone_v0/screens/offers.dart';
 import 'package:healtzone_v0/services/authentication.dart';
@@ -29,14 +30,16 @@ class _PublicationsScreenState extends State<PublicationsScreen> {
     CategoryModel(
       name: 'Kadın Doğum',
       svgPath: 'assets/icons/obstetrics.svg', // SVG dosyasının yolu
-      onTap: () {
+      onTap: (BuildContext context) {
+        Navigator.pushNamed(
+            context, Obstetrics.routeName);
         print("tıklandı 1 ");
       },
     ),
     CategoryModel(
       name: 'Diş Doktoru',
       svgPath: 'assets/icons/dentist.svg', // SVG dosyasının yolu
-      onTap: () {
+      onTap: (BuildContext context) {
         print("tıklandı 2 ");
       },
     ),
@@ -176,7 +179,9 @@ class _PublicationsScreenState extends State<PublicationsScreen> {
               itemCount: filteredCategories.length,
               itemBuilder: (context, index) {
                 return GestureDetector(
-                  onTap: filteredCategories[index].onTap,
+                  onTap: () {
+                    filteredCategories[index].onTap(context);
+                  },
                   child: Container(
                     height: 100,
                     padding: EdgeInsets.all(10),
@@ -202,41 +207,6 @@ class _PublicationsScreenState extends State<PublicationsScreen> {
               },
             ),
           ),
-          // sağ alt köşedeki tuş
-          // Expanded(
-          //   flex: 1,
-          //   child: Align(
-          //     alignment: Alignment.bottomRight,
-          //     child: Container(
-          //       width: 400,
-          //       height: 300,
-          //       child: Stack(
-          //         children: <Widget>[
-          //           Positioned(
-          //             bottom: 50,
-          //             right: 90,
-          //             child: Text('İlan Ver',
-          //                 style: TextStyle(
-          //                     fontSize: 16, fontWeight: FontWeight.bold)),
-          //           ),
-          //           Positioned(
-          //             bottom: 30,
-          //             right: 25,
-          //             child: FloatingActionButton(
-          //               onPressed: () {
-          //                 // İlan Ver butonuna tıklandığında yapılacak işlemler
-          //                 //ilanver();
-          //               },
-          //               child: Icon(Icons.add),
-          //               backgroundColor: Colors.blue,
-          //               foregroundColor: Colors.white,
-          //             ),
-          //           ),
-          //         ],
-          //       ),
-          //     ),
-          //   ),
-          // ),
 
           // Diğer widget'lar buraya eklenebilir
         ],
