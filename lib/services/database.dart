@@ -51,4 +51,12 @@ class Database {
         .doc(PatientModel.fromJson(patientUpAsMap).id)
         .update(patientUpAsMap);
   }
+
+  Future<void> setPreAndBirthData(//firestore'a ilk kayıt sırasında doctor koleksiyonunda kullanıcı oluşturma
+      String collectionPath, Map<String, dynamic> preAndBirthAsMap) async {
+    await firestore
+        .collection(collectionPath)
+        .doc(DoctorModel.fromJson(preAndBirthAsMap).id)
+        .set(preAndBirthAsMap);
+  }
 }
