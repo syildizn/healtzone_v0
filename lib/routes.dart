@@ -11,6 +11,7 @@ import 'package:healtzone_v0/screens/patientEmailLoginSignupPage/emailLoginPage.
 import 'package:healtzone_v0/screens/informationRecordPage/informationRecord.dart';
 import 'package:healtzone_v0/screens/loginPage/loginPage.dart';
 import 'package:healtzone_v0/screens/offers.dart';
+import 'package:healtzone_v0/screens/profilPage/profilPage.dart';
 import 'package:healtzone_v0/screens/publications.dart';
 import 'package:healtzone_v0/screens/waitingPage.dart';
 import 'package:healtzone_v0/screens/widgets/onBoard.dart';
@@ -39,6 +40,7 @@ Map<String,WidgetBuilder> routes = {
  Obstetrics.routeName:(context) => Obstetrics(),
  PregnancyAndBirth.routeName:(context) => PregnancyAndBirth(),
  Surgeries.routeName:(context) => Surgeries(),
+ ProfilPage.routeName:(context) => ProfilPage(),
 
  // EmailLoginPage.routeName:(context) => EmailLoginPage(formValid:FormValid.login ),
  // EmailLoginPage.routeName:(context) => EmailLoginPage(formValid:FormValid.signup ),

@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:healtzone_v0/screens/diseases/obstetrics/obstetricsPage.dart';
 import 'package:healtzone_v0/screens/doctorPage/doctor.dart';
 import 'package:healtzone_v0/screens/offers.dart';
+import 'package:healtzone_v0/screens/profilPage/profilPage.dart';
 import 'package:healtzone_v0/services/authentication.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -251,6 +252,9 @@ class _PublicationsScreenState extends State<PublicationsScreen> {
                 icon: Icon(Icons.person),
                 onPressed: () {
                   // TODO: Profilim ikonuna tıklandığında yapılacak işlemler
+                  Navigator.pushNamed(
+                      context, "ProfilPage");
+
                 },
               ),
             ),

@@ -45,7 +45,7 @@ class _OnBoardState extends State<OnBoard> {
                     return profileCheck(doctorSnapshot,
                         FormValidInfo.doctorInfo, PublicationsScreen());
                   } else if (!doctorSnapshot.data!.exists){
-                    // Kullanıcı bir hasta olabilir. Hasta koleksiyonundan kontrol edelim.
+                    // Kullanıcı bir hasta olabilir. Bu durumda direkt hasta anasayfasına yönlendirelim.
                       return PublicationsScreen();
 
 

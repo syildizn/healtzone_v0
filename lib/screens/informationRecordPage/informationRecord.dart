@@ -339,7 +339,7 @@ class _InformationRecordState extends State<InformationRecord> {
                         print("tuşa ilk defa basıldı try'ın dışında");
                         try {
                           if (doctorInfoFormKey.currentState!.validate()) {
-                            // kullanıcı bilgileri ile addNewDoctor metodu çağırılacak
+                            // kullanıcı bilgileri ile doctorUpdate metodu çağırılacak
                             await Provider.of<InfRecVievModel>(context,
                                     listen: false)
                                 .doctorUpdate(
@@ -356,7 +356,7 @@ class _InformationRecordState extends State<InformationRecord> {
                                     name: nameSignUpControler.text,
                                     phone: phoneSignUpControler.text);
                             print(
-                                "tuşa basıldı id: ${widget.snapshot?.data?["id"]} email: ${widget.snapshot?.data?["email"]} role: ${widget.snapshot?.data?["role"]} ");
+                                "tuşa basıldı id: ${widget.snapshot?.data?["id"]} email: ${widget.snapshot?.data?["email"]}  ");
                           }
                         } catch (e) {
                           print(e.toString());
