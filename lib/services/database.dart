@@ -42,7 +42,25 @@ class Database {
         .collection(collectionPath)
         .doc(PatientModel.fromJson(patientAsMap).id)
         .set(patientAsMap);
+
   }
+
+  // Future<DocumentSnapshot?> readPatientData(//firestore'dan kullanıcı bilgilerini alma
+  //     String userUid) async {
+  //   DocumentSnapshot x = await firestore
+  //       .collection("patients")
+  //       .doc("GQTpuuEGmGgoCGQYlsoxU1nhN2K3")
+  //       .get();
+  //   print("aha bu email: ${x['email']}");
+  //   return x;
+  // }
+
+  Future<DocumentSnapshot?> readPatientData(String userUid) async {
+    DocumentSnapshot x = await firestore.collection("patients").doc(userUid).get();
+    print("aha bu email: ${x['email']}");
+    return x;
+  }
+
 
   Future<void> updatePatientData(//firestore'a ilk kayıt sırasında doctor koleksiyonunda kullanıcı oluşturma
       String collectionPath, Map<String, dynamic> patientUpAsMap) async {

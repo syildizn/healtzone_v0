@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:healtzone_v0/screens/loginPage/loginPage.dart';
 import 'package:healtzone_v0/screens/models/doctorModel.dart';
+import 'package:healtzone_v0/screens/profilPage/profilPageViewModel.dart';
 import 'package:healtzone_v0/screens/publications.dart';
 import 'package:healtzone_v0/services/authentication.dart';
 import 'package:provider/provider.dart';
@@ -46,7 +47,9 @@ class _OnBoardState extends State<OnBoard> {
                         FormValidInfo.doctorInfo, PublicationsScreen());
                   } else if (!doctorSnapshot.data!.exists){
                     // Kullanıcı bir hasta olabilir. Bu durumda direkt hasta anasayfasına yönlendirelim.
-                      return PublicationsScreen();
+                    // Aynı zamanda user bilgilerini profil sayfasına gönderelim
+
+                    return PublicationsScreen();
 
 
                     // return StreamBuilder<DocumentSnapshot>(

@@ -5,6 +5,7 @@ class Authentication{
    UserCredential? userLogin;
   final firebaseAuthen = FirebaseAuth.instance;
 
+
   Future<User?> signInAnonymously() async {
     final userCredentials = await firebaseAuthen.signInAnonymously();
     userLogin = userCredentials.user as UserCredential?;

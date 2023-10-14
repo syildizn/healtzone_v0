@@ -411,7 +411,7 @@ class _InformationRecordState extends State<InformationRecord> {
       super.dispose();
     }
 
-    ;
+
 
     return Scaffold(
       appBar: AppBar(

@@ -7,6 +7,7 @@ import 'package:healtzone_v0/screens/diseases/obstetrics/obstetricsPage.dart';
 import 'package:healtzone_v0/screens/doctorPage/doctor.dart';
 import 'package:healtzone_v0/screens/offers.dart';
 import 'package:healtzone_v0/screens/profilPage/profilPage.dart';
+import 'package:healtzone_v0/screens/profilPage/profilPageViewModel.dart';
 import 'package:healtzone_v0/services/authentication.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -64,153 +65,164 @@ class _PublicationsScreenState extends State<PublicationsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("İlanlarım"), actions: [
+      appBar: AppBar(title: Text("İlanlarım"), elevation: 0.0,
+          backgroundColor: Colors.blue.shade400,actions: [
         IconButton(onPressed: () async {
           await Provider.of<Authentication>(context,listen: false).signOut();
         }, icon: Icon(Icons.exit_to_app))
       ]),
-      body: Column(
-        children: <Widget>[
-          Padding(
-              //üstteki üç tuş
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [Colors.blue.shade200, Colors.white],
+          ),
+        ),
+        child: Column(
+          children: <Widget>[
+            Padding(
+                //üstteki üç tuş
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          primary: currentPage == 1 ? Colors.blue : Colors.white,
+                          onPrimary:
+                              currentPage == 1 ? Colors.white : Colors.black,
+                        ),
+                        onPressed: () {
+                          // 360 view butonuna tıklandığında yapılacak işlemler
+                          setState(() {
+                            currentPage = 1;
+                          });
+                          Navigator.pushNamed(
+                              context, PublicationsScreen.routeName);
+                        },
+                        child: Text('İlanlarım'),
+                      ),
+                    ),
+                    Container(width: 2, color: Colors.black),
+                    Expanded(
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          primary: currentPage == 2 ? Colors.blue : Colors.white,
+                          onPrimary:
+                              currentPage == 2 ? Colors.white : Colors.black,
+                        ),
+                        onPressed: () {
+                          // Text butonuna tıklandığında yapılacak işlemler
+                          setState(() {
+                            currentPage = 2;
+                          });
+                          Navigator.pushNamed(context, Doctor.routeName);
+                        },
+                        child: Text('Doktor Bul'),
+                      ),
+                    ),
+                    Container(width: 2, color: Colors.black),
+                    Expanded(
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          primary: currentPage == 3 ? Colors.blue : Colors.white,
+                          onPrimary:
+                              currentPage == 3 ? Colors.white : Colors.black,
+                        ),
+                        onPressed: () {
+                          // Smart Screen butonuna tıklandığında yapılacak işlemler
+                          setState(() {
+                            currentPage = 3;
+                          });
+                          Navigator.pushNamed(context, OffersPage.routeName);
+                        },
+                        child: Text('Teklifler'),
+                      ),
+                    ),
+                  ],
+                )),
+            // aşağısı kategori arama işlemini yapıyor
+            Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        primary: currentPage == 1 ? Colors.blue : Colors.white,
-                        onPrimary:
-                            currentPage == 1 ? Colors.white : Colors.black,
-                      ),
-                      onPressed: () {
-                        // 360 view butonuna tıklandığında yapılacak işlemler
-                        setState(() {
-                          currentPage = 1;
-                        });
-                        Navigator.pushNamed(
-                            context, PublicationsScreen.routeName);
-                      },
-                      child: Text('İlanlarım'),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(30),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 2,
+                      blurRadius: 7,
+                      offset: Offset(0, 3),
                     ),
-                  ),
-                  Container(width: 2, color: Colors.black),
-                  Expanded(
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        primary: currentPage == 2 ? Colors.blue : Colors.white,
-                        onPrimary:
-                            currentPage == 2 ? Colors.white : Colors.black,
-                      ),
-                      onPressed: () {
-                        // Text butonuna tıklandığında yapılacak işlemler
-                        setState(() {
-                          currentPage = 2;
-                        });
-                        Navigator.pushNamed(context, Doctor.routeName);
-                      },
-                      child: Text('Doktor Bul'),
-                    ),
-                  ),
-                  Container(width: 2, color: Colors.black),
-                  Expanded(
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        primary: currentPage == 3 ? Colors.blue : Colors.white,
-                        onPrimary:
-                            currentPage == 3 ? Colors.white : Colors.black,
-                      ),
-                      onPressed: () {
-                        // Smart Screen butonuna tıklandığında yapılacak işlemler
-                        setState(() {
-                          currentPage = 3;
-                        });
-                        Navigator.pushNamed(context, OffersPage.routeName);
-                      },
-                      child: Text('Teklifler'),
-                    ),
-                  ),
-                ],
-              )),
-          // aşağısı kategori arama işlemini yapıyor
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(30),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    spreadRadius: 2,
-                    blurRadius: 7,
-                    offset: Offset(0, 3),
-                  ),
-                ],
-              ),
-              child: TextField(
-                keyboardType: TextInputType.text,
-                inputFormatters: [
-                  FilteringTextInputFormatter.allow(
-                      RegExp(r'[a-zA-ZğüışöçİĞÜŞÖÇ]')),
-                ],
-                controller: searchController,
-                decoration: InputDecoration(
-                  hintText: 'Kategori ara...',
-                  border: InputBorder.none,
-                  contentPadding: EdgeInsets.all(20),
+                  ],
                 ),
-                onChanged: (value) {
-                  setState(() {
-                    filteredCategories = categories
-                        .where((category) => category.name
-                            .toLowerCase()
-                            .contains(value.toLowerCase()))
-                        .toList();
-                  });
+                child: TextField(
+                  keyboardType: TextInputType.text,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(
+                        RegExp(r'[a-zA-ZğüışöçİĞÜŞÖÇ]')),
+                  ],
+                  controller: searchController,
+                  decoration: InputDecoration(
+                    hintText: 'Kategori ara...',
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.all(20),
+                  ),
+                  onChanged: (value) {
+                    setState(() {
+                      filteredCategories = categories
+                          .where((category) => category.name
+                              .toLowerCase()
+                              .contains(value.toLowerCase()))
+                          .toList();
+                    });
+                  },
+                ),
+              ),
+            ),
+
+            // aşağısı kategorileri oluşturan kısım
+            Expanded(
+              flex: 5,
+              child: ListView.builder(
+                itemCount: filteredCategories.length,
+                itemBuilder: (context, index) {
+                  return GestureDetector(
+                    onTap: () {
+                      filteredCategories[index].onTap(context);
+                    },
+                    child: Container(
+                      height: 100,
+                      padding: EdgeInsets.all(10),
+                      margin: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(color: Colors.grey),
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          SvgPicture.asset(
+                            filteredCategories[index].svgPath,
+                            width: 55,
+                            height: 55,
+                          ),
+                          Text(filteredCategories[index].name,
+                              style: TextStyle(fontSize: 22)),
+                        ],
+                      ),
+                    ),
+                  );
                 },
               ),
             ),
-          ),
 
-          // aşağısı kategorileri oluşturan kısım
-          Expanded(
-            flex: 5,
-            child: ListView.builder(
-              itemCount: filteredCategories.length,
-              itemBuilder: (context, index) {
-                return GestureDetector(
-                  onTap: () {
-                    filteredCategories[index].onTap(context);
-                  },
-                  child: Container(
-                    height: 100,
-                    padding: EdgeInsets.all(10),
-                    margin: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey),
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        SvgPicture.asset(
-                          filteredCategories[index].svgPath,
-                          width: 55,
-                          height: 55,
-                        ),
-                        Text(filteredCategories[index].name,
-                            style: TextStyle(fontSize: 22)),
-                      ],
-                    ),
-                  ),
-                );
-              },
-            ),
-          ),
-
-          // Diğer widget'lar buraya eklenebilir
-        ],
+            // Diğer widget'lar buraya eklenebilir
+          ],
+        ),
       ),
       bottomNavigationBar: BottomAppBar(
         shape: CircularNotchedRectangle(),
@@ -252,8 +264,18 @@ class _PublicationsScreenState extends State<PublicationsScreen> {
                 icon: Icon(Icons.person),
                 onPressed: () {
                   // TODO: Profilim ikonuna tıklandığında yapılacak işlemler
-                  Navigator.pushNamed(
-                      context, "ProfilPage");
+                  // Navigator.pushNamed(
+                  //     context, "ProfilPage");
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ChangeNotifierProvider(
+                        create: (context) => ProfilPageViewModel(),
+                        child: ProfilPage(),
+                      ),
+                    ),
+                  );
+
 
                 },
               ),
