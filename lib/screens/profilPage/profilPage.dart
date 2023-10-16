@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:healtzone_v0/screens/editProfile/editPatProfileViewModel.dart';
 import 'package:healtzone_v0/screens/editProfile/editPatientsProfile.dart';
 import 'package:healtzone_v0/screens/profilPage/profilPageViewModel.dart';
 import 'package:healtzone_v0/screens/widgets/myCustomButton.dart';
@@ -15,15 +16,15 @@ class ProfilPage extends StatefulWidget {
 
 class _ProfilPageState extends State<ProfilPage> {
   @override
-  void initState() {
-    super.initState();
-    //getUserData();
-    Provider.of<ProfilPageViewModel>(context, listen: false).getUserData();
-  }
+  // void initState() {
+  //   super.initState();
+  //   //getUserData();
+  //   Provider.of<ProfilPageViewModel>(context, listen: false).listenUserData();
+  // }
 
   @override
   Widget build(BuildContext context) {
-    ProfilPageViewModel viewModel = Provider.of<ProfilPageViewModel>(context);
+    ProfilPageViewModel viewModel = Provider.of<ProfilPageViewModel>(context,listen: false);
     print("aha aradığım mail: ${viewModel.email}");
     return ChangeNotifierProvider<ProfilPageViewModel>(
       create: (_) => ProfilPageViewModel(),
@@ -33,59 +34,83 @@ class _ProfilPageState extends State<ProfilPage> {
           backgroundColor: Colors.blue.shade400,
           title: Text("Profil Sayfası"),
         ),
-        body: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [Colors.blue.shade200, Colors.white],
-            ),
-          ),
-          child: Column(
-            children: [
-              SizedBox(height: 20),
-              CircleAvatar(
-                radius: 50,
-                backgroundImage: AssetImage(
-                    'assets/images/anonym.png'), // Kullanıcı avatarı için buraya resim yolu ekleyin.
-              ),
-              SizedBox(height: 20),
-              Card(
-                margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      profilBilgisi("İsim Soyisim:", viewModel.isimSoyisim),
-                      Divider(),
-                      profilBilgisi("Yaş:", viewModel.yas.toString()),
-                      Divider(),
-                      profilBilgisi("Telefon:", viewModel.telefon),
-                      Divider(),
-                      profilBilgisi("Adres:", viewModel.adres),
-                      Divider(),
-                      profilBilgisi("Şehir:", viewModel.sehir),
-                      Divider(),
-                      profilBilgisi("Email:", viewModel.email),
-                      Divider(),
-                      profilBilgisi("Cinsiyet:", viewModel.cinsiyet),
-                    ],
-                  ),
+        body: StreamBuilder<DocumentSnapshot>(
+          stream: viewModel.listenUserData(),
+          builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: CircularProgressIndicator());
+            }
+
+            if (!snapshot.hasData || snapshot.data == null) {
+              return Center(child: Text('Bilgi bulunamadı'));
+            }
+
+            var document = snapshot.data!;
+
+            return Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [Colors.blue.shade200, Colors.white],
                 ),
               ),
-              SizedBox(height: 20),
-              MyCustomButton(
-                  text: "Profili Düzenle",
-                  backgroundColor: Colors.white,
-                  onPressed: () {
-                    Navigator.pushNamed(context, EditPatientsProfile.routeName);
-                  },
-                  svgPath: 'assets/icons/edittwo.svg',
-                  textColor: Colors.black,
-                  SizedBoxRange: 32)
-            ],
-          ),
+              child: Column(
+                children: [
+                  SizedBox(height: 20),
+                  CircleAvatar(
+                    radius: 50,
+                    backgroundImage: AssetImage(
+                        'assets/images/anonym.png'), // Kullanıcı avatarı için buraya resim yolu ekleyin.
+                  ),
+                  SizedBox(height: 20),
+                  Card(
+                    margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          profilBilgisi("İsim Soyisim:", document['name']),
+                          Divider(),
+                          profilBilgisi("Yaş:", document['age'].toString()),
+                          Divider(),
+                          profilBilgisi("Telefon:", document['phone']),
+                          Divider(),
+                          profilBilgisi("Adres:", document['address']),
+                          Divider(),
+                          profilBilgisi("Şehir:", document['city']),
+                          Divider(),
+                          profilBilgisi("Email:", document['email']),
+                          Divider(),
+                          profilBilgisi("Cinsiyet:", document['sex']),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  MyCustomButton(
+                      text: "Profili Düzenle",
+                      backgroundColor: Colors.white,
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ChangeNotifierProvider(
+                              create: (context) => EditPatientsProfilViewModel(),
+                              child: EditPatientsProfile(),
+                            ),
+                          ),
+                        );
+
+                      },
+                      svgPath: 'assets/icons/edittwo.svg',
+                      textColor: Colors.black,
+                      SizedBoxRange: 32)
+                ],
+              ),
+            );
+          }
         ),
       ),
     );

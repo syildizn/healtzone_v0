@@ -61,11 +61,16 @@ class Database {
     return x;
   }
 
+  Stream<DocumentSnapshot> readPatientDataStream(String userUid) {
+    return firestore.collection("patients").doc(userUid).snapshots();
+  }
+
+
 
   Future<void> updatePatientData(//firestore'a ilk kayıt sırasında doctor koleksiyonunda kullanıcı oluşturma
       String collectionPath, Map<String, dynamic> patientUpAsMap) async {
     await firestore
-        .collection(collectionPath)
+        .collection("patients")
         .doc(PatientModel.fromJson(patientUpAsMap).id)
         .update(patientUpAsMap);
   }
