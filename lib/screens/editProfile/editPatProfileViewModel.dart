@@ -16,6 +16,8 @@ class EditPatientsProfilViewModel extends ChangeNotifier{
   String? address;
   String? city;
   String? sex;
+  bool? completedProfile;
+
 
   Future<void> getUserData() async {
     user = await auth.firebaseAuthen.currentUser;
@@ -37,6 +39,15 @@ class EditPatientsProfilViewModel extends ChangeNotifier{
     }
   }
 
+  bool isProfileComplete() {
+    var values = [nameSurname, age, phone, address, city, sex];
+    return values.every((value) => value != null);
+  }
+
+
+
+
+
   Future<void> patientsUpdate(
       {String? name,
         int? age,
@@ -45,15 +56,19 @@ class EditPatientsProfilViewModel extends ChangeNotifier{
         String? city,
         String? phone,
        }) async {
-
+      completedProfile = isProfileComplete();
+      print(completedProfile);
       PatientModel patientModel = PatientModel(
         id: user?.uid.toString(),
+        email: user?.email,
         name: name,
         sex: sex,
         city: city,
         age: age,
         address: address,
-        phone: phone
+        phone: phone,
+        completedProfile: completedProfile
+
       );
     await database.updatePatientData("patients", patientModel.toJson());
     print("işlemleri yaptım $patientModel" );

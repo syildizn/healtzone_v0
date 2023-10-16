@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../../services/authentication.dart';
 import '../profilPage/profilPage.dart';
+import '../profilPage/profilPageViewModel.dart';
 import '../widgets/myCustomButton.dart';
 
 class EditPatientsProfile extends StatefulWidget {
@@ -35,7 +36,7 @@ class _EditPatientsProfileState extends State<EditPatientsProfile> {
     TextEditingController birthdayControler = TextEditingController(text: viewModel.age.toString());
     TextEditingController nameSignUpControler = TextEditingController(text: viewModel.nameSurname);
    // TextEditingController drugsUsed = TextEditingController(text: viewModel.city);
-    TextEditingController phoneSignUpControler = TextEditingController(text: viewModel.nameSurname);
+    TextEditingController phoneSignUpControler = TextEditingController(text: viewModel.phone);
     TextEditingController citySignUpControler = TextEditingController(text: viewModel.city);
    // TextEditingController bloodGroupControler = TextEditingController(text: viewModel.nameSurname);
 
@@ -476,7 +477,16 @@ class _EditPatientsProfileState extends State<EditPatientsProfile> {
                                     TextButton(
                                         onPressed: () {
                                           Navigator.of(context).pop(); // AlertDialog'u kapat
-                                          Navigator.of(context).pushReplacementNamed(ProfilPage.routeName); // ProfilPage'e yönlendirme yap
+                                          //Navigator.of(context).pushReplacementNamed(ProfilPage.routeName); // ProfilPage'e yönlendirme yap
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => ChangeNotifierProvider(
+                                                create: (context) => ProfilPageViewModel(),
+                                                child: ProfilPage(),
+                                              ),
+                                            ),
+                                          );
                                         },
                                         child: Text("Tamam")
                                     ),
