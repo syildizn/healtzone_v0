@@ -89,7 +89,7 @@ class _PublicationsScreenState extends State<PublicationsScreen> {
                     Expanded(
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          primary: currentPage == 1 ? Colors.blue : Colors.white,
+                          primary: currentPage == 1 ? Colors.blue.shade400 : Colors.white,
                           onPrimary:
                               currentPage == 1 ? Colors.white : Colors.black,
                         ),
@@ -108,7 +108,7 @@ class _PublicationsScreenState extends State<PublicationsScreen> {
                     Expanded(
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          primary: currentPage == 2 ? Colors.blue : Colors.white,
+                          primary: currentPage == 2 ? Colors.blue.shade400 : Colors.white,
                           onPrimary:
                               currentPage == 2 ? Colors.white : Colors.black,
                         ),
@@ -126,7 +126,7 @@ class _PublicationsScreenState extends State<PublicationsScreen> {
                     Expanded(
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          primary: currentPage == 3 ? Colors.blue : Colors.white,
+                          primary: currentPage == 3 ? Colors.blue.shade400 : Colors.white,
                           onPrimary:
                               currentPage == 3 ? Colors.white : Colors.black,
                         ),

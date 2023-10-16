@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:healtzone_v0/screens/editProfile/editPatientsProfile.dart';
 import 'package:healtzone_v0/screens/profilPage/profilPageViewModel.dart';
+import 'package:healtzone_v0/screens/widgets/myCustomButton.dart';
 import 'package:provider/provider.dart';
 
 class ProfilPage extends StatefulWidget {
@@ -12,39 +14,12 @@ class ProfilPage extends StatefulWidget {
 }
 
 class _ProfilPageState extends State<ProfilPage> {
-  String? isimSoyisim;
-  int? yas;
-  String? telefon;
-  String? adres;
-  String? sehir;
-  String? email;
-  String? cinsiyet;
-
   @override
   void initState() {
     super.initState();
     //getUserData();
     Provider.of<ProfilPageViewModel>(context, listen: false).getUserData();
-
   }
-
-  // getUserData() async {
-  //   DocumentSnapshot? documentSnapshot =
-  //       await Provider.of<ProfilPageViewModel>(context, listen: false)
-  //           .getUser();
-  //
-  //   if (documentSnapshot != null) {
-  //     setState(() {
-  //       isimSoyisim = documentSnapshot['name'];
-  //       yas = documentSnapshot['age'];
-  //       telefon = documentSnapshot['phone'];
-  //       adres = documentSnapshot['address'];
-  //       sehir = documentSnapshot['city'];
-  //       email = documentSnapshot['email'];
-  //       cinsiyet = documentSnapshot['sex'];
-  //     });
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -99,6 +74,16 @@ class _ProfilPageState extends State<ProfilPage> {
                   ),
                 ),
               ),
+              SizedBox(height: 20),
+              MyCustomButton(
+                  text: "Profili Düzenle",
+                  backgroundColor: Colors.white,
+                  onPressed: () {
+                    Navigator.pushNamed(context, EditPatientsProfile.routeName);
+                  },
+                  svgPath: 'assets/icons/edittwo.svg',
+                  textColor: Colors.black,
+                  SizedBoxRange: 32)
             ],
           ),
         ),
