@@ -13,7 +13,7 @@ import 'package:healtzone_v0/screens/informationRecordPage/informationRecord.dar
 import 'package:healtzone_v0/screens/loginPage/loginPage.dart';
 import 'package:healtzone_v0/screens/offers.dart';
 import 'package:healtzone_v0/screens/profilPage/profilPage.dart';
-import 'package:healtzone_v0/screens/publications.dart';
+import 'package:healtzone_v0/screens/homePage/publications.dart';
 import 'package:healtzone_v0/screens/waitingPage.dart';
 import 'package:healtzone_v0/screens/widgets/onBoard.dart';
 import 'package:healtzone_v0/screens/widgets/onBoardSetState.dart';

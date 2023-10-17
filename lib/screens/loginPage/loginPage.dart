@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:healtzone_v0/screens/doctorLoginAndSignupPage/doctorLoginAndSignup.dart';
 import 'package:healtzone_v0/screens/loginPage/loginPageViewModel.dart';
 import 'package:healtzone_v0/screens/patientEmailLoginSignupPage/emailLoginPage.dart';
-import 'package:healtzone_v0/screens/publications.dart';
+import 'package:healtzone_v0/screens/homePage/publications.dart';
 import 'package:healtzone_v0/screens/widgets/myCustomButton.dart';
 import 'package:healtzone_v0/services/authentication.dart';
 import 'package:provider/provider.dart';

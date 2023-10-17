@@ -12,7 +12,7 @@ import 'package:healtzone_v0/services/authentication.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-import 'models/homePageCategoriesModel.dart';
+import '../models/homePageCategoriesModel.dart';
 
 //ilan sayfası-ana sayfa
 class PublicationsScreen extends StatefulWidget {

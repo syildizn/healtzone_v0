@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:healtzone_v0/screens/publications.dart';
+import 'package:healtzone_v0/screens/homePage/publications.dart';
 import 'package:provider/provider.dart';
 
 import '../models/doctorModel.dart';

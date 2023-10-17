@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:healtzone_v0/screens/loginPage/loginPage.dart';
 import 'package:healtzone_v0/screens/models/doctorModel.dart';
 import 'package:healtzone_v0/screens/profilPage/profilPageViewModel.dart';
-import 'package:healtzone_v0/screens/publications.dart';
+import 'package:healtzone_v0/screens/homePage/publications.dart';
 import 'package:healtzone_v0/services/authentication.dart';
 import 'package:provider/provider.dart';
 

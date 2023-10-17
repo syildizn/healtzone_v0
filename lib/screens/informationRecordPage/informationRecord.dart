@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:healtzone_v0/screens/informationRecordPage/informationRecordViewModel.dart';
 import 'package:healtzone_v0/screens/models/doctorModel.dart';
-import 'package:healtzone_v0/screens/publications.dart';
+import 'package:healtzone_v0/screens/homePage/publications.dart';
 import 'package:provider/provider.dart';
 
 import '../../services/authentication.dart';

@@ -213,7 +213,7 @@ class _EditPatientsProfileState extends State<EditPatientsProfile> {
                       decoration: InputDecoration(
                         prefixIcon: Icon(Icons.date_range_outlined),
                         prefixIconColor: Colors.amber,
-                        labelText: "Doğum Tarihi",
+                        labelText: "Yaş",
                         floatingLabelBehavior: FloatingLabelBehavior.always,
                         labelStyle: TextStyle(
                             color: Colors.black45,

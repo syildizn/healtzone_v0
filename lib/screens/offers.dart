@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:healtzone_v0/screens/publications.dart';
+import 'package:healtzone_v0/screens/homePage/publications.dart';
 
 import 'doctorPage/doctor.dart';
 

@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:healtzone_v0/screens/loginPage/loginPage.dart';
-import 'package:healtzone_v0/screens/publications.dart';
+import 'package:healtzone_v0/screens/homePage/publications.dart';
 
 class OnBoardSetState extends StatefulWidget {
   //Başlangıçta kullanıcının daha önce giriş yapıp yapmadığını kontrol eden widget
