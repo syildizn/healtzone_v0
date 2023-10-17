@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:healtzone_v0/screens/diseases/obstetrics/detailedUltrasoundPage.dart';
 import 'package:healtzone_v0/screens/diseases/obstetrics/genitalAestheticsPage.dart';
 import 'package:healtzone_v0/screens/diseases/obstetrics/inVitroFertilizationPage.dart';
-import 'package:healtzone_v0/screens/diseases/obstetrics/pregnancyAndBirthPage.dart';
+import 'package:healtzone_v0/screens/diseases/obstetrics/pregnancyAndBirth/pregnancyAndBirthPage.dart';
 import 'package:healtzone_v0/screens/diseases/obstetrics/surgeriesPage.dart';
 
 class Obstetrics extends StatefulWidget {

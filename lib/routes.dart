@@ -3,7 +3,7 @@ import 'package:healtzone_v0/screens/diseases/obstetrics/detailedUltrasoundPage.
 import 'package:healtzone_v0/screens/diseases/obstetrics/genitalAestheticsPage.dart';
 import 'package:healtzone_v0/screens/diseases/obstetrics/inVitroFertilizationPage.dart';
 import 'package:healtzone_v0/screens/diseases/obstetrics/obstetricsPage.dart';
-import 'package:healtzone_v0/screens/diseases/obstetrics/pregnancyAndBirthPage.dart';
+import 'package:healtzone_v0/screens/diseases/obstetrics/pregnancyAndBirth/pregnancyAndBirthPage.dart';
 import 'package:healtzone_v0/screens/diseases/obstetrics/surgeriesPage.dart';
 import 'package:healtzone_v0/screens/doctorLoginAndSignupPage/doctorLoginAndSignup.dart';
 import 'package:healtzone_v0/screens/doctorPage/doctor.dart';

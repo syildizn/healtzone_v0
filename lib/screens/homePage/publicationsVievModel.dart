@@ -10,16 +10,33 @@ class PublicationsViewModel extends ChangeNotifier{
   User? user;
   bool? completedProfile;
 
-  Future<void> getUserData() async {
+  Future<bool?> getUserData() async {
     user = await auth.firebaseAuthen.currentUser;
     print("aradığım id: ${user?.uid}");
     if (user != null) {
       DocumentSnapshot? documentSnapshot = await database.readPatientData(user!.uid);
 
       if (documentSnapshot != null) {
+
+
         completedProfile = documentSnapshot['completedProfile'];
+
         notifyListeners();  // UI'da değişiklikleri yakalamak için
+        return completedProfile;
       }
     }
   }
-}
+
+  Stream<DocumentSnapshot> listenUserData() {
+    User? user = auth.firebaseAuthen.currentUser;
+    print("aradığım id: ${user?.uid}");
+    if (user != null) {
+      return database.readPatientDataStream(user.uid);
+    } else {
+      // Kullanıcı bulunamazsa, boş bir stream döndür.
+      return Stream.empty();
+    }
+  }
+
+
+  }

@@ -45,8 +45,7 @@ class _InformationRecordState extends State<InformationRecord> {
     TextEditingController companyNameSignUpControler = TextEditingController();
     TextEditingController departmentSignUpControler = TextEditingController();
     TextEditingController nameSignUpControler = TextEditingController();
-    TextEditingController graduationYearSignUpControler =
-        TextEditingController();
+    TextEditingController graduationYearSignUpControler =TextEditingController();
     TextEditingController phoneSignUpControler = TextEditingController();
     TextEditingController titleSignUpControler = TextEditingController();
     TextEditingController universitySignUpControler = TextEditingController();

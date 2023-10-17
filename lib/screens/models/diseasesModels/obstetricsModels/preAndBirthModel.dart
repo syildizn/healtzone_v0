@@ -10,8 +10,9 @@ class PreAndBirthModel extends Equatable {
   String? name;
   int? age;
   String? city;
-  String? email;
+  //String? email;
   String? sex;
+  String? address;
 
   PreAndBirthModel({
     this.previousBirth,
@@ -23,8 +24,9 @@ class PreAndBirthModel extends Equatable {
     this.name,
     this.age,
     this.city,
-    this.email,
+    //this.email,
     this.sex,
+    this.address
   });
 
   @override
@@ -38,8 +40,9 @@ class PreAndBirthModel extends Equatable {
     name,
     age,
     city,
-    email,
-    sex
+    //email,
+    sex,
+    address
   ];
 
   PreAndBirthModel copyWith({
@@ -52,8 +55,9 @@ class PreAndBirthModel extends Equatable {
     String? name,
     int? age,
     String? city,
-    String? email,
+    //String? email,
     String? sex,
+    String? address,
   }) {
     return PreAndBirthModel(
       previousBirth: previousBirth ?? this.previousBirth,
@@ -65,8 +69,9 @@ class PreAndBirthModel extends Equatable {
       name: name ?? this.name,
       age: age ?? this.age,
       city: city ?? this.city,
-      email: email ?? this.email,
+      //email: email ?? this.email,
       sex: sex ?? this.sex,
+      address: address ?? this.address,
     );
   }
 
@@ -81,8 +86,9 @@ class PreAndBirthModel extends Equatable {
       'name': name,
       'age': age,
       'city': city,
-      'email': email,
+      //'email': email,
       'sex': sex,
+      'address': address,
     };
   }
 
@@ -97,8 +103,9 @@ class PreAndBirthModel extends Equatable {
       name: json['name'] as String?,
       age: json['age'] as int?,
       city: json['city'] as String?,
-      email: json['email'] as String?,
+      //email: json['email'] as String?,
       sex: json['sex'] as String?,
+      address: json['address'] as String?,
     );
   }
 }
