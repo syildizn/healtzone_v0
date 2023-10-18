@@ -4,6 +4,8 @@ import 'package:healtzone_v0/screens/homePage/publications.dart';
 import 'package:provider/provider.dart';
 
 import '../models/doctorModel.dart';
+import '../profilPage/profilPage.dart';
+import '../profilPage/profilPageViewModel.dart';
 import 'doctorViewModel.dart';
 import '../offers.dart';
 
@@ -163,19 +165,75 @@ class _DoctorState extends State<Doctor> {
             // Diğer widget'lar buraya eklenebilir
           ],
         ),
+        bottomNavigationBar: BottomAppBar(
+          shape: CircularNotchedRectangle(),
+          notchMargin: 4.0,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: IconButton(
+                  icon: Icon(Icons.home),
+                  onPressed: () {
+                    // TODO: İlanlarım ikonuna tıklandığında yapılacak işlemler
+                    Navigator.pushNamed(
+                        context, PublicationsScreen.routeName);
+                  },
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: IconButton(
+                  icon: Icon(Icons.search),
+                  onPressed: () {
+                    // TODO: Doktor Bul ikonuna tıklandığında yapılacak işlemler
+                  },
+                ),
+              ),
+              SizedBox(),  // Orta boşluk
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: IconButton(
+                  icon: Icon(Icons.notifications),
+                  onPressed: () {
+                    // TODO: Bildirimler ikonuna tıklandığında yapılacak işlemler
+                  },
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: IconButton(
+                  icon: Icon(Icons.person),
+                  onPressed: () {
+                    // TODO: Profilim ikonuna tıklandığında yapılacak işlemler
+                    // Navigator.pushNamed(
+                    //     context, "ProfilPage");
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ChangeNotifierProvider(
+                          create: (context) => ProfilPageViewModel(),
+                          child: ProfilPage(),
+                        ),
+                      ),
+                    );
+
+
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
         floatingActionButton: FloatingActionButton(
-            onPressed: () async {
-              // DocumentReference addedDoctor = await doctorRef.add(doctortoAdd);
-              // print(addedDoctor.id);
-              //await doctorRef.doc("doktorCivanım").set(doctorAdd);
-              //await doctorRef.doc("doktorCivanım").update({"no": "46"});
-              // await database.collection("favCaracters").doc("Harry Potter").set({
-              //   "department": "gryffindor",
-              //   "name": "Hayri Çömlekçi",
-              //   "Asa ağacı": "çobanpüskülü ağacı"
-              // });
-            },
-            child: Icon(Icons.add)),
+          child: Icon(Icons.add),
+          onPressed: () {
+            // TODO: İlan Ver butonuna tıklandığında yapılacak işlemler
+            //ilanver();
+          },
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       ),
     );
   }

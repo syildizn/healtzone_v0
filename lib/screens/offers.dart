@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:healtzone_v0/screens/homePage/publications.dart';
+import 'package:healtzone_v0/screens/profilPage/profilPage.dart';
+import 'package:healtzone_v0/screens/profilPage/profilPageViewModel.dart';
+import 'package:provider/provider.dart';
 
 import 'doctorPage/doctor.dart';
 
@@ -87,7 +90,75 @@ class _OffersPageState extends State<OffersPage> {
           // Diğer widget'lar buraya eklenebilir
         ],
       ),
+      bottomNavigationBar: BottomAppBar(
+        shape: CircularNotchedRectangle(),
+        notchMargin: 4.0,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: IconButton(
+                icon: Icon(Icons.home),
+                onPressed: () {
+                  // TODO: İlanlarım ikonuna tıklandığında yapılacak işlemler
+                  Navigator.pushNamed(
+                      context, PublicationsScreen.routeName);
+                },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: IconButton(
+                icon: Icon(Icons.search),
+                onPressed: () {
+                  // TODO: Doktor Bul ikonuna tıklandığında yapılacak işlemler
+                },
+              ),
+            ),
+            SizedBox(),  // Orta boşluk
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: IconButton(
+                icon: Icon(Icons.notifications),
+                onPressed: () {
+                  // TODO: Bildirimler ikonuna tıklandığında yapılacak işlemler
+                },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: IconButton(
+                icon: Icon(Icons.person),
+                onPressed: () {
+                  // TODO: Profilim ikonuna tıklandığında yapılacak işlemler
+                  // Navigator.pushNamed(
+                  //     context, "ProfilPage");
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ChangeNotifierProvider(
+                        create: (context) => ProfilPageViewModel(),
+                        child: ProfilPage(),
+                      ),
+                    ),
+                  );
 
+
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () {
+          // TODO: İlan Ver butonuna tıklandığında yapılacak işlemler
+          //ilanver();
+        },
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }

@@ -7,7 +7,7 @@ class DocLgAndSgVievModel extends ChangeNotifier{
  Database database = Database();
  String collectionPathDoctor = 'doctors';
  String collectionPathPatient = 'patients';
- Future<void> addNewDoctor({String? id, String? role, String? email}) async {
+ Future<void> addNewDoctor({String? id, String? email}) async {
    // kayıt kısmından aldığı id ve role ile bir doctor objesi oluşturacak
 
    try{DoctorModel newDoctor = DoctorModel(

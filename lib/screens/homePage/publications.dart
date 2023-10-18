@@ -323,9 +323,11 @@ class _PublicationsScreenState extends State<PublicationsScreen> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: IconButton(
-                icon: Icon(Icons.list),
+                icon: Icon(Icons.home),
                 onPressed: () {
                   // TODO: İlanlarım ikonuna tıklandığında yapılacak işlemler
+                  Navigator.pushNamed(
+                      context, PublicationsScreen.routeName);
                 },
               ),
             ),

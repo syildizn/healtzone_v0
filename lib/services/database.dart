@@ -45,15 +45,6 @@ class Database {
 
   }
 
-  // Future<DocumentSnapshot?> readPatientData(//firestore'dan kullanıcı bilgilerini alma
-  //     String userUid) async {
-  //   DocumentSnapshot x = await firestore
-  //       .collection("patients")
-  //       .doc("GQTpuuEGmGgoCGQYlsoxU1nhN2K3")
-  //       .get();
-  //   print("aha bu email: ${x['email']}");
-  //   return x;
-  // }
 
   Future<DocumentSnapshot?> readPatientData(String userUid) async {
     DocumentSnapshot x = await firestore.collection("patients").doc(userUid).get();
