@@ -1,8 +1,9 @@
 import 'package:equatable/equatable.dart';
 
 class PreAndBirthModel extends Equatable {
+  String? id;
   bool? previousBirth;
-  bool? cesarianSection;
+  String? cesarianSection;
   String? pregnancyWeek;
   bool? pregnancyInfoYesNo;
   String? pregnancyInfo;
@@ -13,8 +14,10 @@ class PreAndBirthModel extends Equatable {
   //String? email;
   String? sex;
   String? address;
+  String? userId;
 
   PreAndBirthModel({
+    this.id,
     this.previousBirth,
     this.cesarianSection,
     this.pregnancyWeek,
@@ -26,11 +29,13 @@ class PreAndBirthModel extends Equatable {
     this.city,
     //this.email,
     this.sex,
-    this.address
+    this.address,
+    this.userId
   });
 
   @override
   List<Object?> get props => [
+    id,
     previousBirth,
     cesarianSection,
     pregnancyWeek,
@@ -42,12 +47,14 @@ class PreAndBirthModel extends Equatable {
     city,
     //email,
     sex,
-    address
+    address,
+    userId
   ];
 
   PreAndBirthModel copyWith({
+    String? id,
     bool? previousBirth,
-    bool? cesarianSection,
+    String? cesarianSection,
     String? pregnancyWeek,
     bool? pregnancyInfoYesNo,
     String? pregnancyInfo,
@@ -58,8 +65,10 @@ class PreAndBirthModel extends Equatable {
     //String? email,
     String? sex,
     String? address,
+    String? userId
   }) {
     return PreAndBirthModel(
+      id: id ?? this.id,
       previousBirth: previousBirth ?? this.previousBirth,
       cesarianSection: cesarianSection ?? this.cesarianSection,
       pregnancyWeek: pregnancyWeek ?? this.pregnancyWeek,
@@ -72,11 +81,13 @@ class PreAndBirthModel extends Equatable {
       //email: email ?? this.email,
       sex: sex ?? this.sex,
       address: address ?? this.address,
+      userId: userId ?? this.userId,
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
+      'id': id,
       'previousBirth': previousBirth,
       'cesarianSection': cesarianSection,
       'pregnancyWeek': pregnancyWeek,
@@ -89,13 +100,15 @@ class PreAndBirthModel extends Equatable {
       //'email': email,
       'sex': sex,
       'address': address,
+      'userId': userId,
     };
   }
 
   factory PreAndBirthModel.fromJson(Map<String, dynamic> json) {
     return PreAndBirthModel(
+      id: json['id'] as String?,
       previousBirth: json['previousBirth'] as bool?,
-      cesarianSection: json['cesarianSection'] as bool?,
+      cesarianSection: json['cesarianSection'] as String?,
       pregnancyWeek: json['pregnancyWeek'] as String?,
       pregnancyInfoYesNo: json['pregnancyInfoYesNo'] as bool?,
       pregnancyInfo: json['pregnancyInfo'] as String?,
@@ -106,6 +119,7 @@ class PreAndBirthModel extends Equatable {
       //email: json['email'] as String?,
       sex: json['sex'] as String?,
       address: json['address'] as String?,
+      userId: json['userId'] as String?,
     );
   }
 }

@@ -66,11 +66,23 @@ class Database {
         .update(patientUpAsMap);
   }
 
-  Future<void> setPreAndBirthData(//firestore'a ilk kayıt sırasında doctor koleksiyonunda kullanıcı oluşturma
-      String collectionPath, Map<String, dynamic> preAndBirthAsMap) async {
-    await firestore
-        .collection(collectionPath)
-        .doc(DoctorModel.fromJson(preAndBirthAsMap).id)
-        .set(preAndBirthAsMap);
+  // Future<void> setPreAndBirthData(//firestore'a ilk kayıt sırasında doctor koleksiyonunda kullanıcı oluşturma
+  //      Map<String, dynamic> preAndBirthAsMap) async {
+  //   await firestore
+  //       .collection('jobs')
+  //       .doc('ObstetricsAndGynaecology').collection('preAndBirth').add(preAndBirthAsMap);
+  // }
+
+  Future<void> setPreAndBirthData(Map<String, dynamic> preAndBirthAsMap) async {
+    DocumentReference docRef = firestore
+        .collection('jobs')
+        .doc('ObstetricsAndGynaecology')
+        .collection('preAndBirth')
+        .doc();  // Bu satır yeni bir doküman referansı oluşturur ve bir ID atar.
+
+    preAndBirthAsMap['id'] = docRef.id;  // ID'yi haritaya ekler.
+
+    await docRef.set(preAndBirthAsMap);  // Dokümanı oluşturur ve verileri ayarlar.
   }
+
 }

@@ -16,10 +16,11 @@ class PreAndBirthViewModel extends ChangeNotifier {
   String? address;
   String? city;
   String? sex;
+  String? userId;
 
   Future<void> getUserData() async {
     user = await auth.firebaseAuthen.currentUser;
-    print("aradığım id: ${user?.uid}");
+    print("aradığım id preBirth: ${user?.uid}");
     if (user != null) {
       DocumentSnapshot? documentSnapshot =
           await database.readPatientData(user!.uid);
@@ -31,6 +32,7 @@ class PreAndBirthViewModel extends ChangeNotifier {
         address = documentSnapshot['address'];
         city = documentSnapshot['city'];
         sex = documentSnapshot['sex'];
+        userId = user?.uid.toString();
 
         notifyListeners(); // UI'da değişiklikleri yakalamak için
       }
@@ -39,13 +41,14 @@ class PreAndBirthViewModel extends ChangeNotifier {
 
   Future<void> preAndBirth(
     bool? previousBirth,
-    bool? cesarianSection,
+    String? cesarianSection,
     String? pregnancyWeek,
     bool? pregnancyInfoYesNo,
     String? pregnancyInfo,
     String? neededService,
   ) async {
     PreAndBirthModel preModel = PreAndBirthModel(
+      id: '',
       sex: sex,
       city: city,
       age: age,
@@ -57,7 +60,9 @@ class PreAndBirthViewModel extends ChangeNotifier {
       pregnancyInfoYesNo: pregnancyInfoYesNo,
       pregnancyWeek: pregnancyWeek,
       previousBirth: previousBirth,
+      userId: userId,
     );
 
+   await database.setPreAndBirthData(preModel.toJson());
   }
 }
