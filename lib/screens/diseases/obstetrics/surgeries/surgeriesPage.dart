@@ -202,6 +202,7 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:healtzone_v0/screens/diseases/obstetrics/surgeries/surgeriesViewModel.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
@@ -226,6 +227,8 @@ class _SurgeriesState extends State<Surgeries> {
   String? _pathologyResults;
   bool? _hasMedicalInfo;
   String? _medicalInfo;
+  String? picPath;
+  String? filePath;
 
   void _nextPage() {
     setState(() {
@@ -235,322 +238,342 @@ class _SurgeriesState extends State<Surgeries> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Ameliyatlar'),
-      ),
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Colors.blue.shade200, Colors.white],
-          ),
+    return ChangeNotifierProvider<SurgeriesViewModel>(
+      create:(_) => SurgeriesViewModel(),
+      builder: (context, _) =>  Scaffold(
+        appBar: AppBar(
+          title: Text('Ameliyatlar'),
         ),
-        child: ListView(
-          padding: EdgeInsets.all(16.0),
-          children: [
-            if (_currentPage == 1)
-              Column(
-                children: [
-                  _buildCard(
-                    title: 'Daha önce ameliyat oldunuz mu?',
-                    child: Row(
-                      children: [
-                        Text('Hayır'),
-                        Radio(
-                          value: false,
-                          groupValue: _hadPreviousSurgery,
-                          onChanged: (bool? value) {
-                            setState(() {
-                              _hadPreviousSurgery = value;
-                            });
-                          },
-                        ),
-                        Text('Evet'),
-                        Radio(
-                          value: true,
-                          groupValue: _hadPreviousSurgery,
-                          onChanged: (bool? value) {
-                            setState(() {
-                              _hadPreviousSurgery = value;
-                            });
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                  if (_hadPreviousSurgery == true)
+        body: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [Colors.blue.shade200, Colors.white],
+            ),
+          ),
+          child: ListView(
+            padding: EdgeInsets.all(16.0),
+            children: [
+              if (_currentPage == 1)
+                Column(
+                  children: [
                     _buildCard(
-                      title: 'Ameliyat Detayları',
+                      title: 'Daha önce ameliyat oldunuz mu?',
+                      child: Row(
+                        children: [
+                          Text('Hayır'),
+                          Radio(
+                            value: false,
+                            groupValue: _hadPreviousSurgery,
+                            onChanged: (bool? value) {
+                              setState(() {
+                                _hadPreviousSurgery = value;
+                              });
+                            },
+                          ),
+                          Text('Evet'),
+                          Radio(
+                            value: true,
+                            groupValue: _hadPreviousSurgery,
+                            onChanged: (bool? value) {
+                              setState(() {
+                                _hadPreviousSurgery = value;
+                              });
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                    if (_hadPreviousSurgery == true)
+                      _buildCard(
+                        title: 'Ameliyat Detayları',
+                        child: TextFormField(
+                          decoration: InputDecoration(
+                            labelText: 'Lütfen Ameliyat detaylarını yazınız',
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
+                      ),
+                    _buildCard(
+                      title: 'Teşhis',
                       child: TextFormField(
                         decoration: InputDecoration(
-                          labelText: 'Lütfen Ameliyat detaylarını yazınız',
+                          labelText:
+                          'Kadın Hastalıkları ve Doğum Uzmanı tarafından konulan teşhisinizi yazınız',
                           border: OutlineInputBorder(),
+                        ),
+                        onChanged: (value) {
+                          _diagnosis = value;
+                        },
+                      ),
+                    ),
+                    _buildCard(
+                      title: 'Ameliyat Seçiniz',
+                      child: Container(
+                        width: double.infinity,
+                        child: DropdownButtonFormField<String>(
+                          isExpanded: true,
+                          value: _selectedSurgery,
+                          items: <String>[
+                            'Histerektomi+ooferektomi (Rahim ve yumurtalık alma ameliyatı)',
+                            'Histerektomi (Rahim alma ameliyatı)',
+                            'Over cerrahisi (yumurtalık kisti veya ooferektomi)',
+                            'Myomektomi (Myom alma ameliyatı)',
+                            'Rahim sarkması ameliyatı',
+                            'İdrar kaçırma ameliyatı',
+                            'Tubaplasti (tüplerin açılması)',
+                            'Tüp ligasyonu (tüplerin bağlanması)',
+                            'Histeroskopi (endometriyal polip, septum veya tanısal amaçlı)',
+                            // ... other options
+                            'Diğer',
+                          ].map((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                          hint: Text('Ameliyat Seçiniz'),
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                          ),
+                          onChanged: (String? value) {
+                            setState(() {
+                              _selectedSurgery = value;
+                            });
+                          },
                         ),
                       ),
                     ),
-                  _buildCard(
-                    title: 'Teşhis',
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                        labelText:
-                        'Kadın Hastalıkları ve Doğum Uzmanı tarafından konulan teşhisinizi yazınız',
-                        border: OutlineInputBorder(),
+                    if (_selectedSurgery == 'Diğer')
+                      _buildCard(
+                        title: 'Diğer Ameliyat',
+                        child: TextFormField(
+                          decoration: InputDecoration(
+                            labelText: 'Lütfen ameliyatı belirtiniz',
+                            border: OutlineInputBorder(),
+                          ),
+                          onChanged: (value) {
+                            _selectedSurgery = value;
+                          },
+                        ),
                       ),
-                      onChanged: (value) {
-                        _diagnosis = value;
-                      },
-                    ),
-                  ),
-                  _buildCard(
-                    title: 'Ameliyat Seçiniz',
-                    child: Container(
-                      width: double.infinity,
+                    _buildCard(
+                      title: 'Ameliyat Tipi Seçiniz',
                       child: DropdownButtonFormField<String>(
-                        isExpanded: true,
-                        value: _selectedSurgery,
+                        value: _surgeryType,
                         items: <String>[
-                          'Histerektomi+ooferektomi (Rahim ve yumurtalık alma ameliyatı)',
-                          'Histerektomi (Rahim alma ameliyatı)',
-                          'Over cerrahisi (yumurtalık kisti veya ooferektomi)',
-                          'Myomektomi (Myom alma ameliyatı)',
-                          'Rahim sarkması ameliyatı',
-                          'İdrar kaçırma ameliyatı',
-                          'Tubaplasti (tüplerin açılması)',
-                          'Tüp ligasyonu (tüplerin bağlanması)',
-                          'Histeroskopi (endometriyal polip, septum veya tanısal amaçlı)',
-                          // ... other options
-                          'Diğer',
+                          'Açık ameliyat',
+                          'Kapalı (Laparoskopik) ameliyat'
                         ].map((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
                             child: Text(value),
                           );
                         }).toList(),
-                        hint: Text('Ameliyat Seçiniz'),
+                        hint: Text('Ameliyat Tipi Seçiniz'),
                         decoration: InputDecoration(
                           border: OutlineInputBorder(),
                         ),
                         onChanged: (String? value) {
                           setState(() {
-                            _selectedSurgery = value;
+                            _surgeryType = value;
                           });
                         },
                       ),
                     ),
-                  ),
-                  if (_selectedSurgery == 'Diğer')
-                    _buildCard(
-                      title: 'Diğer Ameliyat',
-                      child: TextFormField(
-                        decoration: InputDecoration(
-                          labelText: 'Lütfen ameliyatı belirtiniz',
-                          border: OutlineInputBorder(),
-                        ),
-                        onChanged: (value) {
-                          _selectedSurgery = value;
-                        },
-                      ),
-                    ),
-                  _buildCard(
-                    title: 'Ameliyat Tipi Seçiniz',
-                    child: DropdownButtonFormField<String>(
-                      value: _surgeryType,
-                      items: <String>[
-                        'Açık ameliyat',
-                        'Kapalı (Laparoskopik) ameliyat'
-                      ].map((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                      hint: Text('Ameliyat Tipi Seçiniz'),
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                      ),
-                      onChanged: (String? value) {
-                        setState(() {
-                          _surgeryType = value;
-                        });
-                      },
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16.0),
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.blue,
-                        padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                      ),
-                      onPressed: _nextPage,
-                      child: Text('Diğer Sayfa'),
-                    ),
-                  ),
-                ],
-              ),
-            if (_currentPage == 2)
-              Column(
-                children: [
-                  // Dosya yükleme widget'ını burada ekleyin
-                  _buildFileUploadCard(),
-
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16.0),
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.blue,
-                        padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                      ),
-                      onPressed: _nextPage,
-                      child: Text('Diğer Sayfa'),
-                    ),
-                  ),
-                ],
-              ),
-            if (_currentPage == 3)
-              Column(
-                children: [
-                  _buildCard(
-                    title: 'Tıbbi Bilgiler',
-                    child: Column(
-                      children: [
-                        Text(
-                            'Tıbbi durumunuzla ilgili belirtmek istediğiniz bilgi varsa yazınız'),
-                        Row(
-                          children: [
-                            Text('Yok'),
-                            Radio(
-                              value: false,
-                              groupValue: _hasMedicalInfo,
-                              onChanged: (bool? value) {
-                                setState(() {
-                                  _hasMedicalInfo = value;
-                                });
-                              },
-                            ),
-                            Text('Var'),
-                            Radio(
-                              value: true,
-                              groupValue: _hasMedicalInfo,
-                              onChanged: (bool? value) {
-                                setState(() {
-                                  _hasMedicalInfo = value;
-                                });
-                              },
-                            ),
-                          ],
-                        ),
-                        if (_hasMedicalInfo == true)
-                          TextFormField(
-                            decoration: InputDecoration(
-                              labelText: 'Tıbbi Bilgiler',
-                              border: OutlineInputBorder(),
-                            ),
-                            onChanged: (value) {
-                              _medicalInfo = value;
-                            },
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 16.0),
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.blue,
+                          padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
                           ),
-                      ],
+                        ),
+                        onPressed: _nextPage,
+                        child: Text('Diğer Sayfa'),
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16.0),
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.blue,
-                        padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
+                  ],
+                ),
+              if (_currentPage == 2)
+                Column(
+                  children: [
+                    // Dosya yükleme widget'ını burada ekleyin
+                    _buildFileUploadCard(),
+
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 16.0),
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.blue,
+                          padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                        ),
+                        onPressed: _nextPage,
+                        child: Text('Diğer Sayfa'),
+                      ),
+                    ),
+                  ],
+                ),
+              if (_currentPage == 3)
+                Column(
+                  children: [
+                    _buildCard(
+                      title: 'Tıbbi Bilgiler',
+                      child: Column(
+                        children: [
+                          Text(
+                              'Tıbbi durumunuzla ilgili belirtmek istediğiniz bilgi varsa yazınız'),
+                          Row(
+                            children: [
+                              Text('Yok'),
+                              Radio(
+                                value: false,
+                                groupValue: _hasMedicalInfo,
+                                onChanged: (bool? value) {
+                                  setState(() {
+                                    _hasMedicalInfo = value;
+                                  });
+                                },
+                              ),
+                              Text('Var'),
+                              Radio(
+                                value: true,
+                                groupValue: _hasMedicalInfo,
+                                onChanged: (bool? value) {
+                                  setState(() {
+                                    _hasMedicalInfo = value;
+                                  });
+                                },
+                              ),
+                            ],
+                          ),
+                          if (_hasMedicalInfo == true)
+                            TextFormField(
+                              decoration: InputDecoration(
+                                labelText: 'Tıbbi Bilgiler',
+                                border: OutlineInputBorder(),
+                              ),
+                              onChanged: (value) {
+                                _medicalInfo = value;
+                              },
+                            ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 16.0),
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.blue,
+                          padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                        ),
+                        onPressed: () async{
+                          // Handle submission or navigate to the next page
+                          try{
+                            await Provider.of<SurgeriesViewModel>(context,listen: false).getUserData();
+                            await Provider.of<SurgeriesViewModel>(context,listen: false).surgeries(
+                                _hadPreviousSurgery,
+                                _diagnosis,
+                                _medicalInfo,
+                                _hasMedicalInfo,
+                                _pathologyResults,
+                                _selectedSurgery,
+                                _surgeryType,
+                                filePath,
+                                picPath);
+                            print("surgeries tuşuna basıldı");
+                          }catch(e){
+                            print(e.toString());
+                          }
+
+                        },
+                        child: Text('GÖNDER'),
+                      ),
+                    ),
+                  ],
+                ),
+            ],
+          ),
+        ),
+        bottomNavigationBar: BottomAppBar(
+          shape: CircularNotchedRectangle(),
+          notchMargin: 4.0,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: IconButton(
+                  icon: Icon(Icons.home),
+                  onPressed: () {
+                    // TODO: İlanlarım ikonuna tıklandığında yapılacak işlemler
+                    Navigator.pushNamed(
+                        context, PublicationsScreen.routeName);
+                  },
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: IconButton(
+                  icon: Icon(Icons.search),
+                  onPressed: () {
+                    // TODO: Doktor Bul ikonuna tıklandığında yapılacak işlemler
+                  },
+                ),
+              ),
+              SizedBox(),  // Orta boşluk
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: IconButton(
+                  icon: Icon(Icons.notifications),
+                  onPressed: () {
+                    // TODO: Bildirimler ikonuna tıklandığında yapılacak işlemler
+                  },
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: IconButton(
+                  icon: Icon(Icons.person),
+                  onPressed: () {
+                    // TODO: Profilim ikonuna tıklandığında yapılacak işlemler
+                    // Navigator.pushNamed(
+                    //     context, "ProfilPage");
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ChangeNotifierProvider(
+                          create: (context) => ProfilPageViewModel(),
+                          child: ProfilPage(),
                         ),
                       ),
-                      onPressed: () {
-                        // Handle submission or navigate to the next page
-                      },
-                      child: Text('GÖNDER'),
-                    ),
-                  ),
-                ],
-              ),
-          ],
-        ),
-      ),
-      bottomNavigationBar: BottomAppBar(
-        shape: CircularNotchedRectangle(),
-        notchMargin: 4.0,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: IconButton(
-                icon: Icon(Icons.home),
-                onPressed: () {
-                  // TODO: İlanlarım ikonuna tıklandığında yapılacak işlemler
-                  Navigator.pushNamed(
-                      context, PublicationsScreen.routeName);
-                },
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: IconButton(
-                icon: Icon(Icons.search),
-                onPressed: () {
-                  // TODO: Doktor Bul ikonuna tıklandığında yapılacak işlemler
-                },
-              ),
-            ),
-            SizedBox(),  // Orta boşluk
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: IconButton(
-                icon: Icon(Icons.notifications),
-                onPressed: () {
-                  // TODO: Bildirimler ikonuna tıklandığında yapılacak işlemler
-                },
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: IconButton(
-                icon: Icon(Icons.person),
-                onPressed: () {
-                  // TODO: Profilim ikonuna tıklandığında yapılacak işlemler
-                  // Navigator.pushNamed(
-                  //     context, "ProfilPage");
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ChangeNotifierProvider(
-                        create: (context) => ProfilPageViewModel(),
-                        child: ProfilPage(),
-                      ),
-                    ),
-                  );
+                    );
 
 
-                },
+                  },
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
+        floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.add),
+          onPressed: () {
+            // TODO: İlan Ver butonuna tıklandığında yapılacak işlemler
+            //ilanver();
+          },
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () {
-          // TODO: İlan Ver butonuna tıklandığında yapılacak işlemler
-          //ilanver();
-        },
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 
@@ -600,8 +623,10 @@ class _SurgeriesState extends State<Surgeries> {
               if (result != null) {
                 File file = File(result.files.single.path!);
                 // Yüklenen dosyayı işleyin
+
               } else {
                 // Kullanıcı dosya seçimini iptal etti
+
               }
             },
           ),

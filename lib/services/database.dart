@@ -85,4 +85,16 @@ class Database {
     await docRef.set(preAndBirthAsMap);  // Dokümanı oluşturur ve verileri ayarlar.
   }
 
+  Future<void> setSurgeriesData(Map<String, dynamic> surgeriesAsMap) async {
+    DocumentReference docRef = firestore
+        .collection('jobs')
+        .doc('ObstetricsAndGynaecology')
+        .collection('surgeries')
+        .doc();  // Bu satır yeni bir doküman referansı oluşturur ve bir ID atar.
+
+    surgeriesAsMap['id'] = docRef.id;  // ID'yi haritaya ekler.
+
+    await docRef.set(surgeriesAsMap);  // Dokümanı oluşturur ve verileri ayarlar.
+  }
+
 }

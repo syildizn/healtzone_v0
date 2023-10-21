@@ -9,7 +9,7 @@ class PreAndBirthModel extends Equatable {
   String? pregnancyInfo;
   String? neededService;
   String? name;
-  int? age;
+  String? birthDay;
   String? city;
   //String? email;
   String? sex;
@@ -25,7 +25,7 @@ class PreAndBirthModel extends Equatable {
     this.pregnancyInfo,
     this.neededService,
     this.name,
-    this.age,
+    this.birthDay,
     this.city,
     //this.email,
     this.sex,
@@ -43,7 +43,7 @@ class PreAndBirthModel extends Equatable {
     pregnancyInfo,
     neededService,
     name,
-    age,
+    birthDay,
     city,
     //email,
     sex,
@@ -60,7 +60,7 @@ class PreAndBirthModel extends Equatable {
     String? pregnancyInfo,
     String? neededService,
     String? name,
-    int? age,
+    String? birthDay,
     String? city,
     //String? email,
     String? sex,
@@ -76,7 +76,7 @@ class PreAndBirthModel extends Equatable {
       pregnancyInfo: pregnancyInfo ?? this.pregnancyInfo,
       neededService: neededService ?? this.neededService,
       name: name ?? this.name,
-      age: age ?? this.age,
+      birthDay: birthDay ?? this.birthDay,
       city: city ?? this.city,
       //email: email ?? this.email,
       sex: sex ?? this.sex,
@@ -95,7 +95,7 @@ class PreAndBirthModel extends Equatable {
       'pregnancyInfo': pregnancyInfo,
       'neededService': neededService,
       'name': name,
-      'age': age,
+      'birthDay': birthDay,
       'city': city,
       //'email': email,
       'sex': sex,
@@ -114,7 +114,7 @@ class PreAndBirthModel extends Equatable {
       pregnancyInfo: json['pregnancyInfo'] as String?,
       neededService: json['neededService'] as String?,
       name: json['name'] as String?,
-      age: json['age'] as int?,
+      birthDay: json['birthDay'] as String?,
       city: json['city'] as String?,
       //email: json['email'] as String?,
       sex: json['sex'] as String?,

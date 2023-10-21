@@ -12,7 +12,7 @@ class SurgeriesModel extends Equatable {
   String? picPath;
   String? id;
   String? name;
-  String? birtDay;
+  String? birthDay;
   String? city;
   String? sex;
   String? address;
@@ -30,7 +30,7 @@ class SurgeriesModel extends Equatable {
     this.picPath,
     this.id,
     this.name,
-    this.birtDay,
+    this.birthDay,
     this.city,
     this.sex,
     this.address,
@@ -50,7 +50,7 @@ class SurgeriesModel extends Equatable {
     picPath,
     id,
     name,
-    birtDay,
+    birthDay,
     city,
     sex,
     address,
@@ -69,7 +69,7 @@ class SurgeriesModel extends Equatable {
     String? picPath,
     String? id,
     String? name,
-    String? birtDay,
+    String? birthDay,
     String? city,
     String? sex,
     String? address,
@@ -87,7 +87,7 @@ class SurgeriesModel extends Equatable {
       picPath: picPath ?? this.picPath,
       id: id ?? this.id,
       name: name ?? this.name,
-      birtDay: birtDay ?? this.birtDay,
+      birthDay: birthDay ?? this.birthDay,
       city: city ?? this.city,
       sex: sex ?? this.sex,
       address: address ?? this.address,
@@ -108,7 +108,7 @@ class SurgeriesModel extends Equatable {
       'picPath': picPath,
       'id': id,
       'name': name,
-      'birtDay': birtDay,
+      'birthDay': birthDay,
       'city': city,
       'sex': sex,
       'address': address,
@@ -129,7 +129,7 @@ class SurgeriesModel extends Equatable {
       picPath: json['picPath'] as String?,
       id: json['id'] as String?,
       name: json['name'] as String?,
-      birtDay: json['birtDay'] as String?,
+      birthDay: json['birthDay'] as String?,
       city: json['city'] as String?,
       sex: json['sex'] as String?,
       address: json['address'] as String?,

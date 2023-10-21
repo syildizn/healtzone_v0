@@ -34,7 +34,7 @@ class _EditPatientsProfileState extends State<EditPatientsProfile> {
     // TextEditingController passwordConfirmSignUpControler = TextEditingController();
     TextEditingController addressSignUpControler = TextEditingController(text: viewModel.address);
     TextEditingController genderControler = TextEditingController(text: viewModel.sex);
-    TextEditingController birthdayControler = TextEditingController(text: viewModel.age.toString());
+    TextEditingController birthdayControler = TextEditingController(text: viewModel.birthDay);
     TextEditingController nameSignUpControler = TextEditingController(text: viewModel.nameSurname);
    // TextEditingController drugsUsed = TextEditingController(text: viewModel.city);
     TextEditingController phoneSignUpControler = TextEditingController(text: viewModel.phone);
@@ -214,7 +214,7 @@ class _EditPatientsProfileState extends State<EditPatientsProfile> {
                       decoration: InputDecoration(
                         prefixIcon: Icon(Icons.date_range_outlined),
                         prefixIconColor: Colors.amber,
-                        labelText: "Yaş",
+                        labelText: "Doğum Tarihi",
                         floatingLabelBehavior: FloatingLabelBehavior.always,
                         labelStyle: TextStyle(
                             color: Colors.black45,
@@ -458,7 +458,7 @@ class _EditPatientsProfileState extends State<EditPatientsProfile> {
                             await Provider.of<EditPatientsProfilViewModel>(context,
                                 listen: false).patientsUpdate(
                               name: nameSignUpControler.text,
-                              age:  int.tryParse(birthdayControler.text),
+                              birthDay:  birthdayControler.text,
                               phone: phoneSignUpControler.text,
                               address: addressSignUpControler.text,
                               city: citySignUpControler.text,

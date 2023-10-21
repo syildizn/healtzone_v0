@@ -11,7 +11,7 @@ class PreAndBirthViewModel extends ChangeNotifier {
   Authentication auth = Authentication();
   User? user;
   String? nameSurname;
-  int? age;
+  String? age;
   String? phone;
   String? address;
   String? city;
@@ -51,7 +51,7 @@ class PreAndBirthViewModel extends ChangeNotifier {
       id: '',
       sex: sex,
       city: city,
-      age: age,
+      birthDay: age,
       name: nameSurname,
       address: address,
       cesarianSection: cesarianSection,

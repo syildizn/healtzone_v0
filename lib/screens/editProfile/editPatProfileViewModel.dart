@@ -11,7 +11,7 @@ class EditPatientsProfilViewModel extends ChangeNotifier{
   Authentication auth = Authentication();
   User? user;
   String? nameSurname;
-  int? age;
+  String? birthDay;
   String? phone;
   String? address;
   String? city;
@@ -28,7 +28,7 @@ class EditPatientsProfilViewModel extends ChangeNotifier{
       if (documentSnapshot != null) {
 
         nameSurname = documentSnapshot['name'];
-        age = documentSnapshot['age'];
+        birthDay = documentSnapshot['birthDay'];
         phone = documentSnapshot['phone'];
         address = documentSnapshot['address'];
         city = documentSnapshot['city'];
@@ -40,7 +40,7 @@ class EditPatientsProfilViewModel extends ChangeNotifier{
   }
 
   bool isProfileComplete() {
-    var values = [nameSurname, age, phone, address, city, sex];
+    var values = [nameSurname, birthDay, phone, address, city, sex];
     return values.every((value) => value != null);
   }
 
@@ -50,7 +50,7 @@ class EditPatientsProfilViewModel extends ChangeNotifier{
 
   Future<void> patientsUpdate(
       {String? name,
-        int? age,
+        String? birthDay,
         String? sex,
         String? address,
         String? city,
@@ -64,7 +64,7 @@ class EditPatientsProfilViewModel extends ChangeNotifier{
         name: name,
         sex: sex,
         city: city,
-        age: age,
+        birthDay: birthDay,
         address: address,
         phone: phone,
         completedProfile: completedProfile

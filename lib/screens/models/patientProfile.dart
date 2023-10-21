@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 class PatientModel extends Equatable {
   final String? id;
   final String? name;
-  final int? age;
+  final String? birthDay;
   final String? phone;
   final String? address;
   final String? city;
@@ -14,7 +14,7 @@ class PatientModel extends Equatable {
   PatientModel({
     this.id,
     this.name,
-    this.age,
+    this.birthDay,
     this.phone,
     this.address,
     this.city,
@@ -25,12 +25,12 @@ class PatientModel extends Equatable {
 
   @override
   List<Object?> get props =>
-      [id,name, age, phone, address, city, completedProfile, email, sex];
+      [id,name, birthDay, phone, address, city, completedProfile, email, sex];
 
   PatientModel copyWith({
     String? id,
     String? name,
-    int? age,
+    String? birthDay,
     String? phone,
     String? address,
     String? city,
@@ -41,7 +41,7 @@ class PatientModel extends Equatable {
     return PatientModel(
       id: id ?? this.id,
       name: name ?? this.name,
-      age: age ?? this.age,
+      birthDay: birthDay ?? this.birthDay,
       phone: phone ?? this.phone,
       address: address ?? this.address,
       city: city ?? this.city,
@@ -55,7 +55,7 @@ class PatientModel extends Equatable {
     return {
       'id': id,
       'name': name,
-      'age': age,
+      'birthDay': birthDay,
       'phone': phone,
       'address': address,
       'city': city,
@@ -69,7 +69,7 @@ class PatientModel extends Equatable {
     return PatientModel(
       id: json['id'] as String?,
       name: json['name'] as String?,
-      age: json['age'] as int?,
+      birthDay: json['birthDay'] as String?,
       phone: json['phone'] as String?,
       address: json['address'] as String?,
       city: json['city'] as String?,

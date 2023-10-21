@@ -28,7 +28,7 @@ class SurgeriesViewModel extends ChangeNotifier{
 
       if (documentSnapshot != null) {
         nameSurname = documentSnapshot['name'];
-        birthDay = documentSnapshot['age'];
+        birthDay = documentSnapshot['birthDay'];
         phone = documentSnapshot['phone'];
         address = documentSnapshot['address'];
         city = documentSnapshot['city'];
@@ -38,39 +38,41 @@ class SurgeriesViewModel extends ChangeNotifier{
         notifyListeners(); // UI'da değişiklikleri yakalamak için
       }
     }
-
-    Future<void> preAndBirth(
-        bool? previousBirth,
-        String? cesarianSection,
-        String? pregnancyWeek,
-        bool? pregnancyInfoYesNo,
-        String? pregnancyInfo,
-        String? neededService,
-        ) async {
-
-      SurgeriesModel surgeryModel = SurgeriesModel(
-        userId: userId,
-        id: '',
-        sex: sex,
-        city: city,
-        name: nameSurname,
-        address: address,
-        birtDay: birthDay,
-        diagnosis: ,
-        filePath: ,
-        hadPreviousSurgery: ,
-        hasMedicalInfo: ,
-        medicalInfo: ,
-        pathologyResults: ,
-        picPath: ,
-        selectedSurgery: ,
-        surgeryType: ,
-        
-      );
-
-      await database.setPreAndBirthData(surgeryModel.toJson());
-    }
-
   }
 
+
+  Future<void> surgeries(
+      bool? hadPreviousSurgery,
+      String? diagnosis,
+      String? medicalInfo,
+      bool? hasMedicalInfo,
+      String? pathologyResults,
+      String? selectedSurgery,
+      String? surgeryType,
+      String? filePath,
+      String? picPath,
+      ) async {
+
+    SurgeriesModel surgeryModel = SurgeriesModel(
+      userId: userId,
+      id: '',
+      sex: sex,
+      city: city,
+      name: nameSurname,
+      address: address,
+      birthDay: birthDay,
+      diagnosis: diagnosis,
+      filePath: filePath,
+      hadPreviousSurgery: hadPreviousSurgery,
+      hasMedicalInfo: hasMedicalInfo,
+      medicalInfo: medicalInfo,
+      pathologyResults: pathologyResults,
+      picPath: picPath,
+      selectedSurgery: selectedSurgery,
+      surgeryType: surgeryType,
+
+    );
+
+    await database.setSurgeriesData(surgeryModel.toJson());
+  }
 }

@@ -42,7 +42,7 @@ class LoginPageViewModel extends ChangeNotifier{
         phone: null,
         name: null,
         address: null,
-        age: null,
+        birthDay: null,
         city: null,
         sex: null,
         completedProfile: false

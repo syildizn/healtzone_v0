@@ -78,7 +78,7 @@ class _ProfilPageState extends State<ProfilPage> {
                           children: [
                             profilBilgisi("İsim Soyisim:", document?['name']),
                             Divider(),
-                            profilBilgisi("Yaş:", document?['age'].toString()),
+                            profilBilgisi("Doğum tarihi:", document?['birthDay'].toString()),
                             Divider(),
                             profilBilgisi("Telefon:", document?['phone']),
                             Divider(),

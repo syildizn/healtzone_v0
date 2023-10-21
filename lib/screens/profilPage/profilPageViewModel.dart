@@ -14,7 +14,7 @@ class ProfilPageViewModel extends ChangeNotifier{
 
 
   String? isimSoyisim;
-  int? yas;
+  String? dogumTarihi;
   String? telefon;
   String? adres;
   String? sehir;

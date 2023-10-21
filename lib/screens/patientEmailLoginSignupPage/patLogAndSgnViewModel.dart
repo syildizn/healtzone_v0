@@ -16,7 +16,7 @@ class PatLogAndSgnViewModel extends ChangeNotifier{
         email: email,
         address: null,
         name: null,
-        age: null,
+        birthDay: null,
         city: null,
         sex: null,
         completedProfile: false,
