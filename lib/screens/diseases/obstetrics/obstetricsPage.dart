@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:healtzone_v0/screens/diseases/obstetrics/detailedUltrasoundPage.dart';
-import 'package:healtzone_v0/screens/diseases/obstetrics/genitalAestheticsPage.dart';
-import 'package:healtzone_v0/screens/diseases/obstetrics/inVitroFertilizationPage.dart';
+import 'package:healtzone_v0/screens/diseases/obstetrics/detailedUltrasound/detailedUltrasoundPage.dart';
+import 'package:healtzone_v0/screens/diseases/obstetrics/genitalAesthetics/genitalAestheticsPage.dart';
+import 'package:healtzone_v0/screens/diseases/obstetrics/inVitroFertilization/inVitroFertilizationPage.dart';
 import 'package:healtzone_v0/screens/diseases/obstetrics/pregnancyAndBirth/pregnancyAndBirthPage.dart';
-import 'package:healtzone_v0/screens/diseases/obstetrics/surgeriesPage.dart';
+import 'package:healtzone_v0/screens/diseases/obstetrics/surgeries/surgeriesPage.dart';
 import 'package:provider/provider.dart';
 
 import '../../homePage/publications.dart';

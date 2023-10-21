@@ -1,29 +1,30 @@
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../homePage/publications.dart';
-import '../../profilPage/profilPage.dart';
-import '../../profilPage/profilPageViewModel.dart';
+import '../../../homePage/publications.dart';
+import '../../../profilPage/profilPage.dart';
+import '../../../profilPage/profilPageViewModel.dart';
 
-class DetailedUltrasound extends StatefulWidget {
-  static String routeName = "DetailedUltrasoundPage";
-  const DetailedUltrasound({Key? key}) : super(key: key);
+class GenitalAesthetics extends StatefulWidget {
+  static String routeName = "GenitalAestheticsPage";
+  const GenitalAesthetics({Key? key}) : super(key: key);
 
   @override
-  State<DetailedUltrasound> createState() => _DetailedUltrasoundState();
+  State<GenitalAesthetics> createState() => _GenitalAestheticsState();
 }
 
-class _DetailedUltrasoundState extends State<DetailedUltrasound> {
-  String _pregnancyWeek = '';
-  bool? _hadPreviousIssues;
-  String _previousIssuesText = '';
+class _GenitalAestheticsState extends State<GenitalAesthetics> {
+  bool? _hadPreviousSurgery;
+  bool? _hadProfessionalExamination;
+  String? _recommendedProcedure;
+  String? _desiredProcedure;
+  String? _otherProcedure;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Ayrıntılı Ultrasonografi ',),
+        title: Text('Genital Estetik'),
       ),
       body: Container(
         decoration: BoxDecoration(
@@ -37,63 +38,137 @@ class _DetailedUltrasoundState extends State<DetailedUltrasound> {
           padding: EdgeInsets.all(16.0),
           children: [
             _buildCard(
-              title: 'Bilgilendirme',
-              child: Text(
-                'Ayrıntılı Ultrasonografi (Fetal Anomali Taraması) gebeliğin 18-23. haftaları arasında yapılmaktadır ',
-                style: TextStyle(
-                  fontStyle: FontStyle.normal,fontSize: 16
-                ),
-              ),
-            ),
-            _buildCard(
-              title: 'Kaçıncı gebelik haftasındasınız? (Örneğin: 21. hafta)',
-              child: TextFormField(
-                decoration: InputDecoration(
-                  labelText: 'Gebelik Haftası',
-                  border: OutlineInputBorder(),
-                ),
-                onChanged: (value) {
-                  _pregnancyWeek = value;
-                },
-              ),
-            ),
-            _buildCard(
-              title: 'Şimdiki yada daha önceki gebeliğinizde herhangi bir sorun yaşadınızmı?',
+              title: 'Daha önce genital estetik ameliyatı oldunuz mu?',
               child: Row(
                 children: [
                   Text('Hayır'),
                   Radio(
                     value: false,
-                    groupValue: _hadPreviousIssues,
+                    groupValue: _hadPreviousSurgery,
                     onChanged: (bool? value) {
                       setState(() {
-                        _hadPreviousIssues = value;
+                        _hadPreviousSurgery = value;
                       });
                     },
                   ),
                   Text('Evet'),
                   Radio(
                     value: true,
-                    groupValue: _hadPreviousIssues,
+                    groupValue: _hadPreviousSurgery,
                     onChanged: (bool? value) {
                       setState(() {
-                        _hadPreviousIssues = value;
+                        _hadPreviousSurgery = value;
                       });
                     },
                   ),
                 ],
               ),
             ),
-            if (_hadPreviousIssues == true)
+            if (_hadPreviousSurgery == true)
               _buildCard(
-                title: 'Lütfen sorunları belirtin',
+                title: 'Lütfen detayları belirtin',
                 child: TextFormField(
                   decoration: InputDecoration(
-                    labelText: 'Sorunlar',
+                    labelText: 'Detaylar',
                     border: OutlineInputBorder(),
                   ),
                   onChanged: (value) {
-                    _previousIssuesText = value;
+                    // ...
+                  },
+                ),
+              ),
+            _buildCard(
+              title: 'Daha önce uzman tarafından muayene olduysanız önerilen genital estetik işlemi var mı?',
+              child: Row(
+                children: [
+                  Text('Hayır'),
+                  Radio(
+                    value: false,
+                    groupValue: _hadProfessionalExamination,
+                    onChanged: (bool? value) {
+                      setState(() {
+                        _hadProfessionalExamination = value;
+                      });
+                    },
+                  ),
+                  Text('Evet'),
+                  Radio(
+                    value: true,
+                    groupValue: _hadProfessionalExamination,
+                    onChanged: (bool? value) {
+                      setState(() {
+                        _hadProfessionalExamination = value;
+                      });
+                    },
+                  ),
+                ],
+              ),
+            ),
+            if (_hadProfessionalExamination == true)
+              _buildCard(
+                title: 'Önerilen işlemi belirtin',
+                child: TextFormField(
+                  decoration: InputDecoration(
+                    labelText: 'Önerilen İşlem',
+                    border: OutlineInputBorder(),
+                  ),
+                  onChanged: (value) {
+                    _recommendedProcedure = value;
+                  },
+                ),
+              ),
+            _buildCard(
+              title: 'İstediğiniz genital estetik işlemi hangisidir?',
+              child: DropdownButton<String>(
+                value: _desiredProcedure,
+                items: [
+                  DropdownMenuItem(
+                    value: 'Labioplasti',
+                    child: Text('Labioplasti'),
+                  ),
+                  DropdownMenuItem(
+                    value: 'Klitoris Estetiği',
+                    child: Text('Klitoris Estetiği'),
+                  ),
+                  DropdownMenuItem(
+                    value: 'Vajen daraltma',
+                    child: Text('Vajen daraltma'),
+                  ), DropdownMenuItem(
+                    value: 'Vulva Beyazlatma',
+                    child: Text('Vulva Beyazlatma'),
+                  ), DropdownMenuItem(
+                    value: 'Hymenoplasti (Kızlık zarı dikimi)',
+                    child: Text('Hymenoplasti (Kızlık zarı dikimi)'),
+                  ), DropdownMenuItem(
+                    value: 'Doğum izi düzeltilmesi',
+                    child: Text('Doğum izi düzeltilmesi'),
+                  ),
+                  DropdownMenuItem(
+                    value: 'Diğer',
+                    child: Text('Diğer'),
+                  ),
+                ],
+                hint: Text('Seçiniz'),
+                onChanged: (String? value) {
+                  setState(() {
+                    _desiredProcedure = value;
+                    if (value == 'Diğer') {
+                      _otherProcedure = '';  // Reset the otherProcedure field for user input
+                    }
+                  });
+                },
+              ),
+            ),
+            if (_desiredProcedure == 'Diğer')
+              _buildCard(
+                title: 'Lütfen diğer işlemi belirtin',
+                child: TextFormField(
+                  decoration: InputDecoration(
+                    labelText: 'Diğer İşlem',
+                    border: OutlineInputBorder(),
+                  ),
+                  onChanged: (value) {
+                    _otherProcedure = value;
                   },
                 ),
               ),

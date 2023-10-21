@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
-import 'package:healtzone_v0/screens/diseases/obstetrics/detailedUltrasoundPage.dart';
-import 'package:healtzone_v0/screens/diseases/obstetrics/genitalAestheticsPage.dart';
-import 'package:healtzone_v0/screens/diseases/obstetrics/inVitroFertilizationPage.dart';
+import 'package:healtzone_v0/screens/diseases/obstetrics/detailedUltrasound/detailedUltrasoundPage.dart';
+import 'package:healtzone_v0/screens/diseases/obstetrics/genitalAesthetics/genitalAestheticsPage.dart';
+import 'package:healtzone_v0/screens/diseases/obstetrics/inVitroFertilization/inVitroFertilizationPage.dart';
 import 'package:healtzone_v0/screens/diseases/obstetrics/obstetricsPage.dart';
 import 'package:healtzone_v0/screens/diseases/obstetrics/pregnancyAndBirth/pregnancyAndBirthPage.dart';
-import 'package:healtzone_v0/screens/diseases/obstetrics/surgeriesPage.dart';
+import 'package:healtzone_v0/screens/diseases/obstetrics/surgeries/surgeriesPage.dart';
 import 'package:healtzone_v0/screens/doctorLoginAndSignupPage/doctorLoginAndSignup.dart';
 import 'package:healtzone_v0/screens/doctorPage/doctor.dart';
 import 'package:healtzone_v0/screens/editProfile/editPatientsProfile.dart';

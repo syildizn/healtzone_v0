@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
-import '../../homePage/publications.dart';
-import '../../profilPage/profilPage.dart';
-import '../../profilPage/profilPageViewModel.dart';
+import '../../../homePage/publications.dart';
+import '../../../profilPage/profilPage.dart';
+import '../../../profilPage/profilPageViewModel.dart';
 
 class InVitroFertilization extends StatefulWidget {
   static String routeName = "InVitroFertilizationPage";

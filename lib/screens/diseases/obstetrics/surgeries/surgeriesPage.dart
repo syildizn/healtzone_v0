@@ -205,9 +205,9 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
-import '../../homePage/publications.dart';
-import '../../profilPage/profilPage.dart';
-import '../../profilPage/profilPageViewModel.dart';
+import '../../../homePage/publications.dart';
+import '../../../profilPage/profilPage.dart';
+import '../../../profilPage/profilPageViewModel.dart';
 
 class Surgeries extends StatefulWidget {
   static String routeName = "SurgeriesPage";
