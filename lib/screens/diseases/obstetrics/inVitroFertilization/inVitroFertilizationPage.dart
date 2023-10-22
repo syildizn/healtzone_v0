@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:healtzone_v0/screens/diseases/obstetrics/inVitroFertilization/inVitroFertilizationViewModel.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
@@ -27,246 +28,254 @@ class _InVitroFertilizationState extends State<InVitroFertilization> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Tüp Bebek Tedavisi'),
-      ),
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Colors.blue.shade200, Colors.white],
-          ),
+    return ChangeNotifierProvider<InVitroFertViewModel>(
+      create: (_) => InVitroFertViewModel(),
+      builder: (context, _) =>  Scaffold(
+        appBar: AppBar(
+          title: Text('Tüp Bebek Tedavisi'),
         ),
-        child: ListView(
-          padding: EdgeInsets.all(16.0),
-          children: [
-            _buildCard(
-              title: 'Daha önce tüp bebek tedavisi aldınız mı?',
-              child: Row(
-                children: [
-                  Text('Evet'),
-                  Radio(
-                    value: true,
-                    groupValue: _hadIVFTreatmentBefore,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        _hadIVFTreatmentBefore = value;
-                      });
-                    },
-                  ),
-                  Text('Hayır'),
-                  Radio(
-                    value: false,
-                    groupValue: _hadIVFTreatmentBefore,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        _hadIVFTreatmentBefore = value;
-                      });
-                    },
-                  ),
-                ],
-              ),
+        body: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [Colors.blue.shade200, Colors.white],
             ),
-            if (_hadIVFTreatmentBefore == true)
+          ),
+          child: ListView(
+            padding: EdgeInsets.all(16.0),
+            children: [
               _buildCard(
-                title: 'Dondurulmuş embriyonuz var mı?',
+                title: 'Daha önce tüp bebek tedavisi aldınız mı?',
                 child: Row(
                   children: [
                     Text('Evet'),
                     Radio(
                       value: true,
-                      groupValue: _haveFrozenEmbryos,
+                      groupValue: _hadIVFTreatmentBefore,
                       onChanged: (bool? value) {
                         setState(() {
-                          _haveFrozenEmbryos = value;
+                          _hadIVFTreatmentBefore = value;
                         });
                       },
                     ),
                     Text('Hayır'),
                     Radio(
                       value: false,
-                      groupValue: _haveFrozenEmbryos,
+                      groupValue: _hadIVFTreatmentBefore,
                       onChanged: (bool? value) {
                         setState(() {
-                          _haveFrozenEmbryos = value;
+                          _hadIVFTreatmentBefore = value;
                         });
                       },
                     ),
                   ],
                 ),
               ),
-            _buildCard(
-              title: 'Daha önce uzman tarafından konulmuş teşhisiniz var mı?',
-              child: Row(
-                children: [
-                  Text('Hayır'),
-                  Radio(
-                    value: false,
-                    groupValue: _havePreviousDiagnosis,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        _havePreviousDiagnosis = value;
-                      });
-                    },
-                  ),
-                  Text('Evet'),
-                  Radio(
-                    value: true,
-                    groupValue: _havePreviousDiagnosis,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        _havePreviousDiagnosis = value;
-                      });
-                    },
-                  ),
-                ],
-              ),
-            ),
-            if (_havePreviousDiagnosis == true)
-              _buildCard(
-                title: 'Teşhisinizi yazın',
-                child: TextFormField(
-                  decoration: InputDecoration(
-                    labelText: 'Teşhis',
-                    border: OutlineInputBorder(),
-                  ),
-                  onChanged: (value) {
-                    _previousDiagnosisText = value;
-                  },
-                ),
-              ),
-            _buildFileUploadCard(),
-            _buildCard(
-              title:
-              'Tıbbi durumunuzla ilgili bilgi vermek istediğiniz durumlar var mı (ek hastalık, ilaç kullanımı gibi)?',
-              child: Row(
-                children: [
-                  Text('Hayır'),
-                  Radio(
-                    value: false,
-                    groupValue: _haveAdditionalInformation,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        _haveAdditionalInformation = value;
-                      });
-                    },
-                  ),
-                  Text('Evet'),
-                  Radio(
-                    value: true,
-                    groupValue: _haveAdditionalInformation,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        _haveAdditionalInformation = value;
-                      });
-                    },
-                  ),
-                ],
-              ),
-            ),
-            if (_haveAdditionalInformation == true)
-              _buildCard(
-                title: 'Ek bilgiler',
-                child: TextFormField(
-                  decoration: InputDecoration(
-                    labelText: 'Ek bilgiler',
-                    border: OutlineInputBorder(),
-                  ),
-                  onChanged: (value) {
-                    _additionalInformation = value;
-                  },
-                ),
-              ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.blue,
-                  padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                ),
-                onPressed: () {
-                  // Handle submission or navigate to the next page
-                },
-                child: Text('Gönder'),
-              ),
-            ),
-          ],
-        ),
-      ),
-      bottomNavigationBar: BottomAppBar(
-        shape: CircularNotchedRectangle(),
-        notchMargin: 4.0,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: IconButton(
-                icon: Icon(Icons.home),
-                onPressed: () {
-                  // TODO: İlanlarım ikonuna tıklandığında yapılacak işlemler
-                  Navigator.pushNamed(
-                      context, PublicationsScreen.routeName);
-                },
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: IconButton(
-                icon: Icon(Icons.search),
-                onPressed: () {
-                  // TODO: Doktor Bul ikonuna tıklandığında yapılacak işlemler
-                },
-              ),
-            ),
-            SizedBox(),  // Orta boşluk
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: IconButton(
-                icon: Icon(Icons.notifications),
-                onPressed: () {
-                  // TODO: Bildirimler ikonuna tıklandığında yapılacak işlemler
-                },
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: IconButton(
-                icon: Icon(Icons.person),
-                onPressed: () {
-                  // TODO: Profilim ikonuna tıklandığında yapılacak işlemler
-                  // Navigator.pushNamed(
-                  //     context, "ProfilPage");
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ChangeNotifierProvider(
-                        create: (context) => ProfilPageViewModel(),
-                        child: ProfilPage(),
+              if (_hadIVFTreatmentBefore == true)
+                _buildCard(
+                  title: 'Dondurulmuş embriyonuz var mı?',
+                  child: Row(
+                    children: [
+                      Text('Evet'),
+                      Radio(
+                        value: true,
+                        groupValue: _haveFrozenEmbryos,
+                        onChanged: (bool? value) {
+                          setState(() {
+                            _haveFrozenEmbryos = value;
+                          });
+                        },
                       ),
+                      Text('Hayır'),
+                      Radio(
+                        value: false,
+                        groupValue: _haveFrozenEmbryos,
+                        onChanged: (bool? value) {
+                          setState(() {
+                            _haveFrozenEmbryos = value;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              _buildCard(
+                title: 'Daha önce uzman tarafından konulmuş teşhisiniz var mı?',
+                child: Row(
+                  children: [
+                    Text('Hayır'),
+                    Radio(
+                      value: false,
+                      groupValue: _havePreviousDiagnosis,
+                      onChanged: (bool? value) {
+                        setState(() {
+                          _havePreviousDiagnosis = value;
+                        });
+                      },
                     ),
-                  );
-
-
-                },
+                    Text('Evet'),
+                    Radio(
+                      value: true,
+                      groupValue: _havePreviousDiagnosis,
+                      onChanged: (bool? value) {
+                        setState(() {
+                          _havePreviousDiagnosis = value;
+                        });
+                      },
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+              if (_havePreviousDiagnosis == true)
+                _buildCard(
+                  title: 'Teşhisinizi yazın',
+                  child: TextFormField(
+                    decoration: InputDecoration(
+                      labelText: 'Teşhis',
+                      border: OutlineInputBorder(),
+                    ),
+                    onChanged: (value) {
+                      _previousDiagnosisText = value;
+                    },
+                  ),
+                ),
+              _buildFileUploadCard(),
+              _buildCard(
+                title:
+                'Tıbbi durumunuzla ilgili bilgi vermek istediğiniz durumlar var mı (ek hastalık, ilaç kullanımı gibi)?',
+                child: Row(
+                  children: [
+                    Text('Hayır'),
+                    Radio(
+                      value: false,
+                      groupValue: _haveAdditionalInformation,
+                      onChanged: (bool? value) {
+                        setState(() {
+                          _haveAdditionalInformation = value;
+                        });
+                      },
+                    ),
+                    Text('Evet'),
+                    Radio(
+                      value: true,
+                      groupValue: _haveAdditionalInformation,
+                      onChanged: (bool? value) {
+                        setState(() {
+                          _haveAdditionalInformation = value;
+                        });
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              if (_haveAdditionalInformation == true)
+                _buildCard(
+                  title: 'Ek bilgiler',
+                  child: TextFormField(
+                    decoration: InputDecoration(
+                      labelText: 'Ek bilgiler',
+                      border: OutlineInputBorder(),
+                    ),
+                    onChanged: (value) {
+                      _additionalInformation = value;
+                    },
+                  ),
+                ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.blue,
+                    padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                  onPressed: () {
+                    // Handle submission or navigate to the next page
+                    try{
+                      
+                    }catch(e){
+                      print(e.toString());
+                    }
+                  },
+                  child: Text('Gönder'),
+                ),
+              ),
+            ],
+          ),
         ),
+        bottomNavigationBar: BottomAppBar(
+          shape: CircularNotchedRectangle(),
+          notchMargin: 4.0,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: IconButton(
+                  icon: Icon(Icons.home),
+                  onPressed: () {
+                    // TODO: İlanlarım ikonuna tıklandığında yapılacak işlemler
+                    Navigator.pushNamed(
+                        context, PublicationsScreen.routeName);
+                  },
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: IconButton(
+                  icon: Icon(Icons.search),
+                  onPressed: () {
+                    // TODO: Doktor Bul ikonuna tıklandığında yapılacak işlemler
+                  },
+                ),
+              ),
+              SizedBox(),  // Orta boşluk
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: IconButton(
+                  icon: Icon(Icons.notifications),
+                  onPressed: () {
+                    // TODO: Bildirimler ikonuna tıklandığında yapılacak işlemler
+                  },
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: IconButton(
+                  icon: Icon(Icons.person),
+                  onPressed: () {
+                    // TODO: Profilim ikonuna tıklandığında yapılacak işlemler
+                    // Navigator.pushNamed(
+                    //     context, "ProfilPage");
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ChangeNotifierProvider(
+                          create: (context) => ProfilPageViewModel(),
+                          child: ProfilPage(),
+                        ),
+                      ),
+                    );
+
+
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.add),
+          onPressed: () {
+            // TODO: İlan Ver butonuna tıklandığında yapılacak işlemler
+            //ilanver();
+          },
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () {
-          // TODO: İlan Ver butonuna tıklandığında yapılacak işlemler
-          //ilanver();
-        },
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 

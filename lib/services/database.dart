@@ -97,4 +97,15 @@ class Database {
     await docRef.set(surgeriesAsMap);  // Dokümanı oluşturur ve verileri ayarlar.
   }
 
+  Future<void> setInVitroData(Map<String, dynamic> inVitroAsMap) async {
+    DocumentReference docRef = firestore
+        .collection('jobs')
+        .doc('ObstetricsAndGynaecology')
+        .collection('inVitroFertilization')
+        .doc();  // Bu satır yeni bir doküman referansı oluşturur ve bir ID atar.
+
+    inVitroAsMap['id'] = docRef.id;  // ID'yi haritaya ekler.
+
+    await docRef.set(inVitroAsMap);  // Dokümanı oluşturur ve verileri ayarlar.
+  }
 }
