@@ -121,4 +121,15 @@ class Database {
     await docRef.set(genitalAestAsMap);  // Dokümanı oluşturur ve verileri ayarlar.
   }
 
+  Future<void> setDetailedUltrasoundData(Map<String, dynamic> detailedAsMap) async {
+    DocumentReference docRef = firestore
+        .collection('jobs')
+        .doc('ObstetricsAndGynaecology')
+        .collection('detailedUlrasound')
+        .doc();  // Bu satır yeni bir doküman referansı oluşturur ve bir ID atar.
+
+    detailedAsMap['id'] = docRef.id;  // ID'yi haritaya ekler.
+
+    await docRef.set(detailedAsMap);  // Dokümanı oluşturur ve verileri ayarlar.
+  }
 }

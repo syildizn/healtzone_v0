@@ -11,7 +11,7 @@ class PreAndBirthViewModel extends ChangeNotifier {
   Authentication auth = Authentication();
   User? user;
   String? nameSurname;
-  String? age;
+  String? birthDay;
   String? phone;
   String? address;
   String? city;
@@ -27,7 +27,7 @@ class PreAndBirthViewModel extends ChangeNotifier {
 
       if (documentSnapshot != null) {
         nameSurname = documentSnapshot['name'];
-        age = documentSnapshot['age'];
+        birthDay = documentSnapshot['birthDay'];
         phone = documentSnapshot['phone'];
         address = documentSnapshot['address'];
         city = documentSnapshot['city'];
@@ -51,7 +51,7 @@ class PreAndBirthViewModel extends ChangeNotifier {
       id: '',
       sex: sex,
       city: city,
-      birthDay: age,
+      birthDay: birthDay,
       name: nameSurname,
       address: address,
       cesarianSection: cesarianSection,

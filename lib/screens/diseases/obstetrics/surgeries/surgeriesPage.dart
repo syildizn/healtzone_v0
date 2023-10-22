@@ -239,8 +239,8 @@ class _SurgeriesState extends State<Surgeries> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<SurgeriesViewModel>(
-      create:(_) => SurgeriesViewModel(),
-      builder: (context, _) =>  Scaffold(
+      create: (_) => SurgeriesViewModel(),
+      builder: (context, _) => Scaffold(
         appBar: AppBar(
           title: Text('Ameliyatlar'),
         ),
@@ -300,7 +300,7 @@ class _SurgeriesState extends State<Surgeries> {
                       child: TextFormField(
                         decoration: InputDecoration(
                           labelText:
-                          'Kadın Hastalıkları ve Doğum Uzmanı tarafından konulan teşhisinizi yazınız',
+                              'Kadın Hastalıkları ve Doğum Uzmanı tarafından konulan teşhisinizi yazınız',
                           border: OutlineInputBorder(),
                         ),
                         onChanged: (value) {
@@ -387,7 +387,8 @@ class _SurgeriesState extends State<Surgeries> {
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           primary: Colors.blue,
-                          padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 50, vertical: 10),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20),
                           ),
@@ -409,7 +410,8 @@ class _SurgeriesState extends State<Surgeries> {
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           primary: Colors.blue,
-                          padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 50, vertical: 10),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20),
                           ),
@@ -471,30 +473,76 @@ class _SurgeriesState extends State<Surgeries> {
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           primary: Colors.blue,
-                          padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 50, vertical: 10),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20),
                           ),
                         ),
-                        onPressed: () async{
+                        onPressed: () async {
                           // Handle submission or navigate to the next page
-                          try{
-                            await Provider.of<SurgeriesViewModel>(context,listen: false).getUserData();
-                            await Provider.of<SurgeriesViewModel>(context,listen: false).surgeries(
-                                _hadPreviousSurgery,
-                                _diagnosis,
-                                _medicalInfo,
-                                _hasMedicalInfo,
-                                _pathologyResults,
-                                _selectedSurgery,
-                                _surgeryType,
-                                filePath,
-                                picPath);
+                          try {
+                            await Provider.of<SurgeriesViewModel>(context,
+                                    listen: false)
+                                .getUserData();
+                            await Provider.of<SurgeriesViewModel>(context,
+                                    listen: false)
+                                .surgeries(
+                                    _hadPreviousSurgery,
+                                    _diagnosis,
+                                    _medicalInfo,
+                                    _hasMedicalInfo,
+                                    _pathologyResults,
+                                    _selectedSurgery,
+                                    _surgeryType,
+                                    filePath,
+                                    picPath);
                             print("surgeries tuşuna basıldı");
-                          }catch(e){
+                            showDialog(
+                              context: context,
+                              barrierDismissible: false,  // Dialog dışına tıklanamaz
+                              builder: (BuildContext context) {
+                                return Dialog(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12),  // Yuvarlak köşeler
+                                  ),
+                                  elevation: 16,
+                                  child: Container(
+                                    padding: EdgeInsets.all(16),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,  // İçeriği saran boyut
+                                      children: <Widget>[
+                                        Text(
+                                          'İşlem Başarılı',
+                                          style: TextStyle(
+                                            fontSize: 24,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        SizedBox(height: 20),  // Boşluk
+                                        Text(
+                                          'İşlem başarılı, ilanınız başarıyla yayınlandı, ilanlarım sayfasından takip edebilirsiniz.',
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                        SizedBox(height: 20),  // Boşluk
+                                        ElevatedButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();  // Dialog'u kapat
+                                            Navigator.pushNamed(context, PublicationsScreen.routeName);  // Yeni sayfaya yönlendir
+                                          },
+                                          child: Text('Tamam'),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
+                            );
+                          } catch (e) {
                             print(e.toString());
                           }
-
                         },
                         child: Text('GÖNDER'),
                       ),
@@ -516,8 +564,7 @@ class _SurgeriesState extends State<Surgeries> {
                   icon: Icon(Icons.home),
                   onPressed: () {
                     // TODO: İlanlarım ikonuna tıklandığında yapılacak işlemler
-                    Navigator.pushNamed(
-                        context, PublicationsScreen.routeName);
+                    Navigator.pushNamed(context, PublicationsScreen.routeName);
                   },
                 ),
               ),
@@ -530,7 +577,7 @@ class _SurgeriesState extends State<Surgeries> {
                   },
                 ),
               ),
-              SizedBox(),  // Orta boşluk
+              SizedBox(), // Orta boşluk
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: IconButton(
@@ -557,8 +604,6 @@ class _SurgeriesState extends State<Surgeries> {
                         ),
                       ),
                     );
-
-
                   },
                 ),
               ),
@@ -623,10 +668,8 @@ class _SurgeriesState extends State<Surgeries> {
               if (result != null) {
                 File file = File(result.files.single.path!);
                 // Yüklenen dosyayı işleyin
-
               } else {
                 // Kullanıcı dosya seçimini iptal etti
-
               }
             },
           ),
@@ -636,8 +679,8 @@ class _SurgeriesState extends State<Surgeries> {
             label: Text('Fotoğraf Yükleyin'),
             onPressed: () async {
               final picker = ImagePicker();
-              final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
-
+              final pickedFile =
+                  await ImagePicker().pickImage(source: ImageSource.gallery);
 
               if (pickedFile != null) {
                 File imageFile = File(pickedFile.path);
@@ -651,5 +694,4 @@ class _SurgeriesState extends State<Surgeries> {
       ),
     );
   }
-
 }

@@ -212,6 +212,48 @@ class _InVitroFertilizationState extends State<InVitroFertilization> {
                               filePath,
                               picPath);
                       print("inVitro tuşuna basıldı");
+                      showDialog(
+                        context: context,
+                        barrierDismissible: false,  // Dialog dışına tıklanamaz
+                        builder: (BuildContext context) {
+                          return Dialog(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),  // Yuvarlak köşeler
+                            ),
+                            elevation: 16,
+                            child: Container(
+                              padding: EdgeInsets.all(16),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,  // İçeriği saran boyut
+                                children: <Widget>[
+                                  Text(
+                                    'İşlem Başarılı',
+                                    style: TextStyle(
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  SizedBox(height: 20),  // Boşluk
+                                  Text(
+                                    'İşlem başarılı, ilanınız başarıyla yayınlandı, ilanlarım sayfasından takip edebilirsiniz.',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                  SizedBox(height: 20),  // Boşluk
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();  // Dialog'u kapat
+                                      Navigator.pushNamed(context, PublicationsScreen.routeName);  // Yeni sayfaya yönlendir
+                                    },
+                                    child: Text('Tamam'),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      );
                     } catch (e) {
                       print(e.toString());
                     }
