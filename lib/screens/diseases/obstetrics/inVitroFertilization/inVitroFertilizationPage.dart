@@ -25,12 +25,14 @@ class _InVitroFertilizationState extends State<InVitroFertilization> {
   String _previousDiagnosisText = '';
   String _additionalInformation = '';
   bool? _haveAdditionalInformation;
+  String? filePath;
+  String? picPath;
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<InVitroFertViewModel>(
       create: (_) => InVitroFertViewModel(),
-      builder: (context, _) =>  Scaffold(
+      builder: (context, _) => Scaffold(
         appBar: AppBar(
           title: Text('Tüp Bebek Tedavisi'),
         ),
@@ -143,7 +145,7 @@ class _InVitroFertilizationState extends State<InVitroFertilization> {
               _buildFileUploadCard(),
               _buildCard(
                 title:
-                'Tıbbi durumunuzla ilgili bilgi vermek istediğiniz durumlar var mı (ek hastalık, ilaç kullanımı gibi)?',
+                    'Tıbbi durumunuzla ilgili bilgi vermek istediğiniz durumlar var mı (ek hastalık, ilaç kullanımı gibi)?',
                 child: Row(
                   children: [
                     Text('Hayır'),
@@ -192,11 +194,25 @@ class _InVitroFertilizationState extends State<InVitroFertilization> {
                       borderRadius: BorderRadius.circular(20),
                     ),
                   ),
-                  onPressed: () {
+                  onPressed: () async {
                     // Handle submission or navigate to the next page
-                    try{
-                      
-                    }catch(e){
+                    try {
+                      await Provider.of<InVitroFertViewModel>(context,
+                              listen: false)
+                          .getUserData();
+                      await Provider.of<InVitroFertViewModel>(context,
+                              listen: false)
+                          .inVitro(
+                              _hadIVFTreatmentBefore,
+                              _additionalInformation,
+                              _previousDiagnosisText,
+                              _haveAdditionalInformation,
+                              _haveFrozenEmbryos,
+                              _havePreviousDiagnosis,
+                              filePath,
+                              picPath);
+                      print("inVitro tuşuna basıldı");
+                    } catch (e) {
                       print(e.toString());
                     }
                   },
@@ -218,8 +234,7 @@ class _InVitroFertilizationState extends State<InVitroFertilization> {
                   icon: Icon(Icons.home),
                   onPressed: () {
                     // TODO: İlanlarım ikonuna tıklandığında yapılacak işlemler
-                    Navigator.pushNamed(
-                        context, PublicationsScreen.routeName);
+                    Navigator.pushNamed(context, PublicationsScreen.routeName);
                   },
                 ),
               ),
@@ -232,7 +247,7 @@ class _InVitroFertilizationState extends State<InVitroFertilization> {
                   },
                 ),
               ),
-              SizedBox(),  // Orta boşluk
+              SizedBox(), // Orta boşluk
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: IconButton(
@@ -259,8 +274,6 @@ class _InVitroFertilizationState extends State<InVitroFertilization> {
                         ),
                       ),
                     );
-
-
                   },
                 ),
               ),
@@ -336,8 +349,8 @@ class _InVitroFertilizationState extends State<InVitroFertilization> {
             label: Text('Fotoğraf Yükleyin'),
             onPressed: () async {
               final picker = ImagePicker();
-              final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
-
+              final pickedFile =
+                  await ImagePicker().pickImage(source: ImageSource.gallery);
 
               if (pickedFile != null) {
                 File imageFile = File(pickedFile.path);

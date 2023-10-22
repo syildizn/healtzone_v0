@@ -108,4 +108,17 @@ class Database {
 
     await docRef.set(inVitroAsMap);  // Dokümanı oluşturur ve verileri ayarlar.
   }
+
+  Future<void> setGenitalAestData(Map<String, dynamic> genitalAestAsMap) async {
+    DocumentReference docRef = firestore
+        .collection('jobs')
+        .doc('ObstetricsAndGynaecology')
+        .collection('genitalAesthetics')
+        .doc();  // Bu satır yeni bir doküman referansı oluşturur ve bir ID atar.
+
+    genitalAestAsMap['id'] = docRef.id;  // ID'yi haritaya ekler.
+
+    await docRef.set(genitalAestAsMap);  // Dokümanı oluşturur ve verileri ayarlar.
+  }
+
 }
