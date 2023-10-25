@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:healtzone_v0/screens/editProfile/editPatProfileViewModel.dart';
+import 'package:healtzone_v0/services/calculator.dart';
 import 'package:provider/provider.dart';
 
 import '../../services/authentication.dart';
@@ -20,35 +21,41 @@ class _EditPatientsProfileState extends State<EditPatientsProfile> {
   @override
   void initState() {
     super.initState();
-    Provider.of<EditPatientsProfilViewModel>(context, listen: false).getUserData();
+    Provider.of<EditPatientsProfilViewModel>(context, listen: false)
+        .getUserData();
   }
 
   @override
   Widget build(BuildContext context) {
     final patientInfoFormKey = GlobalKey<FormState>();
 
-
-    EditPatientsProfilViewModel viewModel = Provider.of<EditPatientsProfilViewModel>(context);
+    EditPatientsProfilViewModel viewModel =
+        Provider.of<EditPatientsProfilViewModel>(context);
     // TextEditingController emailSignUpControler = TextEditingController();
     // TextEditingController passwordSignUpControler = TextEditingController();
     // TextEditingController passwordConfirmSignUpControler = TextEditingController();
-    TextEditingController addressSignUpControler = TextEditingController(text: viewModel.address);
-    TextEditingController genderControler = TextEditingController(text: viewModel.sex);
-    TextEditingController birthdayControler = TextEditingController(text: viewModel.birthDay);
-    TextEditingController nameSignUpControler = TextEditingController(text: viewModel.nameSurname);
-   // TextEditingController drugsUsed = TextEditingController(text: viewModel.city);
-    TextEditingController phoneSignUpControler = TextEditingController(text: viewModel.phone);
-    TextEditingController citySignUpControler = TextEditingController(text: viewModel.city);
-   // TextEditingController bloodGroupControler = TextEditingController(text: viewModel.nameSurname);
-
+    TextEditingController addressSignUpControler =
+        TextEditingController(text: viewModel.address);
+    TextEditingController genderControler =
+        TextEditingController(text: viewModel.sex);
+    TextEditingController birthdayControler =
+        TextEditingController(text: viewModel.birthDay);
+    TextEditingController nameSignUpControler =
+        TextEditingController(text: viewModel.nameSurname);
+    // TextEditingController drugsUsed = TextEditingController(text: viewModel.city);
+    TextEditingController phoneSignUpControler =
+        TextEditingController(text: viewModel.phone);
+    TextEditingController citySignUpControler =
+        TextEditingController(text: viewModel.city);
+    // TextEditingController bloodGroupControler = TextEditingController(text: viewModel.nameSurname);
 
     @override
     void dispose() {
       // emailSignUpControler.dispose();
       // passwordSignUpControler.dispose();
       // passwordConfirmSignUpControler.dispose();
-     // bloodGroupControler.dispose();
-     // drugsUsed.dispose();
+      // bloodGroupControler.dispose();
+      // drugsUsed.dispose();
       addressSignUpControler.dispose();
       genderControler.dispose();
       birthdayControler.dispose();
@@ -234,6 +241,15 @@ class _EditPatientsProfileState extends State<EditPatientsProfile> {
                         focusColor: Colors.white,
                         hoverColor: Colors.white,
                       ),
+                      onTap: () async {
+                        var selectedDate = await showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime(1903),
+                            lastDate: DateTime.now());
+                        String? newDate = Calculator.dateTimeToString(selectedDate);
+                        birthdayControler.text = newDate != null ? newDate : "girilmedi";
+                      },
                       validator: (value) {
                         if (value!.isEmpty || value == null) {
                           return 'Lütfen doğum tarihinizi giriniz';
@@ -455,16 +471,16 @@ class _EditPatientsProfileState extends State<EditPatientsProfile> {
                         try {
                           if (patientInfoFormKey.currentState!.validate()) {
                             // kullanıcı bilgileri ile doctorUpdate metodu çağırılacak
-                            await Provider.of<EditPatientsProfilViewModel>(context,
-                                listen: false).patientsUpdate(
-                              name: nameSignUpControler.text,
-                              birthDay:  birthdayControler.text,
-                              phone: phoneSignUpControler.text,
-                              address: addressSignUpControler.text,
-                              city: citySignUpControler.text,
-                              sex: genderControler.text
-
-                            );
+                            await Provider.of<EditPatientsProfilViewModel>(
+                                    context,
+                                    listen: false)
+                                .patientsUpdate(
+                                    name: nameSignUpControler.text,
+                                    birthDay: birthdayControler.text,
+                                    phone: phoneSignUpControler.text,
+                                    address: addressSignUpControler.text,
+                                    city: citySignUpControler.text,
+                                    sex: genderControler.text);
                             print("tuşa basıldı  ");
 
                             await showDialog(
@@ -473,29 +489,31 @@ class _EditPatientsProfileState extends State<EditPatientsProfile> {
                               builder: (BuildContext context) {
                                 return AlertDialog(
                                   title: Text("Bilgi"),
-                                  content: Text("Bilgileriniz başarı ile güncellenmiştir."),
+                                  content: Text(
+                                      "Bilgileriniz başarı ile güncellenmiştir."),
                                   actions: [
                                     TextButton(
                                         onPressed: () {
-                                          Navigator.of(context).pop(); // AlertDialog'u kapat
+                                          Navigator.of(context)
+                                              .pop(); // AlertDialog'u kapat
                                           //Navigator.of(context).pushReplacementNamed(ProfilPage.routeName); // ProfilPage'e yönlendirme yap
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                              builder: (context) => ChangeNotifierProvider(
-                                                create: (context) => ProfilPageViewModel(),
+                                              builder: (context) =>
+                                                  ChangeNotifierProvider(
+                                                create: (context) =>
+                                                    ProfilPageViewModel(),
                                                 child: ProfilPage(),
                                               ),
                                             ),
                                           );
                                         },
-                                        child: Text("Tamam")
-                                    ),
+                                        child: Text("Tamam")),
                                   ],
                                 );
                               },
                             );
-
                           }
                         } catch (e) {
                           print(e.toString());
@@ -527,8 +545,7 @@ class _EditPatientsProfileState extends State<EditPatientsProfile> {
                 icon: Icon(Icons.home),
                 onPressed: () {
                   // TODO: İlanlarım ikonuna tıklandığında yapılacak işlemler
-                  Navigator.pushNamed(
-                      context, PublicationsScreen.routeName);
+                  Navigator.pushNamed(context, PublicationsScreen.routeName);
                 },
               ),
             ),
@@ -541,7 +558,7 @@ class _EditPatientsProfileState extends State<EditPatientsProfile> {
                 },
               ),
             ),
-            SizedBox(),  // Orta boşluk
+            SizedBox(), // Orta boşluk
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: IconButton(
@@ -568,8 +585,6 @@ class _EditPatientsProfileState extends State<EditPatientsProfile> {
                       ),
                     ),
                   );
-
-
                 },
               ),
             ),
@@ -584,7 +599,6 @@ class _EditPatientsProfileState extends State<EditPatientsProfile> {
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-
     );
   }
 }
