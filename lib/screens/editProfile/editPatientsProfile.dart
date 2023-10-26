@@ -36,8 +36,8 @@ class _EditPatientsProfileState extends State<EditPatientsProfile> {
     // TextEditingController passwordConfirmSignUpControler = TextEditingController();
     TextEditingController addressSignUpControler =
         TextEditingController(text: viewModel.address);
-    TextEditingController genderControler =
-        TextEditingController(text: viewModel.sex);
+    // TextEditingController genderControler =
+    //     TextEditingController(text: viewModel.sex);
     TextEditingController birthdayControler =
         TextEditingController(text: viewModel.birthDay);
     TextEditingController nameSignUpControler =
@@ -48,6 +48,7 @@ class _EditPatientsProfileState extends State<EditPatientsProfile> {
     TextEditingController citySignUpControler =
         TextEditingController(text: viewModel.city);
     // TextEditingController bloodGroupControler = TextEditingController(text: viewModel.nameSurname);
+    String? _selectedGender = viewModel.sex != null ? viewModel.sex: "Erkek";
 
     @override
     void dispose() {
@@ -57,7 +58,7 @@ class _EditPatientsProfileState extends State<EditPatientsProfile> {
       // bloodGroupControler.dispose();
       // drugsUsed.dispose();
       addressSignUpControler.dispose();
-      genderControler.dispose();
+      //genderControler.dispose();
       birthdayControler.dispose();
       nameSignUpControler.dispose();
       phoneSignUpControler.dispose();
@@ -217,7 +218,7 @@ class _EditPatientsProfileState extends State<EditPatientsProfile> {
                     SizedBox(height: 16.0),
                     TextFormField(
                       controller: birthdayControler,
-                      keyboardType: TextInputType.number,
+                      keyboardType: TextInputType.none,
                       decoration: InputDecoration(
                         prefixIcon: Icon(Icons.date_range_outlined),
                         prefixIconColor: Colors.amber,
@@ -247,8 +248,10 @@ class _EditPatientsProfileState extends State<EditPatientsProfile> {
                             initialDate: DateTime.now(),
                             firstDate: DateTime(1903),
                             lastDate: DateTime.now());
-                        String? newDate = Calculator.dateTimeToString(selectedDate);
-                        birthdayControler.text = newDate != null ? newDate : "girilmedi";
+                        String? newDate =
+                            Calculator.dateTimeToString(selectedDate);
+                        birthdayControler.text =
+                            newDate != null ? newDate : "girilmedi";
                       },
                       validator: (value) {
                         if (value!.isEmpty || value == null) {
@@ -258,9 +261,89 @@ class _EditPatientsProfileState extends State<EditPatientsProfile> {
                       },
                     ),
                     SizedBox(height: 16.0),
-                    TextFormField(
-                      controller: genderControler,
-                      keyboardType: TextInputType.text,
+                    // TextFormField(
+                    //   controller: genderControler,
+                    //   keyboardType: TextInputType.text,
+                    //   decoration: InputDecoration(
+                    //     prefixIcon: Icon(Icons.info),
+                    //     prefixIconColor: Colors.amber,
+                    //     labelText: "Cinsiyet",
+                    //     floatingLabelBehavior: FloatingLabelBehavior.always,
+                    //     labelStyle: TextStyle(
+                    //         color: Colors.black45,
+                    //         fontSize: 18.0,
+                    //         fontWeight: FontWeight.bold),
+                    //     border: OutlineInputBorder(
+                    //       borderRadius: BorderRadius.circular(20),
+                    //     ),
+                    //     filled: true, // Bu satırı ekleyin
+                    //     fillColor: Colors.white, // Bu satırı ekleyin
+                    //     focusedBorder: OutlineInputBorder(
+                    //       // Odaklandığında da beyaz arka planı korumak için
+                    //       borderSide: BorderSide(
+                    //           color: Colors.amber), // veya istediğiniz bir renk
+                    //       borderRadius: BorderRadius.circular(20),
+                    //     ),
+                    //     focusColor: Colors.white,
+                    //     hoverColor: Colors.white,
+                    //   ),
+                    //   validator: (value) {
+                    //     if (value!.isEmpty || value == null) {
+                    //       return 'Lütfen cinsiyetinizi giriniz';
+                    //     }
+                    //     return null;
+                    //   },
+                    // ),
+                    // DropdownButtonFormField<String>(
+                    //   decoration: InputDecoration(
+                    //     prefixIcon: Icon(Icons.info),
+                    //     prefixIconColor: Colors.amber,
+                    //     labelText: "Cinsiyet",
+                    //     floatingLabelBehavior: FloatingLabelBehavior.always,
+                    //     labelStyle: TextStyle(
+                    //         color: Colors.black45,
+                    //         fontSize: 18.0,
+                    //         fontWeight: FontWeight.bold
+                    //     ),
+                    //     border: OutlineInputBorder(
+                    //       borderRadius: BorderRadius.circular(20),
+                    //     ),
+                    //     filled: true, // Bu satırı ekleyin
+                    //     fillColor: Colors.white, // Bu satırı ekleyin
+                    //     focusedBorder: OutlineInputBorder(
+                    //       // Odaklandığında da beyaz arka planı korumak için
+                    //       borderSide: BorderSide(color: Colors.amber), // veya istediğiniz bir renk
+                    //       borderRadius: BorderRadius.circular(20),
+                    //     ),
+                    //     focusColor: Colors.white,
+                    //     hoverColor: Colors.white,
+                    //   ),
+                    //   isDense: true, // Bu satırı ekleyin
+                    //   isExpanded: true, // Bu satırı ekleyin
+                    //   value: _selectedGender,
+                    //   items: <String>['Erkek', 'Kadın'].map((String value) {
+                    //     return DropdownMenuItem<String>(
+                    //       value: value,
+                    //       child: Text(value),
+                    //     );
+                    //   }).toList(),
+                    //   onChanged: (String? newValue) {
+                    //     print('newValue ilk: $newValue');
+                    //     setState(() {
+                    //       _selectedGender = newValue;
+                    //       //genderControler.text = newValue ?? '';
+                    //       print('newValue son: $newValue');
+                    //       print('selectedGender: $_selectedGender');
+                    //     });
+                    //   },
+                    //   validator: (value) {
+                    //     if (value == null || value.isEmpty) {
+                    //       return 'Lütfen cinsiyetinizi seçin';
+                    //     }
+                    //     return null;
+                    //   },
+                    // ),
+                    InputDecorator(
                       decoration: InputDecoration(
                         prefixIcon: Icon(Icons.info),
                         prefixIconColor: Colors.amber,
@@ -269,7 +352,8 @@ class _EditPatientsProfileState extends State<EditPatientsProfile> {
                         labelStyle: TextStyle(
                             color: Colors.black45,
                             fontSize: 18.0,
-                            fontWeight: FontWeight.bold),
+                            fontWeight: FontWeight.bold
+                        ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20),
                         ),
@@ -277,20 +361,36 @@ class _EditPatientsProfileState extends State<EditPatientsProfile> {
                         fillColor: Colors.white, // Bu satırı ekleyin
                         focusedBorder: OutlineInputBorder(
                           // Odaklandığında da beyaz arka planı korumak için
-                          borderSide: BorderSide(
-                              color: Colors.amber), // veya istediğiniz bir renk
+                          borderSide: BorderSide(color: Colors.amber), // veya istediğiniz bir renk
                           borderRadius: BorderRadius.circular(20),
                         ),
                         focusColor: Colors.white,
                         hoverColor: Colors.white,
                       ),
-                      validator: (value) {
-                        if (value!.isEmpty || value == null) {
-                          return 'Lütfen cinsiyetinizi giriniz';
-                        }
-                        return null;
-                      },
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton<String>(
+                          isDense: true, // Bu satırı ekleyin
+                          isExpanded: true, // Bu satırı ekleyin
+                          value: _selectedGender ,
+                          items: <String>['Erkek', 'Kadın'].map((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                          onChanged: (String? value) {
+                            print('newValue ilk: $value');
+                            setState(() {
+                              _selectedGender = value;
+                              print('newValue son: $value');
+                              print('_selectedGender: $_selectedGender');
+                            });
+                            print('_selectedGender en son: $_selectedGender');
+                          },
+                        ),
+                      ),
                     ),
+
                     SizedBox(height: 16.0),
                     TextFormField(
                       controller: addressSignUpControler,
@@ -468,6 +568,7 @@ class _EditPatientsProfileState extends State<EditPatientsProfile> {
                       text: 'Kaydet',
                       backgroundColor: Colors.amberAccent,
                       onPressed: () async {
+                        print("_selectedGender myBut: $_selectedGender");
                         try {
                           if (patientInfoFormKey.currentState!.validate()) {
                             // kullanıcı bilgileri ile doctorUpdate metodu çağırılacak
@@ -480,7 +581,7 @@ class _EditPatientsProfileState extends State<EditPatientsProfile> {
                                     phone: phoneSignUpControler.text,
                                     address: addressSignUpControler.text,
                                     city: citySignUpControler.text,
-                                    sex: genderControler.text);
+                                    sex: _selectedGender);
                             print("tuşa basıldı  ");
 
                             await showDialog(
