@@ -368,25 +368,29 @@ class _EditPatientsProfileState extends State<EditPatientsProfile> {
                         hoverColor: Colors.white,
                       ),
                       child: DropdownButtonHideUnderline(
-                        child: DropdownButton<String>(
-                          isDense: true, // Bu satırı ekleyin
-                          isExpanded: true, // Bu satırı ekleyin
-                          value: _selectedGender ,
-                          items: <String>['Erkek', 'Kadın'].map((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
+                        child: StatefulBuilder(
+                          builder: (BuildContext context, StateSetter setState){
+                            return DropdownButton<String>(
+                              isDense: true, // Bu satırı ekleyin
+                              isExpanded: true, // Bu satırı ekleyin
+                              value: _selectedGender ,
+                              items: <String>['Erkek', 'Kadın'].map((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList(),
+                              onChanged: (String? value) {
+                                print('newValue ilk: $value');
+                                setState(() {
+                                  _selectedGender = value;
+                                  print('newValue son: $value');
+                                  print('_selectedGender: $_selectedGender');
+                                });
+                                print('_selectedGender en son: $_selectedGender');
+                              },
                             );
-                          }).toList(),
-                          onChanged: (String? value) {
-                            print('newValue ilk: $value');
-                            setState(() {
-                              _selectedGender = value;
-                              print('newValue son: $value');
-                              print('_selectedGender: $_selectedGender');
-                            });
-                            print('_selectedGender en son: $_selectedGender');
-                          },
+                          }
                         ),
                       ),
                     ),
