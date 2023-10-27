@@ -159,6 +159,18 @@ class _PublicationsScreenState extends State<PublicationsScreen> {
 
           document = snapshot.data!;
           completedProfileLocal = document['completedProfile'];  // Burada değişkeni ayarlayın
+
+          // if (snapshot.data != null && snapshot.data!.exists) {
+          //   document = snapshot.data!;
+          //   if (document.contains('completedProfile')) {
+          //     completedProfileLocal = document['completedProfile'];  // Burada değişkeni ayarlayın
+          //   } else {
+          //     print('completedProfile alanı belgede bulunamadı');
+          //     return Center(child: Text('completedProfile alanı belgede bulunamadı'));
+          //   }
+          // }
+
+
           return Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(

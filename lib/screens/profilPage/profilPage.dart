@@ -23,7 +23,7 @@ class _ProfilPageState extends State<ProfilPage> {
   //   //getUserData();
   //   Provider.of<ProfilPageViewModel>(context, listen: false).listenUserData();
   // }
-
+  //var document;
   @override
   Widget build(BuildContext context) {
     ProfilPageViewModel viewModel =
@@ -50,6 +50,15 @@ class _ProfilPageState extends State<ProfilPage> {
               }
 
               var document = snapshot!.data;
+              // if (snapshot.data != null && snapshot.data!.exists) {
+              //    document = snapshot.data!;
+              //   if (document.contains('completedProfile')) {
+              //     //completedProfileLocal = document['completedProfile'];  // Burada değişkeni ayarlayın
+              //   } else {
+              //     print('completedProfile alanı belgede bulunamadı');
+              //     return Center(child: Text('completedProfile alanı belgede bulunamadı'));
+              //   }
+              // }
 
               return Container(
                 decoration: BoxDecoration(
