@@ -13,6 +13,8 @@ class ProfilPageViewModel extends ChangeNotifier{
   Authentication auth = Authentication();
   //StreamSubscription? _subscription;
   Storage storage = Storage();
+  String? photUrl;
+  String? photUrlDownl;
 
 
   String? isimSoyisim;
@@ -87,8 +89,24 @@ class ProfilPageViewModel extends ChangeNotifier{
   }
 
   Future<void> uploadImage (File imageFile) async {
-    await storage.uploadImageToStorege(imageFile);
+    photUrlDownl = await storage.uploadImageToStorege(imageFile);
+    await database.updatePhotoUrl(auth.firebaseAuthen.currentUser?.uid, photUrlDownl);
     print("uploadedImage ViewModel çalıştı");
+  }
+
+  Future<ImageProvider<Object>> image(String? url) {
+    final Completer<ImageProvider<Object>> completer = Completer();
+
+    // url null kontrolü
+    if (url == null) {
+      // Hata fırlat
+      completer.completeError('URL cannot be null');
+    } else {
+      // URL null değilse, bir NetworkImage döndür
+      completer.complete(NetworkImage(url));
+    }
+
+    return completer.future;
   }
 
 }

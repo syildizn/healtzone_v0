@@ -15,7 +15,7 @@ class Database {
 
   Future<void> deleteDocument(
       {required String referencePath, required String? id}) async {
-    firestore.collection(referencePath).doc(id).delete();
+    await firestore.collection(referencePath).doc(id).delete();
   }
 
 //firestore'a yeni veri ekleme ve güncelleme
@@ -86,7 +86,7 @@ class Database {
   }
 
   Future<void> setSurgeriesData(Map<String, dynamic> surgeriesAsMap) async {
-    DocumentReference docRef = firestore
+    DocumentReference docRef = await firestore
         .collection('jobs')
         .doc('ObstetricsAndGynaecology')
         .collection('surgeries')
@@ -98,7 +98,7 @@ class Database {
   }
 
   Future<void> setInVitroData(Map<String, dynamic> inVitroAsMap) async {
-    DocumentReference docRef = firestore
+    DocumentReference docRef = await firestore
         .collection('jobs')
         .doc('ObstetricsAndGynaecology')
         .collection('inVitroFertilization')
@@ -110,7 +110,7 @@ class Database {
   }
 
   Future<void> setGenitalAestData(Map<String, dynamic> genitalAestAsMap) async {
-    DocumentReference docRef = firestore
+    DocumentReference docRef = await firestore
         .collection('jobs')
         .doc('ObstetricsAndGynaecology')
         .collection('genitalAesthetics')
@@ -122,7 +122,7 @@ class Database {
   }
 
   Future<void> setDetailedUltrasoundData(Map<String, dynamic> detailedAsMap) async {
-    DocumentReference docRef = firestore
+    DocumentReference docRef = await firestore
         .collection('jobs')
         .doc('ObstetricsAndGynaecology')
         .collection('detailedUlrasound')
@@ -132,4 +132,17 @@ class Database {
 
     await docRef.set(detailedAsMap);  // Dokümanı oluşturur ve verileri ayarlar.
   }
+
+  Future<void> updatePhotoUrl(String? userUid, String? newPhotoUrl) async {
+    try {
+      await firestore.collection('patients')
+          .doc(userUid)
+          .update({'photoUrl': newPhotoUrl});
+      print('Photo URL updated successfully');
+    } catch (e) {
+      print('Failed to update photo URL: $e');
+    }
+  }
 }
+
+

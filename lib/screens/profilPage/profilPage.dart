@@ -81,7 +81,7 @@ class _ProfilPageState extends State<ProfilPage> {
                   children: [
                     SizedBox(height: 20),
                     FutureBuilder<ImageProvider<Object>>(
-                      future: image(),
+                      future: Provider.of<ProfilPageViewModel>(context,listen: false).image(document?['photoUrl']),
                       builder: (BuildContext context, AsyncSnapshot<ImageProvider<Object>> snapshot) {
                         if (snapshot.connectionState == ConnectionState.waiting) {
                           print("ProfilPage avatar if");
@@ -93,7 +93,7 @@ class _ProfilPageState extends State<ProfilPage> {
                         } else if (snapshot.hasError) {
                           // Hata olduğunda gösterilecek widget
                           print("ProfilPage avatar else if");
-                          return Row(
+                          return Row(mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               CircleAvatar(
                                 radius: 50,
@@ -256,24 +256,20 @@ class _ProfilPageState extends State<ProfilPage> {
     );
   }
 
-
-  Future<ImageProvider<Object>> image() async {
-    photUrl = await Provider.of<ProfilPageViewModel>(context, listen: false).getImage();
-    print("ProfilPage avatar image fonksiyonu link: $photUrl");
-    return NetworkImage(photUrl!);
-  }
-
   Future getImagePicker() async  {
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery,maxHeight: 200);
 
     setState(() {
       if(pickedFile != null){
         imageFile = File(pickedFile.path);
-        Provider.of<ProfilPageViewModel>(context, listen: false).uploadImage(imageFile!);
         print("imagerPicker FilePath: $imageFile");
       }else{
         print("No Image Selected");
       }
     });
+
+    if(imageFile != null){
+      await Provider.of<ProfilPageViewModel>(context, listen: false).uploadImage(imageFile!);
+    }
   }
 }
