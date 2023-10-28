@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:healtzone_v0/screens/editProfile/editPatProfileViewModel.dart';
 import 'package:healtzone_v0/screens/editProfile/editPatientsProfile.dart';
 import 'package:healtzone_v0/screens/profilPage/profilPageViewModel.dart';
 import 'package:healtzone_v0/screens/widgets/myCustomButton.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 import '../homePage/publications.dart';
@@ -17,6 +20,10 @@ class ProfilPage extends StatefulWidget {
 }
 
 class _ProfilPageState extends State<ProfilPage> {
+  String? photUrl ;
+  File? imageFile;
+  final picker = ImagePicker();
+
   @override
   // void initState() {
   //   super.initState();
@@ -29,6 +36,7 @@ class _ProfilPageState extends State<ProfilPage> {
     ProfilPageViewModel viewModel =
         Provider.of<ProfilPageViewModel>(context, listen: false);
     print("aha aradığım mail: ${viewModel.email}");
+
     return ChangeNotifierProvider<ProfilPageViewModel>(
       create: (_) => ProfilPageViewModel(),
       builder: (context, _) => Scaffold(
@@ -49,7 +57,8 @@ class _ProfilPageState extends State<ProfilPage> {
                 return Center(child: Text('Bilgi bulunamadı'));
               }
 
-              var document = snapshot!.data;
+             // var document = snapshot!.data;
+              DocumentSnapshot<Object?>? document = snapshot.data;
               // if (snapshot.data != null && snapshot.data!.exists) {
               //    document = snapshot.data!;
               //   if (document.contains('completedProfile')) {
@@ -71,10 +80,42 @@ class _ProfilPageState extends State<ProfilPage> {
                 child: Column(
                   children: [
                     SizedBox(height: 20),
-                    CircleAvatar(
-                      radius: 50,
-                      backgroundImage: AssetImage(
-                          'assets/images/anonym.png'), // Kullanıcı avatarı için buraya resim yolu ekleyin.
+                    FutureBuilder<ImageProvider<Object>>(
+                      future: image(),
+                      builder: (BuildContext context, AsyncSnapshot<ImageProvider<Object>> snapshot) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          print("ProfilPage avatar if");
+                          // Yükleniyor iken gösterilecek widget
+                          return CircleAvatar(
+                            radius: 50,
+                            backgroundImage: AssetImage('assets/images/anonym.png'),
+                          );
+                        } else if (snapshot.hasError) {
+                          // Hata olduğunda gösterilecek widget
+                          print("ProfilPage avatar else if");
+                          return Row(
+                            children: [
+                              CircleAvatar(
+                                radius: 50,
+                                backgroundImage: AssetImage('assets/images/anonym.png'),
+                              ),
+                              IconButton(onPressed: (){}, icon: Icon(Icons.edit),)
+                            ],
+                          );
+                        } else {
+                          // Veri geldiğinde gösterilecek widget
+                          print("ProfilPage avatar else");
+                          return Row(mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              CircleAvatar(
+                                radius: 50,
+                                backgroundImage: snapshot.data, //FileImage(imageFile!),
+                              ),
+                              IconButton(onPressed: getImagePicker, icon: Icon(Icons.edit,color: Colors.grey[600]),)
+                            ],
+                          );
+                        }
+                      },
                     ),
                     SizedBox(height: 20),
                     Card(
@@ -213,5 +254,26 @@ class _ProfilPageState extends State<ProfilPage> {
         ],
       ),
     );
+  }
+
+
+  Future<ImageProvider<Object>> image() async {
+    photUrl = await Provider.of<ProfilPageViewModel>(context, listen: false).getImage();
+    print("ProfilPage avatar image fonksiyonu link: $photUrl");
+    return NetworkImage(photUrl!);
+  }
+
+  Future getImagePicker() async  {
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    setState(() {
+      if(pickedFile != null){
+        imageFile = File(pickedFile.path);
+        Provider.of<ProfilPageViewModel>(context, listen: false).uploadImage(imageFile!);
+        print("imagerPicker FilePath: $imageFile");
+      }else{
+        print("No Image Selected");
+      }
+    });
   }
 }

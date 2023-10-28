@@ -65,5 +65,13 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+
+	<!-- Image Picker Permissions -->
+    	<key>NSPhotoLibraryUsageDescription</key>
+    	<string>Fotoğraf kütüphanesine erişim, kullanıcıların fotoğraflarını seçmelerine olanak tanır.</string>
+    	<key>NSCameraUsageDescription</key>
+    	<string>Kamera erişimi, kullanıcıların fotoğraf ve video çekmelerine olanak tanır.</string>
+    	<key>NSMicrophoneUsageDescription</key>
+    	<string>Mikrofon erişimi, kullanıcıların video kaydederken ses kaydetmelerine olanak tanır.</string>
 </dict>
 </plist>

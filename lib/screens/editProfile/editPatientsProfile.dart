@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:healtzone_v0/screens/editProfile/editPatProfileViewModel.dart';
 import 'package:healtzone_v0/services/calculator.dart';
 import 'package:provider/provider.dart';
-
 import '../../services/authentication.dart';
 import '../homePage/publications.dart';
 import '../profilPage/profilPage.dart';

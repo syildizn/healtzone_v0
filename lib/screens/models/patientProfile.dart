@@ -10,6 +10,7 @@ class PatientModel extends Equatable {
   final bool? completedProfile;
   final String? email;
   final String? sex;
+  final String? photoUrl;
 
   PatientModel({
     this.id,
@@ -21,11 +22,12 @@ class PatientModel extends Equatable {
     this.completedProfile,
     this.email,
     this.sex,
+    this.photoUrl,
   });
 
   @override
   List<Object?> get props =>
-      [id,name, birthDay, phone, address, city, completedProfile, email, sex];
+      [id,name, birthDay, phone, address, city, completedProfile, email, sex, photoUrl,];
 
   PatientModel copyWith({
     String? id,
@@ -37,6 +39,7 @@ class PatientModel extends Equatable {
     bool? completedProfile,
     String? email,
     String? sex,
+    String? photoUrl,
   }) {
     return PatientModel(
       id: id ?? this.id,
@@ -48,6 +51,7 @@ class PatientModel extends Equatable {
       completedProfile: completedProfile ?? this.completedProfile,
       email: email ?? this.email,
       sex: sex ?? this.sex,
+      photoUrl: photoUrl ?? this.photoUrl,
     );
   }
 
@@ -62,6 +66,7 @@ class PatientModel extends Equatable {
       'completedProfile': completedProfile,
       'email': email,
       'sex': sex,
+      'photoUrl': photoUrl,
     };
   }
 
@@ -76,6 +81,7 @@ class PatientModel extends Equatable {
       completedProfile: json['completedProfile'] as bool?,
       email: json['email'] as String?,
       sex: json['sex'] as String?,
+      photoUrl: json['photoUrl'] as String?,
     );
   }
 }

@@ -1,16 +1,18 @@
 import 'dart:async';
-
+import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:healtzone_v0/services/authentication.dart';
 import 'package:healtzone_v0/services/database.dart';
-import 'package:provider/provider.dart';
+import 'package:healtzone_v0/services/storage.dart';
+//import 'package:provider/provider.dart';
 
 class ProfilPageViewModel extends ChangeNotifier{
   Database database = Database();
   Authentication auth = Authentication();
-  StreamSubscription? _subscription;
+  //StreamSubscription? _subscription;
+  Storage storage = Storage();
 
 
   String? isimSoyisim;
@@ -77,5 +79,16 @@ class ProfilPageViewModel extends ChangeNotifier{
     }
   }
 
+  Future<String?> getImage () async {
+    String? imageUrl;
+    imageUrl = await storage.storegeExample();
+    print("ProfilPage avatar ViewModel link: $imageUrl");
+    return imageUrl;
+  }
+
+  Future<void> uploadImage (File imageFile) async {
+    await storage.uploadImageToStorege(imageFile);
+    print("uploadedImage ViewModel çalıştı");
+  }
 
 }
