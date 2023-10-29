@@ -76,6 +76,7 @@ class Authentication{
   }
 
   Stream<User?> authenStatus(){
+
     return firebaseAuthen.authStateChanges();
   }
 

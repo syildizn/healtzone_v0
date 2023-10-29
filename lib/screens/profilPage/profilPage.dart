@@ -77,92 +77,97 @@ class _ProfilPageState extends State<ProfilPage> {
                     colors: [Colors.blue.shade200, Colors.white],
                   ),
                 ),
-                child: Column(
-                  children: [
-                    SizedBox(height: 20),
-                    FutureBuilder<ImageProvider<Object>>(
-                      future: Provider.of<ProfilPageViewModel>(context,listen: false).image(document?['photoUrl']),
-                      builder: (BuildContext context, AsyncSnapshot<ImageProvider<Object>> snapshot) {
-                        if (snapshot.connectionState == ConnectionState.waiting) {
-                          print("ProfilPage avatar if");
-                          // Yükleniyor iken gösterilecek widget
-                          return CircleAvatar(
-                            radius: 50,
-                            backgroundImage: AssetImage('assets/images/anonym.png'),
-                          );
-                        } else if (snapshot.hasError) {
-                          // Hata olduğunda gösterilecek widget
-                          print("ProfilPage avatar else if");
-                          return Row(mainAxisAlignment: MainAxisAlignment.center,
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      SizedBox(height: 20),
+                      FutureBuilder<ImageProvider<Object>>(
+                        future: Provider.of<ProfilPageViewModel>(context,listen: false).image(document?['photoUrl']),
+                        builder: (BuildContext context, AsyncSnapshot<ImageProvider<Object>> snapshot) {
+                          if (snapshot.connectionState == ConnectionState.waiting) {
+                            print("ProfilPage avatar if");
+                            // Yükleniyor iken gösterilecek widget
+                            return CircleAvatar(
+                              radius: 50,
+                              backgroundImage: AssetImage('assets/images/anonym.png'),
+                            );
+                          } else if (snapshot.hasError) {
+                            // Hata olduğunda gösterilecek widget
+                            print("ProfilPage avatar else if");
+                            return Row(mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                CircleAvatar(
+                                  radius: 50,
+                                  backgroundImage: AssetImage('assets/images/anonym.png'),
+                                ),
+                                IconButton(onPressed: (){}, icon: Icon(Icons.edit),)
+                              ],
+                            );
+                          } else {
+                            // Veri geldiğinde gösterilecek widget
+                            print("ProfilPage avatar else");
+                            return Row(mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                CircleAvatar(
+                                  radius: 50,
+                                  backgroundImage: snapshot.data, //FileImage(imageFile!),
+                                ),
+                                IconButton(onPressed: getImagePicker, icon: Icon(Icons.edit,color: Colors.grey[600]),)
+                              ],
+                            );
+                          }
+                        },
+                      ),
+                      SizedBox(height: 20),
+                      Card(
+                        margin: EdgeInsets.symmetric(
+                            horizontal: 20.0, vertical: 10.0),
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              CircleAvatar(
-                                radius: 50,
-                                backgroundImage: AssetImage('assets/images/anonym.png'),
-                              ),
-                              IconButton(onPressed: (){}, icon: Icon(Icons.edit),)
+                              profilBilgisi("İsim Soyisim:", document?['name']),
+                              Divider(),
+                              profilBilgisi("Doğum tarihi:", document?['birthDay'].toString()),
+                              Divider(),
+                              profilBilgisi("Telefon:", document?['phone']),
+                              Divider(),
+                              profilBilgisi("Adres:", document?['address']),
+                              Divider(),
+                              profilBilgisi("Şehir:", document?['city']),
+                              Divider(),
+                              profilBilgisi("Email:", document?['email']),
+                              Divider(),
+                              profilBilgisi("Cinsiyet:", document?['sex']),
                             ],
-                          );
-                        } else {
-                          // Veri geldiğinde gösterilecek widget
-                          print("ProfilPage avatar else");
-                          return Row(mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              CircleAvatar(
-                                radius: 50,
-                                backgroundImage: snapshot.data, //FileImage(imageFile!),
-                              ),
-                              IconButton(onPressed: getImagePicker, icon: Icon(Icons.edit,color: Colors.grey[600]),)
-                            ],
-                          );
-                        }
-                      },
-                    ),
-                    SizedBox(height: 20),
-                    Card(
-                      margin: EdgeInsets.symmetric(
-                          horizontal: 20.0, vertical: 10.0),
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            profilBilgisi("İsim Soyisim:", document?['name']),
-                            Divider(),
-                            profilBilgisi("Doğum tarihi:", document?['birthDay'].toString()),
-                            Divider(),
-                            profilBilgisi("Telefon:", document?['phone']),
-                            Divider(),
-                            profilBilgisi("Adres:", document?['address']),
-                            Divider(),
-                            profilBilgisi("Şehir:", document?['city']),
-                            Divider(),
-                            profilBilgisi("Email:", document?['email']),
-                            Divider(),
-                            profilBilgisi("Cinsiyet:", document?['sex']),
-                          ],
+                          ),
                         ),
                       ),
-                    ),
-                    SizedBox(height: 20),
-                    MyCustomButton(
-                        text: "Profili Düzenle",
-                        backgroundColor: Colors.white,
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ChangeNotifierProvider(
-                                create: (context) =>
-                                    EditPatientsProfilViewModel(),
-                                child: EditPatientsProfile(),
-                              ),
-                            ),
-                          );
-                        },
-                        svgPath: 'assets/icons/edittwo.svg',
-                        textColor: Colors.black,
-                        SizedBoxRange: 32)
-                  ],
+                      SizedBox(height: 20),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: MyCustomButton(
+                            text: "Profili Düzenle",
+                            backgroundColor: Colors.white,
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ChangeNotifierProvider(
+                                    create: (context) =>
+                                        EditPatientsProfilViewModel(),
+                                    child: EditPatientsProfile(),
+                                  ),
+                                ),
+                              );
+                            },
+                            svgPath: 'assets/icons/edittwo.svg',
+                            textColor: Colors.black,
+                            SizedBoxRange: 25),
+                      )
+                    ],
+                  ),
                 ),
               );
             }),
