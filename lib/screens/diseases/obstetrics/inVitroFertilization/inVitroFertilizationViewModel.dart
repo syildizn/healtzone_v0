@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:healtzone_v0/screens/models/diseasesModels/obstetricsModels/inVitroFertilizationModel.dart';
-
+import 'package:path/path.dart' as p;  // <- Bu satırı ekleyin
 import '../../../../services/authentication.dart';
 import '../../../../services/database.dart';
 import '../../../../services/storage.dart';
@@ -27,6 +27,8 @@ class InVitroFertViewModel extends ChangeNotifier{
   String? userId;
   String? picPath;
   String? filePath;
+  String? selectedFileName;
+  String? selectedImageName;
 
   Future<void> getUserData() async {
     user = await auth.firebaseAuthen.currentUser;
@@ -82,13 +84,16 @@ class InVitroFertViewModel extends ChangeNotifier{
   }
 
   Future<void> uploadImage (File imageFile) async {
-    photUrlDownl = await storage.uploadImageToStorege(imageFile);
-    photUrlDownl = picPath;
+    picPath = await storage.uploadImageToStorege(imageFile);
+    selectedImageName = p.basename(imageFile.path);  // Resim adını güncelle
+    notifyListeners();  // UI'yi güncelle
     print("uploadedImage ViewModelInVitro çalıştı link:$picPath ");
   }
 
   Future<void> uploadFile(File file) async {
     filePath = await storage.uploadFileToStorage(file);
+    selectedFileName = p.basename(file.path);  // Dosya adını güncelle
+    notifyListeners();  // UI'yi güncelle
     print("UploadedFile ViewModelInVitro worked link:$filePath");
   }
 

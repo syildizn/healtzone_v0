@@ -227,8 +227,7 @@ class _SurgeriesState extends State<Surgeries> {
   String? _pathologyResults;
   bool? _hasMedicalInfo;
   String? _medicalInfo;
-  String? picPath;
-  String? filePath;
+
 
   void _nextPage() {
     setState(() {
@@ -386,7 +385,7 @@ class _SurgeriesState extends State<Surgeries> {
                       padding: const EdgeInsets.symmetric(vertical: 16.0),
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          primary: Colors.blue,
+                          backgroundColor: Colors.blue,
                           padding: EdgeInsets.symmetric(
                               horizontal: 50, vertical: 10),
                           shape: RoundedRectangleBorder(
@@ -403,13 +402,13 @@ class _SurgeriesState extends State<Surgeries> {
                 Column(
                   children: [
                     // Dosya yükleme widget'ını burada ekleyin
-                    _buildFileUploadCard(),
+                    _buildFileUploadCard(context),
 
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 16.0),
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          primary: Colors.blue,
+                          backgroundColor: Colors.blue,
                           padding: EdgeInsets.symmetric(
                               horizontal: 50, vertical: 10),
                           shape: RoundedRectangleBorder(
@@ -472,7 +471,7 @@ class _SurgeriesState extends State<Surgeries> {
                       padding: const EdgeInsets.symmetric(vertical: 16.0),
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          primary: Colors.blue,
+                          backgroundColor: Colors.blue,
                           padding: EdgeInsets.symmetric(
                               horizontal: 50, vertical: 10),
                           shape: RoundedRectangleBorder(
@@ -494,9 +493,8 @@ class _SurgeriesState extends State<Surgeries> {
                                     _hasMedicalInfo,
                                     _pathologyResults,
                                     _selectedSurgery,
-                                    _surgeryType,
-                                    filePath,
-                                    picPath);
+                                    _surgeryType
+                                    );
                             print("surgeries tuşuna basıldı");
                             showDialog(
                               context: context,
@@ -645,16 +643,71 @@ class _SurgeriesState extends State<Surgeries> {
     );
   }
 
-  Widget _buildFileUploadCard() {
+  // Widget _buildFileUploadCard() {
+  //   return _buildCard(
+  //     title: 'Dosya Yükleme',
+  //     child: Column(
+  //       crossAxisAlignment: CrossAxisAlignment.stretch,
+  //       children: [
+  //         Text(
+  //           'Varsa servikal smear, rahim içi biyopsi(endometriyal biyopsi) gibi patoloji sonuçlarınızı, tetkik ve ultrasonografi ve MR sonuçlarını yükleyiniz:',
+  //           style: TextStyle(fontSize: 14),
+  //         ),
+  //         SizedBox(height: 10),
+  //         ElevatedButton.icon(
+  //           icon: Icon(Icons.file_upload),
+  //           label: Text('Dosya Yükleyin'),
+  //           onPressed: () async {
+  //             FilePickerResult? result = await FilePicker.platform.pickFiles(
+  //               type: FileType.custom,
+  //               allowedExtensions: ['jpg', 'pdf', 'doc'],
+  //             );
+  //
+  //             if (result != null) {
+  //               File file = File(result.files.single.path!);
+  //               // Yüklenen dosyayı işleyin
+  //             } else {
+  //               // Kullanıcı dosya seçimini iptal etti
+  //             }
+  //           },
+  //         ),
+  //         SizedBox(height: 10),
+  //         ElevatedButton.icon(
+  //           icon: Icon(Icons.camera_alt),
+  //           label: Text('Fotoğraf Yükleyin'),
+  //           onPressed: () async {
+  //             final picker = ImagePicker();
+  //             final pickedFile =
+  //                 await ImagePicker().pickImage(source: ImageSource.gallery);
+  //
+  //             if (pickedFile != null) {
+  //               File imageFile = File(pickedFile.path);
+  //               // Yüklenen resmi işleyin
+  //             } else {
+  //               // Kullanıcı resim seçimini iptal etti
+  //             }
+  //           },
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
+
+  Widget _buildFileUploadCard(BuildContext context) {
+    SurgeriesViewModel viewModel =
+    Provider.of<SurgeriesViewModel>(context, listen: true);
     return _buildCard(
       title: 'Dosya Yükleme',
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(
-            'Varsa servikal smear, rahim içi biyopsi(endometriyal biyopsi) gibi patoloji sonuçlarınızı, tetkik ve ultrasonografi ve MR sonuçlarını yükleyiniz:',
+          'Varsa servikal smear, rahim içi biyopsi(endometriyal biyopsi) gibi patoloji sonuçlarınızı, tetkik ve ultrasonografi ve MR sonuçlarını yükleyiniz:',
             style: TextStyle(fontSize: 14),
           ),
+          SizedBox(height: 10),
+          if (viewModel.selectedFileName != null)
+            Text('Seçilen Dosya: ${viewModel.selectedFileName}'),
           SizedBox(height: 10),
           ElevatedButton.icon(
             icon: Icon(Icons.file_upload),
@@ -662,31 +715,56 @@ class _SurgeriesState extends State<Surgeries> {
             onPressed: () async {
               FilePickerResult? result = await FilePicker.platform.pickFiles(
                 type: FileType.custom,
-                allowedExtensions: ['jpg', 'pdf', 'doc'],
+                allowedExtensions: [
+                  'jpg',
+                  'jpeg',
+                  'png',
+                  'pdf',
+                  'doc',
+                  'docx',
+                  'tiff',
+                  'bmp',
+                  'gif',
+                  'rtf',
+                  'txt',
+                  'xml'
+                ],
               );
 
               if (result != null) {
                 File file = File(result.files.single.path!);
-                // Yüklenen dosyayı işleyin
+                await viewModel.uploadFile(file); // Yüklenen dosyayı işleyin
+                print("imagerPicker FilePath: $file");
               } else {
                 // Kullanıcı dosya seçimini iptal etti
+                print("No Image Selected");
               }
             },
           ),
+          SizedBox(height: 10),
+          if (viewModel.selectedImageName != null)
+            Text('Seçilen Resim: ${viewModel.selectedImageName}'),
           SizedBox(height: 10),
           ElevatedButton.icon(
             icon: Icon(Icons.camera_alt),
             label: Text('Fotoğraf Yükleyin'),
             onPressed: () async {
               final picker = ImagePicker();
+              File? imageFile;
               final pickedFile =
-                  await ImagePicker().pickImage(source: ImageSource.gallery);
+              await picker.pickImage(source: ImageSource.gallery);
 
               if (pickedFile != null) {
-                File imageFile = File(pickedFile.path);
+                imageFile = File(pickedFile.path);
+                print("imagerPicker FilePath: $imageFile");
                 // Yüklenen resmi işleyin
               } else {
                 // Kullanıcı resim seçimini iptal etti
+                print("No Image Selected");
+              }
+
+              if (imageFile != null) {
+                await viewModel.uploadImage(imageFile);
               }
             },
           ),

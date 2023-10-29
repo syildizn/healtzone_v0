@@ -1,14 +1,21 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:healtzone_v0/screens/models/diseasesModels/obstetricsModels/surgeriesModel.dart';
-
+import 'package:path/path.dart' as p;  // <- Bu satırı ekleyin
 import '../../../../services/authentication.dart';
 import '../../../../services/database.dart';
+import '../../../../services/storage.dart';
 
 class SurgeriesViewModel extends ChangeNotifier{
   Database database = Database();
   // String CollectionPathDoctor = "doctors";
+  Storage storage = Storage();
+  String? photUrl;
+  String? photUrlDownl;
+  String? fileUrlDownl;
   Authentication auth = Authentication();
   User? user;
   String? nameSurname;
@@ -18,6 +25,10 @@ class SurgeriesViewModel extends ChangeNotifier{
   String? city;
   String? sex;
   String? userId;
+  String? picPath;
+  String? filePath;
+  String? selectedFileName;
+  String? selectedImageName;
 
   Future<void> getUserData() async {
     user = await auth.firebaseAuthen.currentUser;
@@ -49,8 +60,7 @@ class SurgeriesViewModel extends ChangeNotifier{
       String? pathologyResults,
       String? selectedSurgery,
       String? surgeryType,
-      String? filePath,
-      String? picPath,
+
       ) async {
 
     SurgeriesModel surgeryModel = SurgeriesModel(
@@ -75,4 +85,19 @@ class SurgeriesViewModel extends ChangeNotifier{
 
     await database.setSurgeriesData(surgeryModel.toJson());
   }
+
+  Future<void> uploadImage (File imageFile) async {
+    picPath = await storage.uploadImageToStorege(imageFile);
+    selectedImageName = p.basename(imageFile.path);  // Resim adını güncelle
+    notifyListeners();  // UI'yi güncelle
+    print("uploadedImage ViewModelInVitro çalıştı link:$picPath ");
+  }
+
+  Future<void> uploadFile(File file) async {
+    filePath = await storage.uploadFileToStorage(file);
+    selectedFileName = p.basename(file.path);  // Dosya adını güncelle
+    notifyListeners();  // UI'yi güncelle
+    print("UploadedFile ViewModelInVitro worked link:$filePath");
+  }
+
 }

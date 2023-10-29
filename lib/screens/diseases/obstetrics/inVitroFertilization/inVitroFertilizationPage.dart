@@ -362,7 +362,7 @@ class _InVitroFertilizationState extends State<InVitroFertilization> {
 
   Widget _buildFileUploadCard(BuildContext context) {
     InVitroFertViewModel viewModel =
-        Provider.of<InVitroFertViewModel>(context, listen: false);
+        Provider.of<InVitroFertViewModel>(context, listen: true);
     return _buildCard(
       title: 'Dosya Yükleme',
       child: Column(
@@ -372,6 +372,9 @@ class _InVitroFertilizationState extends State<InVitroFertilization> {
             'Varsa Tetkik(hormon),rahim filmi ,spermiogram,ultrasonografi sonuçlarını yükleyiniz:',
             style: TextStyle(fontSize: 14),
           ),
+          SizedBox(height: 10),
+          if (viewModel.selectedFileName != null)
+            Text('Seçilen Dosya: ${viewModel.selectedFileName}'),
           SizedBox(height: 10),
           ElevatedButton.icon(
             icon: Icon(Icons.file_upload),
@@ -405,6 +408,9 @@ class _InVitroFertilizationState extends State<InVitroFertilization> {
               }
             },
           ),
+          SizedBox(height: 10),
+          if (viewModel.selectedImageName != null)
+            Text('Seçilen Resim: ${viewModel.selectedImageName}'),
           SizedBox(height: 10),
           ElevatedButton.icon(
             icon: Icon(Icons.camera_alt),
