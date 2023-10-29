@@ -100,7 +100,7 @@ class _ProfilPageState extends State<ProfilPage> {
                                   radius: 50,
                                   backgroundImage: AssetImage('assets/images/anonym.png'),
                                 ),
-                                IconButton(onPressed: (){}, icon: Icon(Icons.edit),)
+                                IconButton(onPressed: getImagePicker,  icon: Icon(Icons.edit,color:Colors.grey[600] ,),)
                               ],
                             );
                           } else {
