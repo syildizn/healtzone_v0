@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -5,11 +7,16 @@ import 'package:healtzone_v0/screens/models/diseasesModels/obstetricsModels/inVi
 
 import '../../../../services/authentication.dart';
 import '../../../../services/database.dart';
+import '../../../../services/storage.dart';
 
 class InVitroFertViewModel extends ChangeNotifier{
   Database database = Database();
   // String CollectionPathDoctor = "doctors";
   Authentication auth = Authentication();
+  Storage storage = Storage();
+  String? photUrl;
+  String? photUrlDownl;
+  String? fileUrlDownl;
   User? user;
   String? nameSurname;
   String? birthDay;
@@ -18,6 +25,8 @@ class InVitroFertViewModel extends ChangeNotifier{
   String? city;
   String? sex;
   String? userId;
+  String? picPath;
+  String? filePath;
 
   Future<void> getUserData() async {
     user = await auth.firebaseAuthen.currentUser;
@@ -47,8 +56,7 @@ class InVitroFertViewModel extends ChangeNotifier{
       bool? haveAdditionalInformation,
       bool? haveFrozenEmbryos,
       bool? havePreviousDiagnosis,
-      String? filePath,
-      String? picPath,
+
       ) async {
 
     InVitroFertilizationModel inVitroModel = InVitroFertilizationModel(
@@ -72,4 +80,16 @@ class InVitroFertViewModel extends ChangeNotifier{
 
     await database.setInVitroData(inVitroModel.toJson());
   }
+
+  Future<void> uploadImage (File imageFile) async {
+    photUrlDownl = await storage.uploadImageToStorege(imageFile);
+    photUrlDownl = picPath;
+    print("uploadedImage ViewModelInVitro çalıştı link:$picPath ");
+  }
+
+  Future<void> uploadFile(File file) async {
+    filePath = await storage.uploadFileToStorage(file);
+    print("UploadedFile ViewModelInVitro worked link:$filePath");
+  }
+
 }

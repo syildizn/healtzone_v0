@@ -25,8 +25,6 @@ class _InVitroFertilizationState extends State<InVitroFertilization> {
   String _previousDiagnosisText = '';
   String _additionalInformation = '';
   bool? _haveAdditionalInformation;
-  String? filePath;
-  String? picPath;
 
   @override
   Widget build(BuildContext context) {
@@ -142,7 +140,7 @@ class _InVitroFertilizationState extends State<InVitroFertilization> {
                     },
                   ),
                 ),
-              _buildFileUploadCard(),
+              _buildFileUploadCard(context),
               _buildCard(
                 title:
                     'Tıbbi durumunuzla ilgili bilgi vermek istediğiniz durumlar var mı (ek hastalık, ilaç kullanımı gibi)?',
@@ -188,7 +186,7 @@ class _InVitroFertilizationState extends State<InVitroFertilization> {
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.blue,
+                    backgroundColor: Colors.blue,
                     padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
@@ -203,28 +201,29 @@ class _InVitroFertilizationState extends State<InVitroFertilization> {
                       await Provider.of<InVitroFertViewModel>(context,
                               listen: false)
                           .inVitro(
-                              _hadIVFTreatmentBefore,
-                              _additionalInformation,
-                              _previousDiagnosisText,
-                              _haveAdditionalInformation,
-                              _haveFrozenEmbryos,
-                              _havePreviousDiagnosis,
-                              filePath,
-                              picPath);
+                        _hadIVFTreatmentBefore,
+                        _additionalInformation,
+                        _previousDiagnosisText,
+                        _haveAdditionalInformation,
+                        _haveFrozenEmbryos,
+                        _havePreviousDiagnosis,
+                      );
                       print("inVitro tuşuna basıldı");
                       showDialog(
                         context: context,
-                        barrierDismissible: false,  // Dialog dışına tıklanamaz
+                        barrierDismissible: false, // Dialog dışına tıklanamaz
                         builder: (BuildContext context) {
                           return Dialog(
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),  // Yuvarlak köşeler
+                              borderRadius:
+                                  BorderRadius.circular(12), // Yuvarlak köşeler
                             ),
                             elevation: 16,
                             child: Container(
                               padding: EdgeInsets.all(16),
                               child: Column(
-                                mainAxisSize: MainAxisSize.min,  // İçeriği saran boyut
+                                mainAxisSize:
+                                    MainAxisSize.min, // İçeriği saran boyut
                                 children: <Widget>[
                                   Text(
                                     'İşlem Başarılı',
@@ -233,18 +232,22 @@ class _InVitroFertilizationState extends State<InVitroFertilization> {
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                  SizedBox(height: 20),  // Boşluk
+                                  SizedBox(height: 20), // Boşluk
                                   Text(
                                     'İşlem başarılı, ilanınız başarıyla yayınlandı, ilanlarım sayfasından takip edebilirsiniz.',
                                     style: TextStyle(
                                       fontSize: 16,
                                     ),
                                   ),
-                                  SizedBox(height: 20),  // Boşluk
+                                  SizedBox(height: 20), // Boşluk
                                   ElevatedButton(
                                     onPressed: () {
-                                      Navigator.of(context).pop();  // Dialog'u kapat
-                                      Navigator.pushNamed(context, PublicationsScreen.routeName);  // Yeni sayfaya yönlendir
+                                      Navigator.of(context)
+                                          .pop(); // Dialog'u kapat
+                                      Navigator.pushNamed(
+                                          context,
+                                          PublicationsScreen
+                                              .routeName); // Yeni sayfaya yönlendir
                                     },
                                     child: Text('Tamam'),
                                   ),
@@ -357,7 +360,9 @@ class _InVitroFertilizationState extends State<InVitroFertilization> {
     );
   }
 
-  Widget _buildFileUploadCard() {
+  Widget _buildFileUploadCard(BuildContext context) {
+    InVitroFertViewModel viewModel =
+        Provider.of<InVitroFertViewModel>(context, listen: false);
     return _buildCard(
       title: 'Dosya Yükleme',
       child: Column(
@@ -374,14 +379,29 @@ class _InVitroFertilizationState extends State<InVitroFertilization> {
             onPressed: () async {
               FilePickerResult? result = await FilePicker.platform.pickFiles(
                 type: FileType.custom,
-                allowedExtensions: ['jpg', 'pdf', 'doc'],
+                allowedExtensions: [
+                  'jpg',
+                  'jpeg',
+                  'png',
+                  'pdf',
+                  'doc',
+                  'docx',
+                  'tiff',
+                  'bmp',
+                  'gif',
+                  'rtf',
+                  'txt',
+                  'xml'
+                ],
               );
 
               if (result != null) {
                 File file = File(result.files.single.path!);
-                // Yüklenen dosyayı işleyin
+                await viewModel.uploadFile(file); // Yüklenen dosyayı işleyin
+                print("imagerPicker FilePath: $file");
               } else {
                 // Kullanıcı dosya seçimini iptal etti
+                print("No Image Selected");
               }
             },
           ),
@@ -391,14 +411,21 @@ class _InVitroFertilizationState extends State<InVitroFertilization> {
             label: Text('Fotoğraf Yükleyin'),
             onPressed: () async {
               final picker = ImagePicker();
+              File? imageFile;
               final pickedFile =
-                  await ImagePicker().pickImage(source: ImageSource.gallery);
+                  await picker.pickImage(source: ImageSource.gallery);
 
               if (pickedFile != null) {
-                File imageFile = File(pickedFile.path);
+                imageFile = File(pickedFile.path);
+                print("imagerPicker FilePath: $imageFile");
                 // Yüklenen resmi işleyin
               } else {
                 // Kullanıcı resim seçimini iptal etti
+                print("No Image Selected");
+              }
+
+              if (imageFile != null) {
+                await viewModel.uploadImage(imageFile);
               }
             },
           ),

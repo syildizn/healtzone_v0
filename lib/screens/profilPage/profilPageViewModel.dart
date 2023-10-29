@@ -80,20 +80,20 @@ class ProfilPageViewModel extends ChangeNotifier{
       return Stream.empty();
     }
   }
-
+//bu fonksiyon deneem amaçlıydı ilerde uykuya al artık kullanılmıyor
   Future<String?> getImage () async {
     String? imageUrl;
     imageUrl = await storage.storegeExample();
     print("ProfilPage avatar ViewModel link: $imageUrl");
     return imageUrl;
   }
-
+//fotoğrafı öbce storege'a yüklüyor sonra oradan url'i alıp firestoreda ilgili kişinin dökümanına yazıyor
   Future<void> uploadImage (File imageFile) async {
     photUrlDownl = await storage.uploadImageToStorege(imageFile);
     await database.updatePhotoUrl(auth.firebaseAuthen.currentUser?.uid, photUrlDownl);
     print("uploadedImage ViewModel çalıştı");
   }
-
+//firestoreda ilgili kiinin dökümanından profil fotosu url'ini çekiyor
   Future<ImageProvider<Object>> image(String? url) {
     final Completer<ImageProvider<Object>> completer = Completer();
 
